@@ -1,0 +1,5 @@
+jefflustica2
+sZfTBRq3x3vKkQgp
+
+conn str
+mongodb+srv://jefflustica2:sZfTBRq3x3vKkQgp@portfolio-cms-db.76nz2.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio-cms-DB
