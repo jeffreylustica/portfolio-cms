@@ -1,6 +1,5 @@
 import User from "../model/user.model.js";
 import bcrypt from "bcryptjs";
-import { response } from "express";
 import jwt from "jsonwebtoken";
 
 const signup = async (req, res, next) => {
@@ -33,7 +32,14 @@ const login = async (req, res, next) => {
 
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-        expiresIn: "1hr",
+        expiresIn: "30s",
+      });
+
+      res.cookie(String(user._id), token, {
+        path: "/",
+        expires: new Date(Date.now() + 1000 * 30),
+        httpOnly: true,
+        sameSite: "lax",
       });
 
       res.status(200).json({ message: "Successfully Logged In", user, token });
@@ -47,8 +53,8 @@ const login = async (req, res, next) => {
 };
 
 const verifyToken = (req, res, next) => {
-  const headers = req.headers["authorization"];
-  const token = headers.split(" ")[1];
+  const cookies = req.headers.cookie;
+  const token = cookies.split("=")[1];
 
   if (!token) {
     return res.status(404).json({ message: "No token found" });
