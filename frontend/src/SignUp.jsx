@@ -15,7 +15,6 @@ const SignUp = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    console.log(inputs);
   };
 
   const sendRequest = async () => {
@@ -25,7 +24,7 @@ const SignUp = () => {
         password: inputs.password,
       });
 
-      const data = await res.data;
+      const data = res.data;
       console.log(data);
       return data;
     } catch (error) {
@@ -48,7 +47,7 @@ const SignUp = () => {
           name="username"
           type="text"
           placeholder="Username"
-          value={inputs.name}
+          value={inputs.username}
           onChange={handleChange}
         />
         <label htmlFor="password"></label>

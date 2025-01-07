@@ -5,8 +5,6 @@ import LogIn from "./LogIn";
 import Account from "./Account";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Routes>
