@@ -12,14 +12,6 @@ app.use(express.json());
 
 app.use("/api", userRouter);
 
-app.get("/api/test", async (req, res, next) => {
-  try {
-    return res.status(201).json({ message: "hello world" });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 mongoose
   .connect(mongoDBURL)
   .then(() => {

@@ -34,8 +34,7 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendRequest();
-    // sendRequest().then(() => history("/login"));
+    sendRequest().then(() => history("/login"));
   };
   return (
     <div>
@@ -49,6 +48,7 @@ const SignUp = () => {
           placeholder="Username"
           value={inputs.username}
           onChange={handleChange}
+          required
         />
         <label htmlFor="password"></label>
         <input
@@ -58,6 +58,7 @@ const SignUp = () => {
           placeholder="Password"
           value={inputs.password}
           onChange={handleChange}
+          required
         />
 
         <button type="submit">Signup</button>
