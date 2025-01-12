@@ -18,33 +18,35 @@ const LogIn = () => {
   };
 
   const sendRequest = async () => {
-    const res = await axios
-      .post("http://localhost:5555/api/login", {
+    try {
+      const res = await axios.post("http://localhost:5555/api/login", {
         username: inputs.username,
         password: inputs.password,
-      })
-      .catch((error) => console.log(error));
+      })  
 
-    const data = await res.data;
-    return data;
-    // try {
-    //   const res = await axios.post("http://localhost:5000/api/login", {
-    //     username: inputs.username,
-    //     password: inputs.password,
-    //   });
-
-    //   const data = res.data;
-    //   console.log(data);
-    //   return data;
-    // } catch (error) {
-    //   console.log(error);
-    // }
+      const data = res.data
+      console.log(data)
+      if (data) {
+        return data
+      } else {
+        alert("incorrect username/password")
+      }
+      
+    } catch (error) {
+      console.log(error.response.data.message)
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // sendRequest();
-    sendRequest().then(() => history("/account"));
+    try {
+      const data = await sendRequest()
+      if (data) {
+        history("/account")
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
   };
 
   return (

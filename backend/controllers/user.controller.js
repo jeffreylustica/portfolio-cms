@@ -11,7 +11,7 @@ const signup = async (req, res, next) => {
       return res.status(400).json({ message: "User already exists." });
     }
 
-    const hashedPassword = bcrypt.hash(password);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
       username,
@@ -33,28 +33,42 @@ const signup = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { username, password } = req.body;
-  let existingUser;
 
   try {
-    existingUser = await User.findOne({ username: username });
+    let existingUser = await User.findOne({ username: username });
+    
+    if (!existingUser) {
+      return res.status(400).json({ message: "Invalid username or password." });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+    
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: "Invalid username or password." });
+    }
+
+    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "30s",
+    });
+
+    res.cookie(String(existingUser._id), token, {
+    path: '/',
+    expires: new Date(Date.now() + 1000 * 30),
+    httpOnly: true,
+    sameSite: "lax",
+    })
+
+    return res.status(200).json({
+      message: "Successfully logged in",
+      user: existingUser,
+      token,
+    });
+    
   } catch (error) {
-    return new Error(error);
+    // Catch any errors and return a 500 status
+    console.error("Error during login process:", error);
+    return res.status(500).json({ message: "Something went wrong. Please try again." });
   }
-
-  if (!existingUser) {
-    return res.status(400).json({ message: "User not found. Signup please." });
-  }
-
-  const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
-  if (!isPasswordCorrect) {
-    return res.status(400).json({ message: "Invalid username/password" });
-  }
-
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "30s",
-  });
-
-  return res.status(200).json({ message: "Successfully logged in" });
 };
 
 const verifyToken = (req, res, next) => {
