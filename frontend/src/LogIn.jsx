@@ -22,27 +22,26 @@ const LogIn = () => {
       const res = await axios.post("http://localhost:5555/api/login", {
         username: inputs.username,
         password: inputs.password,
-      })  
+      });
 
-      const data = res.data
-      console.log(data)
+      const data = res.data;
+      console.log(data);
       if (data) {
-        return data
+        return data;
       } else {
-        alert("incorrect username/password")
+        alert("incorrect username/password");
       }
-      
     } catch (error) {
-      console.log(error.response.data.message)
+      console.log(error.response.data.message);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await sendRequest()
+      const data = await sendRequest();
       if (data) {
-        history("/account")
+        history("/account");
       }
     } catch (error) {
       console.error("Error during login:", error);

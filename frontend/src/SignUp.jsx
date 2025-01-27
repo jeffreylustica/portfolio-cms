@@ -38,7 +38,7 @@ const SignUp = () => {
   };
   return (
     <div>
-      <h1>Sign in</h1>
+      <h1>Sign up</h1>
       <form action="" onSubmit={handleSubmit}>
         <label htmlFor="username"></label>
         <input

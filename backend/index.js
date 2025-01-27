@@ -6,7 +6,13 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 const app = express();
-app.use(cors());
+// app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173", // specify the origin of your frontend
+  credentials: true, // Allow sending cookies/credentials
+};
+app.use(cors(corsOptions));
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -17,7 +23,7 @@ mongoose
   .then(() => {
     console.log("App is connected to database");
     app.listen(PORT, () => {
-      console.log(`App is listening to PORT ${PORT}`);
+      console.log(`Server is listening to PORT ${PORT}`);
     });
   })
   .catch((error) => {
