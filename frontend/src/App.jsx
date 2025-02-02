@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router";
 import SignUp from "./SignUp";
 import LogIn from "./LogIn";

@@ -5,36 +5,36 @@ import { useNavigate } from "react-router";
 const SignUp = () => {
   const history = useNavigate();
 
-  const [inputs, setInputs] = useState({
+  const [formData, setformData] = useState({
     username: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    setInputs((prev) => ({
+    setformData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const sendRequest = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5555/api/signup", {
-        username: inputs.username,
-        password: inputs.password,
+      const response = await axios.post("http://localhost:5555/api/signup", {
+        username: formData.username,
+        password: formData.password,
       });
 
-      const data = res.data;
-      console.log(data);
-      return data;
+      console.log(response);
+      history("/login");
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+    } finally {
+      setformData({
+        username: "",
+        password: "",
+      });
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    sendRequest().then(() => history("/login"));
   };
   return (
     <div>
@@ -46,7 +46,7 @@ const SignUp = () => {
           name="username"
           type="text"
           placeholder="Username"
-          value={inputs.username}
+          value={formData.username}
           onChange={handleChange}
           required
         />
@@ -56,7 +56,7 @@ const SignUp = () => {
           name="password"
           type="password"
           placeholder="Password"
-          value={inputs.password}
+          value={formData.password}
           onChange={handleChange}
           required
         />
