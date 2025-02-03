@@ -5,13 +5,13 @@ import { useNavigate } from "react-router";
 const SignUp = () => {
   const history = useNavigate();
 
-  const [formData, setformData] = useState({
+  const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    setformData((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -30,12 +30,13 @@ const SignUp = () => {
     } catch (error) {
       console.log(error.message);
     } finally {
-      setformData({
+      setFormData({
         username: "",
         password: "",
       });
     }
   };
+
   return (
     <div>
       <h1>Sign up</h1>

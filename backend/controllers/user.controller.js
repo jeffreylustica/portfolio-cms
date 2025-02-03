@@ -1,4 +1,5 @@
-import createUser from "../services/createUser.js";
+import createUser from "../services/signup.js";
+import userAuth from "../services/login.js";
 
 const signup = async (req, res, next) => {
   try {
@@ -11,4 +12,14 @@ const signup = async (req, res, next) => {
   }
 };
 
-export { signup };
+const login = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const token = await userAuth(username, password);
+    res.json({ token });
+  } catch (error) {
+    res.status(401).json({ message: "Invalid credentials" });
+  }
+};
+
+export { signup, login };

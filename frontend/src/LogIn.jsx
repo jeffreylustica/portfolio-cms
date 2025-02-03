@@ -5,46 +5,35 @@ import { useNavigate } from "react-router";
 const LogIn = () => {
   const history = useNavigate();
 
-  const [inputs, setInputs] = useState({
+  const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    setInputs((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const sendRequest = async () => {
-    try {
-      const res = await axios.post("http://localhost:5555/api/login", {
-        username: inputs.username,
-        password: inputs.password,
-      });
-
-      const data = res.data;
-      console.log(data);
-      if (data) {
-        return data;
-      } else {
-        alert("incorrect username/password");
-      }
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await sendRequest();
-      if (data) {
-        history("/account");
-      }
+      const response = await axios.post("http://localhost:5555/api/login", {
+        username: formData.username,
+        password: formData.password,
+      });
+
+      console.log(response);
+      history("/account");
     } catch (error) {
-      console.error("Error during login:", error);
+      console.log(error.message);
+    } finally {
+      setFormData({
+        username: "",
+        password: "",
+      });
     }
   };
 
@@ -58,7 +47,7 @@ const LogIn = () => {
           type="text"
           placeholder="Username"
           name="username"
-          value={inputs.username}
+          value={formData.username}
           onChange={handleChange}
           required
         />
@@ -68,7 +57,7 @@ const LogIn = () => {
           type="password"
           placeholder="Password"
           name="password"
-          value={inputs.password}
+          value={formData.password}
           onChange={handleChange}
           required
         />
