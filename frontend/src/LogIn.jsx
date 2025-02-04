@@ -25,7 +25,8 @@ const LogIn = () => {
         password: formData.password,
       });
 
-      console.log(response);
+      console.log(response.data);
+      localStorage.setItem("token", response.data.token);
       history("/account");
     } catch (error) {
       console.log(error.message);
