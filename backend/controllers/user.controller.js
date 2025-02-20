@@ -1,5 +1,6 @@
 import createUser from "../services/signup.js";
 import userAuth from "../services/login.js";
+import getUserService from "../services/user.js";
 
 const signup = async (req, res, next) => {
   try {
@@ -22,4 +23,13 @@ const login = async (req, res, next) => {
   }
 };
 
-export { signup, login };
+const getUser = async (req, res, next) => {
+  try {
+    const user = await getUserService();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
+export { signup, login, getUser };

@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
 import secretKey from "../configuration/jwtConfig.js";
 
-const authenticateToken = (res, req, next) => {
+const authenticateToken = (req, res, next) => {
   const authHeader = req.header("Authorization");
   if (!authHeader) {
     return res.status(401).json({ message: "Unauthorized: Missing token!" });
   }
-  const [bearer, token] = authHeader.split[" "];
+  console.log(authHeader);
+  const [bearer, token] = authHeader.split(" ");
   if (bearer !== "Bearer" || !token) {
     return res
       .status(401)
