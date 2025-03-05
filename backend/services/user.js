@@ -6,6 +6,7 @@ const getUserService = async () => {
     return user;
   } catch (error) {
     console.log(error.message);
+    throw new Error("Failed to fetch users");
   }
 };
 

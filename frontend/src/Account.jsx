@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar";
 import axios from "axios";
 
 const Account = () => {
+  const token = localStorage.getItem("token");
+
   return (
     <div>
       <Navbar />
