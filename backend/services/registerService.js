@@ -1,7 +1,7 @@
 import User from "../model/user.model.js";
 import bcrypt from "bcryptjs";
 
-const createUser = async (userData) => {
+const registerUser = async (userData) => {
   try {
     const { username, password } = userData;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -18,4 +18,4 @@ const createUser = async (userData) => {
   }
 };
 
-export default createUser;
+export default registerUser;

@@ -1,6 +1,6 @@
 import User from "../model/user.model.js";
 
-const getUserService = async () => {
+const getAllUsers = async () => {
   try {
     const user = await User.find({});
     return user;
@@ -10,4 +10,4 @@ const getUserService = async () => {
   }
 };
 
-export default getUserService;
+export default getAllUsers;

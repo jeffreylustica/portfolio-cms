@@ -1,11 +1,11 @@
-import createUser from "../services/signup.js";
-import { userAuth } from "../services/login.js";
-import getUserService from "../services/user.js";
+import registerUser from "../services/registerService.js";
+import { authenticateUser } from "../services/authService.js";
+import getAllUsers from "../services/userService.js";
 
 const signup = async (req, res, next) => {
   try {
     const userData = req.body;
-    const user = await createUser(userData);
+    const user = await registerUser(userData);
     res.status(201).json({ user: user, message: "User created successfully!" });
   } catch (error) {
     console.log(error);
@@ -16,7 +16,7 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const token = await userAuth(username, password);
+    const token = await authenticateUser(username, password);
 
     res.cookie("token", token, {
       httpOnly: true, //Prevent JavaScript access
@@ -34,7 +34,7 @@ const login = async (req, res, next) => {
 const refreshToken = async (req, res, next) => {
   try {
     const { token } = req.body;
-    const newToken = await userAuth(username, password);
+    const newToken = await authenticateUser(username, password);
 
     // res.cookie("token", token, {
     //   httpOnly: true,
@@ -51,7 +51,7 @@ const refreshToken = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
   try {
-    const user = await getUserService();
+    const user = await getAllUsers();
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error });

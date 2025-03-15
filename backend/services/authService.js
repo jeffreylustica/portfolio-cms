@@ -1,9 +1,8 @@
 import bcrypt from "bcryptjs";
 import User from "../model/user.model.js";
-import generateToken from "../utils/jwtUtils.js";
-import { verifyToken } from "../utils/authMiddleware.js";
+import { generateToken, verifyToken } from "../utils/jwtUtils.js";
 
-const userAuth = async (username, password) => {
+const authenticateUser = async (username, password) => {
   try {
     const existingUser = await User.findOne({ username });
     if (!existingUser) {
@@ -24,7 +23,7 @@ const userAuth = async (username, password) => {
   }
 };
 
-const refreshToken = async (oldToken) => {
+const generateNewToken = async (oldToken) => {
   try {
     const decodedToken = verifyToken(oldToken);
     const user = User.findById(decodedToken._id);
@@ -38,4 +37,4 @@ const refreshToken = async (oldToken) => {
   }
 };
 
-export { userAuth, refreshToken };
+export { authenticateUser, generateNewToken };

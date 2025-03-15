@@ -10,4 +10,8 @@ const generateToken = (user) => {
   return jwt.sign(payload, secretKey, { expiresIn: "1hr" });
 };
 
-export default generateToken;
+function verifyToken(token) {
+  return jwt.verify(token, secretKey);
+}
+
+export { generateToken, verifyToken };
