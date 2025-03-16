@@ -1,6 +1,7 @@
 import registerUser from "../services/registerService.js";
 import { authenticateUser } from "../services/authService.js";
-import getAllUsers from "../services/userService.js";
+import findUser from "../services/userService.js";
+import User from "../model/user.model.js";
 
 const signup = async (req, res, next) => {
   try {
@@ -20,7 +21,8 @@ const login = async (req, res, next) => {
 
     res.cookie("token", token, {
       httpOnly: true, //Prevent JavaScript access
-      secure: process.env.NODE_ENV === "production", //Use HTTPS in production
+      // secure: process.env.NODE_ENV === "production", //Use HTTPS in production
+      secure: false,
       sameSite: "Lax",
       maxAge: 30 * 1000,
     });
@@ -51,11 +53,20 @@ const refreshToken = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
   try {
-    const user = await getAllUsers();
+    const user = await findUser();
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error });
   }
 };
 
-export { signup, login, getUser };
+const checkUserExists = async (req, res, next) => {
+  try {
+    const user = await findUser();
+    res.status(200).json({ exists: !!user });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
+export { signup, login, getUser, checkUserExists };

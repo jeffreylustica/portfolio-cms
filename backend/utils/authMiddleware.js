@@ -4,7 +4,6 @@ import secretKey from "../configuration/jwtConfig.js";
 const authenticateToken = (req, res, next) => {
   try {
     const token = req.cookies.token;
-
     console.log(token);
 
     if (!token) {

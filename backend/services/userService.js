@@ -1,8 +1,8 @@
 import User from "../model/user.model.js";
 
-const getAllUsers = async () => {
+const findUser = async () => {
   try {
-    const user = await User.find({});
+    const user = await User.findOne().select("-password");
     return user;
   } catch (error) {
     console.log(error.message);
@@ -10,4 +10,4 @@ const getAllUsers = async () => {
   }
 };
 
-export default getAllUsers;
+export default findUser;

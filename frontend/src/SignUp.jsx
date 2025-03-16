@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
@@ -9,6 +9,23 @@ const SignUp = () => {
     username: "",
     password: "",
   });
+
+  useEffect(() => {
+    const checkUserExists = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5555/api/user-exists"
+        );
+        if (response.data.exists) {
+          history("/login");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    checkUserExists();
+  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({

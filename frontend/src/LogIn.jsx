@@ -20,13 +20,17 @@ const LogIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5555/api/login", {
-        username: formData.username,
-        password: formData.password,
-      });
+      const response = await axios.post(
+        "http://localhost:5555/api/login",
+        {
+          username: formData.username,
+          password: formData.password,
+        },
+        { withCredentials: true }
+      );
 
-      console.log(response.data);
-      localStorage.setItem("token", response.data.token);
+      // console.log(response.data);
+      // localStorage.setItem("token", response.data.token);
       history("/account");
     } catch (error) {
       console.log(error.message);
