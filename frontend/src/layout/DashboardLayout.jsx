@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import SideBar from "../components/SideBar";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import SideBar from "../components/SideBar";
+import { Outlet } from "react-router";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 
-const Dashboard = () => {
-  // const token = localStorage.getItem("token");
+const DashboardLayout = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -19,15 +19,14 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <SideBar />
       <div className="min-md:ml-[300px]">
         <Bars3Icon className="size-8" />
-
-        <h1>Dashboard</h1>
+        <Outlet />
       </div>
-    </div>
+    </>
   );
 };
 
-export default Dashboard;
+export default DashboardLayout;

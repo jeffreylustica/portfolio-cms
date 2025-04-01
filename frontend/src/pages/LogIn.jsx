@@ -31,7 +31,7 @@ const LogIn = () => {
 
       // console.log(response.data);
       // localStorage.setItem("token", response.data.token);
-      history("/account");
+      history("/dashboard");
     } catch (error) {
       console.log(error.message);
     } finally {
