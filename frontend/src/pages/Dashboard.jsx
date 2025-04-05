@@ -6,6 +6,7 @@ import { Bars3Icon } from "@heroicons/react/24/solid";
 const Dashboard = () => {
   // const token = localStorage.getItem("token");
   const [user, setUser] = useState({});
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   useEffect(() => {
     const getUserData = async () => {
@@ -18,13 +19,20 @@ const Dashboard = () => {
     getUserData();
   }, []);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  }
+
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  }
+
   return (
     <div>
-      <SideBar />
+      <SideBar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} stopPropagation={stopPropagation}/>
       <div className="min-md:ml-[300px]">
-        <Bars3Icon className="size-8" />
-
-        <h1>Dashboard</h1>
+        <Bars3Icon className="size-8 md:hidden ml-auto" onClick={toggleSidebar}/>
+        <h1>Forms</h1>
       </div>
     </div>
   );
