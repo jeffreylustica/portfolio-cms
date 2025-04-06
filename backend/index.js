@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { PORT, mongoDBURL } from "./configuration/config.js";
 import userRouter from "./routes/user.route.js";
+import personalDetailsRouter from "./routes/personalDetails.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api", userRouter);
+app.use("/api/personal-details", personalDetailsRouter)
 
 mongoose
   .connect(mongoDBURL)
