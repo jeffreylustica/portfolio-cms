@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import SideBar from "../components/SideBar";
 import axios from "axios";
 import { Bars3Icon } from "@heroicons/react/24/solid";
+import PersonalDetailsForm from "../components/PersonalDetailsForm";
 
 const Dashboard = () => {
   // const token = localStorage.getItem("token");
   const [user, setUser] = useState({});
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -21,18 +22,27 @@ const Dashboard = () => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
-  }
+  };
 
   const stopPropagation = (e) => {
     e.stopPropagation();
-  }
+  };
 
   return (
     <div>
-      <SideBar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} stopPropagation={stopPropagation}/>
+      <SideBar
+        isSidebarOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+        stopPropagation={stopPropagation}
+      />
       <div className="min-md:ml-[300px]">
-        <Bars3Icon className="size-8 md:hidden ml-auto" onClick={toggleSidebar}/>
-        <h1>Forms</h1>
+        <Bars3Icon
+          className="size-8 md:hidden ml-auto"
+          onClick={toggleSidebar}
+        />
+        <div>
+          <PersonalDetailsForm />
+        </div>
       </div>
     </div>
   );
