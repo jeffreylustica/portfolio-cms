@@ -1,9 +1,34 @@
-import React from "react";
+import { useState } from "react";
+import axios from "axios";
 
 const PersonalDetailsForm = () => {
+  const [formData, setFormData] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:5555/api/personal-details/create",
+        {
+          name: formData.name,
+          value: formData.value,
+        },
+        { withCredentials: true }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <>
-      <form action="" className="flex flex-col p-4">
+      <form className="flex flex-col p-4" onSubmit={handleSubmit}>
         <div className="flex justify-between mb-5">
           <h1>Personal Details</h1>
 
@@ -17,6 +42,7 @@ const PersonalDetailsForm = () => {
           type="text"
           name="name"
           id="name"
+          onChange={handleChange}
         />
 
         <label htmlFor="value">Value</label>
@@ -25,6 +51,7 @@ const PersonalDetailsForm = () => {
           type="text"
           name="value"
           id="value"
+          onChange={handleChange}
         />
         <button
           type="submit"

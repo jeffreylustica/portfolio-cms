@@ -14,7 +14,7 @@ const Dashboard = () => {
       const response = await axios.get("http://localhost:5555/api/user", {
         withCredentials: true,
       });
-      console.log(response.data);
+      console.log(response.data.username);
     };
 
     getUserData();
