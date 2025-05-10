@@ -24,10 +24,10 @@ const login = async (req, res, next) => {
       // secure: process.env.NODE_ENV === "production", //Use HTTPS in production
       secure: false,
       sameSite: "Lax",
-      maxAge: 30 * 1000,
+      maxAge: 60 * 60 * 1000,
     });
 
-    res.status(201).json({ message: "Login successful" });
+    res.status(200).json({ message: "Login successful" });
   } catch (error) {
     res.status(401).json({ message: "Invalid credentials" });
   }

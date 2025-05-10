@@ -8,6 +8,7 @@ const Dashboard = () => {
   // const token = localStorage.getItem("token");
   const [user, setUser] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [collections, setCollections] = useState([])
 
   useEffect(() => {
     const getUserData = async () => {
@@ -17,7 +18,21 @@ const Dashboard = () => {
       console.log(response.data.username);
     };
 
+    const getCollections = async () => {
+      try {
+        const response = await axios.get("http://localhost:5555/api/collections", {
+          withCredentials: true,
+        });
+        console.log(response.data.collections)
+        const dbCollections = response.data.collections
+        setCollections(dbCollections)
+      } catch (error) {
+        console.log("Failed to load collections", error)
+      }
+    };
+
     getUserData();
+    getCollections();
   }, []);
 
   const toggleSidebar = () => {
@@ -34,6 +49,7 @@ const Dashboard = () => {
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
         stopPropagation={stopPropagation}
+        collections={collections}
       />
       <div className="min-md:ml-[300px]">
         <Bars3Icon
