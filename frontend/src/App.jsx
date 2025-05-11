@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import Dashboard from "./pages/Dashboard";
 import RootLayout from "./layout/RootLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const router = createBrowserRouter(
@@ -15,7 +16,11 @@ function App() {
       <Route path="/" element={<RootLayout />}>
         <Route index element={<SignUp />} />
         <Route path="login" element={<LogIn />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
       </Route>
     )
   );

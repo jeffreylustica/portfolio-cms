@@ -1,9 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store";
 
 const LogIn = () => {
   const history = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -31,6 +34,7 @@ const LogIn = () => {
 
       // console.log(response.data);
       // localStorage.setItem("token", response.data.token);
+      dispatch(authActions.login())
       history("/dashboard");
     } catch (error) {
       console.log(error.message);
