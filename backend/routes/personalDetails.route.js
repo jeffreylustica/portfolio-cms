@@ -4,6 +4,6 @@ import { authenticateToken } from "../utils/authMiddleware.js";
 
 const personalDetailsRouter = express.Router();
 
-personalDetailsRouter.post("/create", authenticateToken, createPersonalDetails);
+personalDetailsRouter.post("/", authenticateToken, createPersonalDetails);
 
 export default personalDetailsRouter;

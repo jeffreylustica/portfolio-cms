@@ -1,7 +1,6 @@
-import React from "react";
 import {UserIcon, FolderIcon, SparklesIcon, BriefcaseIcon, DocumentIcon, ArrowRightStartOnRectangleIcon} from "@heroicons/react/24/outline"
 
-const SideBar = ({isSidebarOpen, toggleSidebar, stopPropagation, collections}) => {
+const SideBar = ({isSidebarOpen, toggleSidebar, stopPropagation, collections, documents}) => {
 
   const collectionMapping = {
     'personaldetails': { displayName: 'Personal Details', icon: <UserIcon className="md:hidden w-7 h-7" /> },
@@ -42,9 +41,14 @@ const SideBar = ({isSidebarOpen, toggleSidebar, stopPropagation, collections}) =
           {/* sub menu */}
           <div className="p-2 bg-gray-200 h-full w-full">
             <ul>
-              <li className="py-2 px-1">Submenu 1</li>
+              {/* <li className="py-2 px-1">Submenu 1</li>
               <li className="py-2 px-1">Submenu 2</li>
-              <li className="py-2 px-1">Submenu 3</li>
+              <li className="py-2 px-1">Submenu 3</li> */}
+              {documents.map((doc, index) => {
+                return (
+                  <li key={index} className="py-2 px-1">{doc.name}</li>
+                )
+              })}
             </ul>
           </div>
         </div>

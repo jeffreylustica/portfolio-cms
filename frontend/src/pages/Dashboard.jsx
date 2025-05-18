@@ -9,30 +9,53 @@ const Dashboard = () => {
   const [user, setUser] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [collections, setCollections] = useState([])
+  const [activeCollection, setActiveCollection] = useState(null)
+  const [documents, setDocuments] = useState([])
 
   useEffect(() => {
     const getUserData = async () => {
       const response = await axios.get("http://localhost:5555/api/user", {
         withCredentials: true,
       });
-      console.log(response.data.username);
     };
 
-    const getCollections = async () => {
+    const getCollectionsAndDocuments = async () => {
       try {
         const response = await axios.get("http://localhost:5555/api/collections", {
           withCredentials: true,
         });
-        console.log(response.data.collections)
         const dbCollections = response.data.collections
         setCollections(dbCollections)
+
+        const firstCollection = await dbCollections.find(col => col !== "users")
+        if (firstCollection) {
+          setActiveCollection(firstCollection)
+          getDocumentsForCollection(firstCollection);
+        }
+
       } catch (error) {
         console.log("Failed to load collections", error)
       }
     };
 
+    const getDocumentsForCollection = async (collectionName) => {
+      console.log(collectionName)
+      try {
+        const response = await axios.get(`http://localhost:5555/api/${collectionName}/documents`, {
+          withCredentials: true
+        })
+
+        const documentsForCollection = response.data.documents
+        setDocuments(documentsForCollection)
+
+      } catch (error) {
+        console.log("Failed to load documents", error)
+      }
+    }
+
     getUserData();
-    getCollections();
+    getCollectionsAndDocuments();
+    
   }, []);
 
   const toggleSidebar = () => {
@@ -50,6 +73,7 @@ const Dashboard = () => {
         toggleSidebar={toggleSidebar}
         stopPropagation={stopPropagation}
         collections={collections}
+        documents={documents}
       />
       <div className="min-md:ml-[300px]">
         <Bars3Icon

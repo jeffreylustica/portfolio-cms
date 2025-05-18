@@ -13,7 +13,7 @@ const PersonalDetailsForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5555/api/personal-details/create",
+        "http://localhost:5555/api/personal-details",
         {
           name: formData.name,
           value: formData.value,

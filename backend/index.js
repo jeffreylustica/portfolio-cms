@@ -6,6 +6,7 @@ import personalDetailsRouter from "./routes/personalDetails.route.js";
 import collectionsRouter from "./routes/collections.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import documentsRouter from "./routes/documents.route.js";
 
 const app = express();
 // app.use(cors());
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api", userRouter);
 app.use("/api/personal-details", personalDetailsRouter)
 app.use("/api/collections", collectionsRouter)
+app.use("/api", documentsRouter)
 
 mongoose
   .connect(mongoDBURL)
