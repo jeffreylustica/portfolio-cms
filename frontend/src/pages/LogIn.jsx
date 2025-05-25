@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../store";
 
 const LogIn = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -35,7 +35,7 @@ const LogIn = () => {
       // console.log(response.data);
       // localStorage.setItem("token", response.data.token);
       dispatch(authActions.login())
-      history("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error.message);
     } finally {

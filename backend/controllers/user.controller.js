@@ -69,4 +69,17 @@ const checkUserExists = async (req, res, next) => {
   }
 };
 
-export { signup, login, getUser, checkUserExists };
+const checkUserLoggedIn = async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({isLoggedIn: false})
+    }
+
+    res.status(200).json({isLoggedIn: true})
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
+
+export { signup, login, getUser, checkUserExists, checkUserLoggedIn };
