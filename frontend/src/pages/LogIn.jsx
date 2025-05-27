@@ -34,7 +34,7 @@ const LogIn = () => {
 
       // console.log(response.data);
       // localStorage.setItem("token", response.data.token);
-      dispatch(authActions.login())
+      dispatch(authActions.login());
       navigate("/dashboard");
     } catch (error) {
       console.log(error.message);

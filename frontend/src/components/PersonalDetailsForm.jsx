@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
-const PersonalDetailsForm = () => {
+const PersonalDetailsForm = ({ documents = [] }) => {
   const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    if (documents.length > 0) {
+      const { _id, name, value } = documents[0];
+      setFormData({ _id, name, value });
+    }
+  }, [documents]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,6 +49,7 @@ const PersonalDetailsForm = () => {
           type="text"
           name="name"
           id="name"
+          value={formData.name || ""}
           onChange={handleChange}
         />
 
@@ -51,6 +59,7 @@ const PersonalDetailsForm = () => {
           type="text"
           name="value"
           id="value"
+          value={formData.value || ""}
           onChange={handleChange}
         />
         <button
