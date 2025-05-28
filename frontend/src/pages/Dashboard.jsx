@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [collections, setCollections] = useState([]);
   const [activeCollection, setActiveCollection] = useState(null);
   const [documents, setDocuments] = useState([]);
+  const [activeDocument, setActiveDocument] = useState(null);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -43,7 +44,6 @@ const Dashboard = () => {
     };
 
     const getDocumentsForCollection = async (collectionName) => {
-      console.log(collectionName);
       try {
         const response = await axios.get(
           `http://localhost:5555/api/${collectionName}/documents`,
@@ -53,8 +53,8 @@ const Dashboard = () => {
         );
 
         const documentsForCollection = response.data.documents;
-        console.log(documentsForCollection);
         setDocuments(documentsForCollection);
+        setActiveDocument(documentsForCollection[0]);
       } catch (error) {
         console.log("Failed to load documents", error);
       }
@@ -73,15 +73,21 @@ const Dashboard = () => {
   };
 
   const RenderPersonalDetails = () => (
-    <PersonalDetailsForm documents={documents} />
+    <PersonalDetailsForm activeDocument={activeDocument} />
   );
 
   const collectionComponents = {
     personaldetails: RenderPersonalDetails,
   };
 
+  const changeActiveDocument = (id) => {
+    const selectedDoc = documents.find((doc) => doc._id === id);
+    if (selectedDoc) {
+      setActiveDocument(selectedDoc);
+    }
+  };
+
   const ActiveComponent = collectionComponents[activeCollection];
-  console.log(activeCollection);
 
   return (
     <div>
@@ -91,6 +97,7 @@ const Dashboard = () => {
         stopPropagation={stopPropagation}
         collections={collections}
         documents={documents}
+        changeActiveDocument={changeActiveDocument}
       />
       <div className="min-md:ml-[300px]">
         <Bars3Icon

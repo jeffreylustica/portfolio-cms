@@ -13,6 +13,7 @@ const SideBar = ({
   stopPropagation,
   collections,
   documents,
+  changeActiveDocument,
 }) => {
   const collectionMapping = {
     personaldetails: {
@@ -85,9 +86,13 @@ const SideBar = ({
               {/* <li className="py-2 px-1">Submenu 1</li>
               <li className="py-2 px-1">Submenu 2</li>
               <li className="py-2 px-1">Submenu 3</li> */}
-              {documents.map((doc, index) => {
+              {documents.map((doc) => {
                 return (
-                  <li key={index} className="py-2 px-1">
+                  <li
+                    key={doc._id}
+                    className="py-2 px-1 cursor-pointer"
+                    onClick={() => changeActiveDocument(doc._id)}
+                  >
                     {doc.name}
                   </li>
                 );
