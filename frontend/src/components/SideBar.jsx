@@ -38,6 +38,11 @@ const SideBar = ({
     },
   };
 
+  const handleItemClick = (id) => {
+    changeActiveDocument(id)
+    toggleSidebar()
+  }
+
   return (
     <div
       className={`fixed top-0 left-0 h-full w-full md:w-0 bg-black/50  transition-transform duration-300 ${
@@ -91,12 +96,18 @@ const SideBar = ({
                   <li
                     key={doc._id}
                     className="py-2 px-1 cursor-pointer"
-                    onClick={() => changeActiveDocument(doc._id)}
+                    onClick={() => handleItemClick(doc._id)}
                   >
                     {doc.name}
                   </li>
                 );
               })}
+               <li
+                  className="py-2 px-1 cursor-pointer"
+                  onClick={() => handleItemClick("new")}
+                >
+                  + New Item
+                </li>
             </ul>
           </div>
         </div>

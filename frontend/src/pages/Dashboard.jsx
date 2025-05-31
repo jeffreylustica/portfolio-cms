@@ -81,9 +81,13 @@ const Dashboard = () => {
   };
 
   const changeActiveDocument = (id) => {
-    const selectedDoc = documents.find((doc) => doc._id === id);
-    if (selectedDoc) {
-      setActiveDocument(selectedDoc);
+    if (id === "new") {
+        setActiveDocument({_id: "new"});
+    } else {
+      const selectedDoc = documents.find((doc) => doc._id === id);
+      if (selectedDoc) {
+        setActiveDocument(selectedDoc);
+      }
     }
   };
 

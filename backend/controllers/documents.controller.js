@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const fetchDocuments = async (req, res, next) => {
     const {collection} = req.params
-    console.log(collection)
 
     if (!collection) {
         return res.status(400).json({ error: "Collection name is required" });
