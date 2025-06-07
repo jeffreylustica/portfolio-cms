@@ -3,6 +3,7 @@ import SideBar from "../components/SideBar";
 import axios from "axios";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import PersonalDetailsForm from "../components/PersonalDetailsForm";
+import ProjectsForm from "../components/ProjectsForm";
 
 const Dashboard = () => {
   // const token = localStorage.getItem("token");
@@ -20,49 +21,49 @@ const Dashboard = () => {
       });
     };
 
-    const getCollectionsAndDocuments = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5555/api/collections",
-          {
-            withCredentials: true,
-          }
-        );
-        const dbCollections = response.data.collections;
-        setCollections(dbCollections);
-
-        const firstCollection = await dbCollections.find(
-          (col) => col !== "users"
-        );
-        if (firstCollection) {
-          setActiveCollection(firstCollection);
-          getDocumentsForCollection(firstCollection);
-        }
-      } catch (error) {
-        console.log("Failed to load collections", error);
-      }
-    };
-
-    const getDocumentsForCollection = async (collectionName) => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5555/api/${collectionName}/documents`,
-          {
-            withCredentials: true,
-          }
-        );
-
-        const documentsForCollection = response.data.documents;
-        setDocuments(documentsForCollection);
-        setActiveDocument(documentsForCollection[0]);
-      } catch (error) {
-        console.log("Failed to load documents", error);
-      }
-    };
-
     getUserData();
     getCollectionsAndDocuments();
   }, []);
+
+  const getCollectionsAndDocuments = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5555/api/collections",
+        {
+          withCredentials: true,
+        }
+      );
+      const dbCollections = response.data.collections;
+      setCollections(dbCollections);
+
+      const firstCollection = await dbCollections.find(
+        (col) => col !== "users"
+      );
+      if (firstCollection) {
+        setActiveCollection(firstCollection);
+        getDocumentsForCollection(firstCollection);
+      }
+    } catch (error) {
+      console.log("Failed to load collections", error);
+    }
+  };
+
+  const getDocumentsForCollection = async (collectionName) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5555/api/${collectionName}/documents`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      const documentsForCollection = response.data.documents;
+      setDocuments(documentsForCollection);
+      setActiveDocument(documentsForCollection[0]);
+    } catch (error) {
+      console.log("Failed to load documents", error);
+    }
+  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -76,19 +77,29 @@ const Dashboard = () => {
     <PersonalDetailsForm activeDocument={activeDocument} />
   );
 
+  const RenderProjects = () => {
+    <ProjectsForm />;
+  };
+
   const collectionComponents = {
     personaldetails: RenderPersonalDetails,
+    projects: RenderProjects,
   };
 
   const changeActiveDocument = (id) => {
     if (id === "new") {
-        setActiveDocument({_id: "new"});
+      setActiveDocument({ _id: "new" });
     } else {
       const selectedDoc = documents.find((doc) => doc._id === id);
       if (selectedDoc) {
         setActiveDocument(selectedDoc);
       }
     }
+  };
+
+  const changeActiveCollection = (name) => {
+    setActiveCollection(name);
+    getDocumentsForCollection(name);
   };
 
   const ActiveComponent = collectionComponents[activeCollection];
@@ -102,6 +113,7 @@ const Dashboard = () => {
         collections={collections}
         documents={documents}
         changeActiveDocument={changeActiveDocument}
+        changeActiveCollection={changeActiveCollection}
       />
       <div className="min-md:ml-[300px]">
         <Bars3Icon

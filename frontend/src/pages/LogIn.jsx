@@ -38,6 +38,7 @@ const LogIn = () => {
       navigate("/dashboard");
     } catch (error) {
       console.log(error.message);
+      alert("incorrect username/password");
     } finally {
       setFormData({
         username: "",

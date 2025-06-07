@@ -1,6 +1,10 @@
-import {createDetailsService, updateDetailsService, deleteDetailsService} from "../services/personalDetailsService.js";
+import {
+  createDetailsService,
+  updateDetailsService,
+  deleteDetailsService,
+} from "../services/personalDetailsService.js";
 
-const createPersonalDetails = async (req, res, next) => {
+const createPersonalDetail = async (req, res, next) => {
   try {
     const personalDetailsData = req.body;
     const personalDetail = await createDetailsService(personalDetailsData);
@@ -14,27 +18,36 @@ const createPersonalDetails = async (req, res, next) => {
   }
 };
 
-const updatePersonalDetails = async (req, res, next) => {
+const updatePersonalDetail = async (req, res, next) => {
   try {
-    const {id} = req.params
-    const personalDetailsData = req.body
-    const updatedPersonalDetail = await updateDetailsService(id, personalDetailsData)
-    res.status(200).json({detail: updatedPersonalDetail, message: "Personal detail updated successfully!"})
+    const { id } = req.params;
+    const personalDetailsData = req.body;
+    const updatedPersonalDetail = await updateDetailsService(
+      id,
+      personalDetailsData
+    );
+    res.status(200).json({
+      detail: updatedPersonalDetail,
+      message: "Personal detail updated successfully!",
+    });
   } catch (error) {
     console.log(error);
-    res.status(500).json({message: error.message})
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
-const deletePersonalDetails = async (req, res, next) => {
+const deletePersonalDetail = async (req, res, next) => {
   try {
-    const {id} = req.params;
-    const deletedPersonalDetails = await deleteDetailsService(id)
-    res.status(200).json({detail: deletedPersonalDetails, message: "Personal detail deleted successfully!"})
+    const { id } = req.params;
+    const deletedPersonalDetails = await deleteDetailsService(id);
+    res.status(200).json({
+      detail: deletedPersonalDetails,
+      message: "Personal detail deleted successfully!",
+    });
   } catch (error) {
     console.log(error);
-    res.status(500).json({message: error.message})
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
-export { createPersonalDetails, updatePersonalDetails, deletePersonalDetails };
+export { createPersonalDetail, updatePersonalDetail, deletePersonalDetail };

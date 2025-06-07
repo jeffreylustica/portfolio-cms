@@ -14,6 +14,7 @@ const SideBar = ({
   collections,
   documents,
   changeActiveDocument,
+  changeActiveCollection,
 }) => {
   const collectionMapping = {
     personaldetails: {
@@ -39,9 +40,13 @@ const SideBar = ({
   };
 
   const handleItemClick = (id) => {
-    changeActiveDocument(id)
-    toggleSidebar()
-  }
+    changeActiveDocument(id);
+    toggleSidebar();
+  };
+
+  const handleCategoryClick = (name) => {
+    changeActiveCollection(name);
+  };
 
   return (
     <div
@@ -62,7 +67,11 @@ const SideBar = ({
                     collectionName.toLowerCase()
                   ] || { displayName: collectionName, icon: null };
                   return (
-                    <li key={index} className="py-2 px-1">
+                    <li
+                      key={index}
+                      className="py-2 px-1 cursor-pointer"
+                      onClick={() => handleCategoryClick(collectionName)}
+                    >
                       {icon && icon}{" "}
                       <span className="hidden md:block whitespace-nowrap">
                         {displayName}
@@ -102,12 +111,12 @@ const SideBar = ({
                   </li>
                 );
               })}
-               <li
-                  className="py-2 px-1 cursor-pointer"
-                  onClick={() => handleItemClick("new")}
-                >
-                  + New Item
-                </li>
+              <li
+                className="py-2 px-1 cursor-pointer"
+                onClick={() => handleItemClick("new")}
+              >
+                + New Item
+              </li>
             </ul>
           </div>
         </div>
