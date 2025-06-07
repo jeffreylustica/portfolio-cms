@@ -84,6 +84,9 @@ const SignUp = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            minLength="6"
+            pattern=".{6,}"
+            title="Password must be at least 6 characters long"
           />
 
           <button

@@ -36,48 +36,55 @@ const PersonalDetailsForm = ({ activeDocument }) => {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   const handleSubmitUpdate = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5555/api/personal-details/${formData._id}`, 
+      const response = await axios.put(
+        `http://localhost:5555/api/personal-details/${formData._id}`,
         {
           name: formData.name,
-          value: formData.value
+          value: formData.value,
         },
-        {withCredentials: true}
+        { withCredentials: true }
       );
       console.log(response);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     if (formData._id === "new") {
-      handleSubmitNew(e)
+      handleSubmitNew(e);
     } else {
-      handleSubmitUpdate(e)
+      handleSubmitUpdate(e);
     }
   };
 
   const handleDelete = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await axios.delete(`http://localhost:5555/api/personal-details/${formData._id}`, {withCredentials: true})
-      console.log(response)
+      const response = await axios.delete(
+        `http://localhost:5555/api/personal-details/${formData._id}`,
+        { withCredentials: true }
+      );
+      console.log(response);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 
   return (
     <>
       <form className="flex flex-col p-4" onSubmit={handleSubmit}>
         <h1 className="text-2xl">Personal Details</h1>
         <div className="flex justify-between mb-5">
-          <button className="ml-auto text-red-500 hover:text-red-600 font-bold cursor-pointer" onClick={handleDelete}>
+          <button
+            className="ml-auto text-red-500 hover:text-red-600 font-bold cursor-pointer"
+            onClick={handleDelete}
+          >
             DELETE ITEM
           </button>
         </div>
@@ -88,6 +95,7 @@ const PersonalDetailsForm = ({ activeDocument }) => {
           name="name"
           id="name"
           value={formData.name || ""}
+          required
           onChange={handleChange}
         />
 
@@ -98,6 +106,7 @@ const PersonalDetailsForm = ({ activeDocument }) => {
           name="value"
           id="value"
           value={formData.value || ""}
+          required
           onChange={handleChange}
         />
         <button
