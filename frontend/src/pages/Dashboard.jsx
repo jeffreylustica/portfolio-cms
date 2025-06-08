@@ -73,17 +73,26 @@ const Dashboard = () => {
     e.stopPropagation();
   };
 
-  const RenderPersonalDetails = () => (
-    <PersonalDetailsForm activeDocument={activeDocument} />
-  );
+  // const RenderPersonalDetails = () => (
+  //   <PersonalDetailsForm activeDocument={activeDocument} />
+  // );
 
-  const RenderProjects = () => {
-    <ProjectsForm />;
-  };
+  // const RenderProjects = () => <ProjectsForm activeDocument={activeDocument} />;
 
-  const collectionComponents = {
-    personaldetails: RenderPersonalDetails,
-    projects: RenderProjects,
+  // const collectionComponents = {
+  //   personaldetails: RenderPersonalDetails,
+  //   projects: RenderProjects,
+  // };
+
+  const renderFormComponent = () => {
+    switch (activeCollection) {
+      case "personaldetails":
+        return <PersonalDetailsForm activeDocument={activeDocument} />;
+      case "projects":
+        return <ProjectsForm activeDocument={activeDocument} />;
+      default:
+        return <div>No form available for this collection.</div>;
+    }
   };
 
   const changeActiveDocument = (id) => {
@@ -102,7 +111,7 @@ const Dashboard = () => {
     getDocumentsForCollection(name);
   };
 
-  const ActiveComponent = collectionComponents[activeCollection];
+  // const ActiveComponent = collectionComponents[activeCollection];
 
   return (
     <div>
@@ -120,7 +129,7 @@ const Dashboard = () => {
           className="size-8 md:hidden ml-auto"
           onClick={toggleSidebar}
         />
-        <div>{ActiveComponent && <ActiveComponent />}</div>
+        <div>{renderFormComponent()}</div>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ const SideBar = ({
     toggleSidebar();
   };
 
-  const handleCategoryClick = (name) => {
+  const handleCollectionClick = (name) => {
     changeActiveCollection(name);
   };
 
@@ -70,7 +70,7 @@ const SideBar = ({
                     <li
                       key={index}
                       className="py-2 px-1 cursor-pointer"
-                      onClick={() => handleCategoryClick(collectionName)}
+                      onClick={() => handleCollectionClick(collectionName)}
                     >
                       {icon && icon}{" "}
                       <span className="hidden md:block whitespace-nowrap">

@@ -21,7 +21,12 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
     },
     tags: {
-      type: [String],
+      type: [
+        {
+          id: { type: String, required: true },
+          text: { type: String, required: true },
+        },
+      ],
       default: [],
     },
   },
