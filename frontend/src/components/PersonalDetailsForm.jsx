@@ -69,7 +69,7 @@ const PersonalDetailsForm = ({ activeDocument }) => {
 
   return (
     <form className="flex flex-col p-4" onSubmit={handleSubmit}>
-      <h1 className="text-2xl">Project Details</h1>
+      <h1 className="text-2xl">Presonal Details</h1>
 
       <div className="flex justify-between mb-5">
         <button

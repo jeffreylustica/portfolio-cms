@@ -20,25 +20,25 @@ const TagInput = ({ id, tags = [], handleTagChange }) => {
     handleTagChange([]);
   };
 
-  const onTagUpdate = (index, newTag) => {
-    const updatedTags = [...tags];
-    updatedTags.splice(index, 1, newTag);
-    handleTagChange(updatedTags);
-  };
-
   return (
     <ReactTags
       tags={tags} // Tags are expected to be objects { id, text }
       separators={[SEPARATORS.ENTER, SEPARATORS.COMMA]}
       handleDelete={handleDelete}
       handleAddition={handleAddition}
-      onTagUpdate={onTagUpdate}
-      editable
       clearAll
       onClearAll={onClearAll}
       maxTags={7}
       inputAttributes={{ id }}
-      classNames={{ tagInputField: "bg-gray-100 max-w-sm mb-5 outline-0 p-2" }}
+      classNames={{
+        tags: "mt-2",
+        tagInput: "mt-2",
+        tagInputField: "bg-gray-100 min-w-[260px] mb-5 outline-0 p-2",
+        tag: "bg-blue-200 px-2 py-1 mb-5 mr-2 rounded-lg",
+        remove:
+          " p-1 ml-1 text-white hover:text-red-600 cursor-pointer [&>svg]:fill-current",
+        clearAll: "p-2 cursor-pointer hover:text-red-600",
+      }}
     />
   );
 };
