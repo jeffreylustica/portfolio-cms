@@ -16,7 +16,10 @@ const PersonalDetailsForm = ({ activeDocument }) => {
     if (activeDocument._id === "new") {
       setFormData(emptyProjectTemplate);
     } else {
-      setFormData(activeDocument);
+      setFormData({
+        ...emptyProjectTemplate,
+        ...activeDocument
+      });
     }
   }, [activeDocument]);
 

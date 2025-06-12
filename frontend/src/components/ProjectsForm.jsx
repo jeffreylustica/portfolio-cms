@@ -21,7 +21,10 @@ const ProjectsForm = ({ activeDocument }) => {
     if (activeDocument._id === "new") {
       setFormData(emptyProjectTemplate);
     } else {
-      setFormData(activeDocument);
+      setFormData({
+        ...emptyProjectTemplate,
+        ...activeDocument
+      });
     }
   }, [activeDocument]);
 
@@ -32,6 +35,7 @@ const ProjectsForm = ({ activeDocument }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     const url =
       formData._id === "new"
         ? "http://localhost:5555/api/projects"
@@ -81,7 +85,6 @@ const ProjectsForm = ({ activeDocument }) => {
     }));
   };
 
-  console.log(formData);
   if (!activeDocument) return <div className="p-4">Loading project...</div>;
 
   return (
@@ -155,7 +158,7 @@ const ProjectsForm = ({ activeDocument }) => {
       <label htmlFor="tags">Tags</label>
       <TagInput
         id="tags"
-        tags={formData.tags}
+        tags={formData.tags || []}
         handleTagChange={handleTagChange}
       />
 
