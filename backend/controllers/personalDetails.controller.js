@@ -9,7 +9,7 @@ const createPersonalDetail = async (req, res, next) => {
     const personalDetailsData = req.body;
     const personalDetail = await createDetailsService(personalDetailsData);
     res.status(201).json({
-      detail: personalDetail,
+      details: personalDetail,
       message: "Personal detail created successfully!",
     });
   } catch (error) {
@@ -27,7 +27,7 @@ const updatePersonalDetail = async (req, res, next) => {
       personalDetailsData
     );
     res.status(200).json({
-      detail: updatedPersonalDetail,
+      details: updatedPersonalDetail,
       message: "Personal detail updated successfully!",
     });
   } catch (error) {
@@ -41,7 +41,7 @@ const deletePersonalDetail = async (req, res, next) => {
     const { id } = req.params;
     const deletedPersonalDetails = await deleteDetailsService(id);
     res.status(200).json({
-      detail: deletedPersonalDetails,
+      details: deletedPersonalDetails,
       message: "Personal detail deleted successfully!",
     });
   } catch (error) {

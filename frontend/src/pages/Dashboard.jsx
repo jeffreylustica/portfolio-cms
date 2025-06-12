@@ -4,6 +4,7 @@ import axios from "axios";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import PersonalDetailsForm from "../components/PersonalDetailsForm";
 import ProjectsForm from "../components/ProjectsForm";
+import SkillsForm from "../components/skillsForm";
 
 const Dashboard = () => {
   // const token = localStorage.getItem("token");
@@ -90,6 +91,8 @@ const Dashboard = () => {
         return <PersonalDetailsForm activeDocument={activeDocument} />;
       case "projects":
         return <ProjectsForm activeDocument={activeDocument} />;
+      case "skills":
+        return <SkillsForm activeDocument={activeDocument} />;
       default:
         return <div>No form available for this collection.</div>;
     }
