@@ -1,4 +1,4 @@
-import { createSkillService, updateSkillService, deleteSkillService } from "../services/skillService.js"
+import { createSkillService, updateSkillService, deleteSkillService } from "../services/skill.service.js"
 
 const createSkill = async (req, res, next) => {
     try {

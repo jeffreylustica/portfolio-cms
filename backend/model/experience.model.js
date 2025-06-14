@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const WorkExperienceSchema = new mongoose.Schema({
+const ExperienceSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -27,6 +27,6 @@ const WorkExperienceSchema = new mongoose.Schema({
   },
 });
 
-const WorkExperience = mongoose.model("WorkExperience", WorkExperienceSchema);
+const Experience = mongoose.model("Experience", ExperienceSchema);
 
-export default WorkExperience;
+export default Experience;

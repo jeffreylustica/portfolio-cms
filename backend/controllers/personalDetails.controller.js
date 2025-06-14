@@ -2,7 +2,7 @@ import {
   createDetailsService,
   updateDetailsService,
   deleteDetailsService,
-} from "../services/personalDetailsService.js";
+} from "../services/personal-details.service.js";
 
 const createPersonalDetail = async (req, res, next) => {
   try {

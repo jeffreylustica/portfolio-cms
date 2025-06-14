@@ -1,6 +1,6 @@
-import registerUser from "../services/registerService.js";
-import { authenticateUser } from "../services/authService.js";
-import findUser from "../services/userService.js";
+import registerUser from "../services/register.service.js";
+import { authenticateUser } from "../services/auth.service.js";
+import findUser from "../services/user.service.js";
 import User from "../model/user.model.js";
 
 const signup = async (req, res, next) => {
