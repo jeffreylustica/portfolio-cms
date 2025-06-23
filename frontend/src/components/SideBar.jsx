@@ -29,8 +29,8 @@ const SideBar = ({
       displayName: "Skills",
       icon: <SparklesIcon className="md:hidden w-7 h-7" />,
     },
-    works: {
-      displayName: "Works",
+    experiences: {
+      displayName: "Experiences",
       icon: <BriefcaseIcon className="md:hidden w-7 h-7" />,
     },
     files: {

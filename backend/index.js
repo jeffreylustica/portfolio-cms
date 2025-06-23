@@ -26,7 +26,7 @@ app.use("/api", userRouter);
 app.use("/api/personal-details", personalDetailsRouter);
 app.use("/api/projects", projectsRouter);
 app.use("/api/skills", skillsRouter);
-app.use("/api/experience", experienceRouter);
+app.use("/api/experiences", experienceRouter);
 app.use("/api/collections", collectionsRouter);
 app.use("/api", documentsRouter);
 

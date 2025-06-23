@@ -9,11 +9,11 @@ const ExperienceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  logo: {
+  logoUrl: {
     type: String,
     required: true,
   },
-  icon: {
+  iconLogoUrl: {
     type: String,
     required: true,
   },

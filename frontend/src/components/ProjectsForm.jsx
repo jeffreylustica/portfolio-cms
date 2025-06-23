@@ -6,7 +6,7 @@ const emptyProjectTemplate = {
   _id: "new",
   name: "",
   description: "",
-  previewImage: "",
+  imageUrl: "",
   liveUrl: "",
   githubUrl: "",
   tags: [],
@@ -23,7 +23,7 @@ const ProjectsForm = ({ activeDocument }) => {
     } else {
       setFormData({
         ...emptyProjectTemplate,
-        ...activeDocument
+        ...activeDocument,
       });
     }
   }, [activeDocument]);
@@ -35,7 +35,7 @@ const ProjectsForm = ({ activeDocument }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+    console.log(formData);
     const url =
       formData._id === "new"
         ? "http://localhost:5555/api/projects"
@@ -49,7 +49,7 @@ const ProjectsForm = ({ activeDocument }) => {
         {
           name: formData.name,
           description: formData.description,
-          previewImage: formData.previewImage,
+          imageUrl: formData.imageUrl,
           liveUrl: formData.liveUrl,
           githubUrl: formData.githubUrl,
           tags: formData.tags,
@@ -85,7 +85,7 @@ const ProjectsForm = ({ activeDocument }) => {
     }));
   };
 
-  if (!activeDocument) return <div className="p-4">Loading project...</div>;
+  if (!activeDocument) return <div className="p-4">No documents</div>;
 
   return (
     <form className="flex flex-col p-4" onSubmit={handleSubmit}>
@@ -122,13 +122,13 @@ const ProjectsForm = ({ activeDocument }) => {
         required
       />
 
-      <label htmlFor="previewImage">Preview Image</label>
+      <label htmlFor="imageUrl">Image Url</label>
       <input
         className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
         type="text"
-        name="previewImage"
-        id="previewImage"
-        value={formData.previewImage}
+        name="imageUrl"
+        id="imageUrl"
+        value={formData.imageUrl}
         onChange={handleChange}
         required
       />

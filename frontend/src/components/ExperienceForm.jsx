@@ -4,14 +4,23 @@ import axios from "axios";
 const emptyProjectTemplate = {
   _id: "new",
   name: "",
-  imageUrl: "",
+  description: "",
+  logoUrl: "",
+  iconLogoUrl: "",
+  startDate: "",
+  endDate: "",
 };
 
-const SkillsForm = ({ activeDocument }) => {
+const ExperienceForm = ({ activeDocument }) => {
   const [formData, setFormData] = useState(emptyProjectTemplate);
 
   useEffect(() => {
     if (!activeDocument) return;
+
+    const formatDate = (isoString) => {
+      if (!isoString) return "";
+      return isoString.split("T")[0];
+    };
 
     if (activeDocument._id === "new") {
       setFormData(emptyProjectTemplate);
@@ -19,6 +28,8 @@ const SkillsForm = ({ activeDocument }) => {
       setFormData({
         ...emptyProjectTemplate,
         ...activeDocument,
+        startDate: formatDate(activeDocument.startDate),
+        endDate: formatDate(activeDocument.endDate),
       });
     }
   }, [activeDocument]);
@@ -31,10 +42,13 @@ const SkillsForm = ({ activeDocument }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+
+    const toISO = (date) => (date ? new Date(date).toISOString() : null);
+
     const url =
       formData._id === "new"
-        ? "http://localhost:5555/api/skills"
-        : `http://localhost:5555/api/skills/${formData._id}`;
+        ? "http://localhost:5555/api/experiences"
+        : `http://localhost:5555/api/experiences/${formData._id}`;
 
     const method = formData._id === "new" ? "post" : "put";
 
@@ -43,7 +57,11 @@ const SkillsForm = ({ activeDocument }) => {
         url,
         {
           name: formData.name,
-          imageUrl: formData.imageUrl,
+          description: formData.description,
+          logoUrl: formData.logoUrl,
+          iconLogoUrl: formData.iconLogoUrl,
+          startDate: toISO(formData.startDate),
+          endDate: toISO(formData.endDate),
         },
         { withCredentials: true }
       );
@@ -60,7 +78,7 @@ const SkillsForm = ({ activeDocument }) => {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5555/api/skills/${formData._id}`,
+        `http://localhost:5555/api/experiences/${formData._id}`,
         { withCredentials: true }
       );
       console.log("Deleted:", response.data);
@@ -73,7 +91,7 @@ const SkillsForm = ({ activeDocument }) => {
 
   return (
     <form className="flex flex-col p-4" onSubmit={handleSubmit}>
-      <h1 className="text-2xl">Skills</h1>
+      <h1 className="text-2xl">Experiences</h1>
 
       <div className="flex justify-between mb-5">
         <button
@@ -96,15 +114,58 @@ const SkillsForm = ({ activeDocument }) => {
         required
       />
 
-      <label htmlFor="imageUrl">Image Url</label>
+      <label htmlFor="description">Description</label>
+      <textarea
+        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
+        type="text"
+        name="description"
+        id="description"
+        value={formData.description}
+        onChange={handleChange}
+        required
+      />
+
+      <label htmlFor="logoUrl">Logo Url</label>
       <input
         className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
         type="text"
-        name="imageUrl"
-        id="imageUrl"
-        value={formData.imageUrl}
+        name="logoUrl"
+        id="logoUrl"
+        value={formData.logoUrl}
         onChange={handleChange}
         required
+      />
+
+      <label htmlFor="iconLogoUrl">Icon Logo Url</label>
+      <input
+        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
+        type="text"
+        name="iconLogoUrl"
+        id="iconLogoUrl"
+        value={formData.iconLogoUrl}
+        onChange={handleChange}
+        required
+      />
+
+      <label htmlFor="startDate">Start Date</label>
+      <input
+        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
+        type="date"
+        name="startDate"
+        id="startDate"
+        value={formData.startDate}
+        onChange={handleChange}
+        required
+      />
+
+      <label htmlFor="endDate">End Date</label>
+      <input
+        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
+        type="date"
+        name="endDate"
+        id="endDate"
+        value={formData.endDate}
+        onChange={handleChange}
       />
 
       <button
@@ -117,4 +178,4 @@ const SkillsForm = ({ activeDocument }) => {
   );
 };
 
-export default SkillsForm;
+export default ExperienceForm;
