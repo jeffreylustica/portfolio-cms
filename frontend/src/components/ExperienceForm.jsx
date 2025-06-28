@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const emptyProjectTemplate = {
+const emptyFormDataTemplate = {
   _id: "new",
   name: "",
   description: "",
@@ -11,8 +11,8 @@ const emptyProjectTemplate = {
   endDate: "",
 };
 
-const ExperienceForm = ({ activeDocument }) => {
-  const [formData, setFormData] = useState(emptyProjectTemplate);
+const ExperienceForm = ({ activeDocument, onSave, onDelete }) => {
+  const [formData, setFormData] = useState(emptyFormDataTemplate);
 
   useEffect(() => {
     if (!activeDocument) return;
@@ -23,10 +23,10 @@ const ExperienceForm = ({ activeDocument }) => {
     };
 
     if (activeDocument._id === "new") {
-      setFormData(emptyProjectTemplate);
+      setFormData(emptyFormDataTemplate);
     } else {
       setFormData({
-        ...emptyProjectTemplate,
+        ...emptyFormDataTemplate,
         ...activeDocument,
         startDate: formatDate(activeDocument.startDate),
         endDate: formatDate(activeDocument.endDate),
@@ -65,7 +65,7 @@ const ExperienceForm = ({ activeDocument }) => {
         },
         { withCredentials: true }
       );
-
+      onSave(response.data.details)
       console.log("Saved:", response.data);
     } catch (error) {
       console.error("Error saving:", error.message);
@@ -81,6 +81,7 @@ const ExperienceForm = ({ activeDocument }) => {
         `http://localhost:5555/api/experiences/${formData._id}`,
         { withCredentials: true }
       );
+      onDelete(response.data.details._id)
       console.log("Deleted:", response.data);
     } catch (error) {
       console.error("Error deleting:", error.message);

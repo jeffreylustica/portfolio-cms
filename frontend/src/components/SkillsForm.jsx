@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const emptyProjectTemplate = {
+const emptyFormDataTemplate = {
   _id: "new",
   name: "",
   imageUrl: "",
 };
 
-const SkillsForm = ({ activeDocument }) => {
-  const [formData, setFormData] = useState(emptyProjectTemplate);
+const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
+  const [formData, setFormData] = useState(emptyFormDataTemplate);
 
   useEffect(() => {
     if (!activeDocument) return;
 
     if (activeDocument._id === "new") {
-      setFormData(emptyProjectTemplate);
+      setFormData(emptyFormDataTemplate);
     } else {
       setFormData({
-        ...emptyProjectTemplate,
+        ...emptyFormDataTemplate,
         ...activeDocument,
       });
     }
@@ -48,6 +48,7 @@ const SkillsForm = ({ activeDocument }) => {
         { withCredentials: true }
       );
 
+      onSave(response.data.details)
       console.log("Saved:", response.data);
     } catch (error) {
       console.error("Error saving:", error.message);
@@ -63,6 +64,8 @@ const SkillsForm = ({ activeDocument }) => {
         `http://localhost:5555/api/skills/${formData._id}`,
         { withCredentials: true }
       );
+
+      onDelete(response.data.details._id)
       console.log("Deleted:", response.data);
     } catch (error) {
       console.error("Error deleting:", error.message);

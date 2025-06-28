@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import TagInput from "./ReactTags";
 
-const emptyProjectTemplate = {
+const emptyFormDataTemplate = {
   _id: "new",
   name: "",
   description: "",
@@ -12,17 +12,17 @@ const emptyProjectTemplate = {
   tags: [],
 };
 
-const ProjectsForm = ({ activeDocument }) => {
-  const [formData, setFormData] = useState(emptyProjectTemplate);
+const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
+  const [formData, setFormData] = useState(emptyFormDataTemplate);
 
   useEffect(() => {
     if (!activeDocument) return;
 
     if (activeDocument._id === "new") {
-      setFormData(emptyProjectTemplate);
+      setFormData(emptyFormDataTemplate);
     } else {
       setFormData({
-        ...emptyProjectTemplate,
+        ...emptyFormDataTemplate,
         ...activeDocument,
       });
     }
@@ -57,6 +57,7 @@ const ProjectsForm = ({ activeDocument }) => {
         { withCredentials: true }
       );
 
+      onSave(response.data.details)
       console.log("Saved:", response.data);
     } catch (error) {
       console.error("Error saving:", error.message);
@@ -72,6 +73,8 @@ const ProjectsForm = ({ activeDocument }) => {
         `http://localhost:5555/api/projects/${formData._id}`,
         { withCredentials: true }
       );
+
+      onDelete(response.data.details._id)
       console.log("Deleted:", response.data);
     } catch (error) {
       console.error("Error deleting:", error.message);
@@ -89,7 +92,7 @@ const ProjectsForm = ({ activeDocument }) => {
 
   return (
     <form className="flex flex-col p-4" onSubmit={handleSubmit}>
-      <h1 className="text-2xl">Project</h1>
+      <h1 className="text-2xl">Projects</h1>
 
       <div className="flex justify-between mb-5">
         <button

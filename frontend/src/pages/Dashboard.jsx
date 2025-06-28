@@ -24,10 +24,10 @@ const Dashboard = () => {
     };
 
     getUserData();
-    getCollectionsAndDocuments();
+    getCollections();
   }, []);
 
-  const getCollectionsAndDocuments = async () => {
+  const getCollections = async () => {
     try {
       const response = await axios.get(
         "http://localhost:5555/api/collections",
@@ -87,15 +87,21 @@ const Dashboard = () => {
   // };
 
   const renderFormComponent = () => {
+    const sharedProps = {
+      activeDocument,
+      onSave: handleSave,
+      onDelete: handleDelete,
+    }
+
     switch (activeCollection) {
       case "personaldetails":
-        return <PersonalDetailsForm activeDocument={activeDocument} />;
+        return <PersonalDetailsForm {...sharedProps} />;
       case "projects":
-        return <ProjectsForm activeDocument={activeDocument} />;
+        return <ProjectsForm {...sharedProps} />;
       case "skills":
-        return <SkillsForm activeDocument={activeDocument} />;
+        return <SkillsForm {...sharedProps} />;
       case "experiences":
-        return <ExperienceForm activeDocument={activeDocument} />;
+        return <ExperienceForm {...sharedProps} />;
       default:
         return <div>No form available for this collection.</div>;
     }
@@ -116,6 +122,34 @@ const Dashboard = () => {
     setActiveCollection(name);
     getDocumentsForCollection(name);
   };
+
+  const handleSave = (updatedDoc) => {
+    setDocuments(prevDocs => {
+      const existing = prevDocs.find(doc => doc._id === updatedDoc._id)
+      if (existing) {
+        return prevDocs.map(doc => doc._id === updatedDoc._id ? updatedDoc : doc)
+      } else {
+        return [...prevDocs, updatedDoc]
+      }
+    })
+
+    setActiveDocument(updatedDoc);
+  }
+
+  console.log(documents)
+
+  const handleDelete = (deletedId) => {
+    setDocuments(prevDocs => {
+      const updatedDocs = prevDocs.filter(doc => doc._id !== deletedId)
+      if (updatedDocs.length > 0 ) {
+        setActiveDocument(updatedDocs[updatedDocs.length - 1])
+      } else {
+        setActiveDocument({_id: "new"})
+      }
+
+      return updatedDocs
+    })
+  }
 
   // const ActiveComponent = collectionComponents[activeCollection];
 

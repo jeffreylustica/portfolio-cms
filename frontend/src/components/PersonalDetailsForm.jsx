@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const emptyProjectTemplate = {
+const emptyFormDataTemplate = {
   _id: "new",
   name: "",
   value: "",
 };
 
-const PersonalDetailsForm = ({ activeDocument }) => {
-  const [formData, setFormData] = useState(emptyProjectTemplate);
+const PersonalDetailsForm = ({ activeDocument, onSave, onDelete }) => {
+  const [formData, setFormData] = useState(emptyFormDataTemplate);
 
   useEffect(() => {
     if (!activeDocument) return;
 
     if (activeDocument._id === "new") {
-      setFormData(emptyProjectTemplate);
+      setFormData(emptyFormDataTemplate);
     } else {
       setFormData({
-        ...emptyProjectTemplate,
+        ...emptyFormDataTemplate,
         ...activeDocument
       });
     }
@@ -47,6 +47,8 @@ const PersonalDetailsForm = ({ activeDocument }) => {
         { withCredentials: true }
       );
 
+      onSave(response.data.details)
+
       console.log("Saved:", response.data);
     } catch (error) {
       console.error("Error saving:", error.message);
@@ -62,6 +64,7 @@ const PersonalDetailsForm = ({ activeDocument }) => {
         `http://localhost:5555/api/personal-details/${formData._id}`,
         { withCredentials: true }
       );
+      onDelete(response.data.details._id)
       console.log("Deleted:", response.data);
     } catch (error) {
       console.error("Error deleting:", error.message);
@@ -72,7 +75,7 @@ const PersonalDetailsForm = ({ activeDocument }) => {
 
   return (
     <form className="flex flex-col p-4" onSubmit={handleSubmit}>
-      <h1 className="text-2xl">Presonal Details</h1>
+      <h1 className="text-2xl">Personal Details</h1>
 
       <div className="flex justify-between mb-5">
         <button
