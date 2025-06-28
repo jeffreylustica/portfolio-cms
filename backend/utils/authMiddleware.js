@@ -4,7 +4,6 @@ import secretKey from "../configuration/jwtConfig.js";
 const authenticateToken = (req, res, next) => {
   try {
     const token = req.cookies.token;
-    console.log(token);
 
     if (!token) {
       return res.status(401).json({ message: "Unauthorized: Missing token!" });
@@ -20,7 +19,7 @@ const authenticateToken = (req, res, next) => {
       next();
     });
   } catch (error) {
-    return res.status(403).json({ message: "Unauthorized access" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
