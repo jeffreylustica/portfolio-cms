@@ -125,46 +125,16 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
         required
       />
 
-      <label htmlFor="imageUrl">Image URL</label>
+      <label htmlFor="imageUrl">Image Url</label>
       <input
-        className="bg-gray-100 max-w-sm mb-2 outline-0 p-2"
+        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
         type="text"
         name="imageUrl"
         id="imageUrl"
         value={formData.imageUrl}
-        readOnly
+        onChange={handleChange}
+        required
       />
-
-      <label htmlFor="imageUpload">Upload New Image</label>
-      <input
-        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-        type="file"
-        id="imageUpload"
-        accept="image/*"
-        onChange={async (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-
-          const formDataUpload = new FormData();
-          formDataUpload.append('file', file);
-
-          try {
-            const res = await axios.post('http://localhost:5555/api/upload', formDataUpload);
-            setFormData((prev) => ({ ...prev, imageUrl: res.data.url }));
-          } catch (error) {
-            console.error("Image upload failed:", error);
-          }
-        }}
-      />
-
-      {formData.imageUrl && (
-        <img
-          src={formData.imageUrl}
-          alt="Uploaded"
-          className="mb-5 w-48 rounded shadow"
-        />
-      )}
-
 
       <label htmlFor="liveUrl">Live Url</label>
       <input

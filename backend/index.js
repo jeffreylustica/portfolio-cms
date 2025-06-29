@@ -10,6 +10,7 @@ import collectionsRouter from "./routes/collections.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import documentsRouter from "./routes/documents.route.js";
+import uploadsRouter from "./routes/upload.route.js";
 
 const app = express();
 // app.use(cors());
@@ -29,6 +30,7 @@ app.use("/api/skills", skillsRouter);
 app.use("/api/experiences", experienceRouter);
 app.use("/api/collections", collectionsRouter);
 app.use("/api", documentsRouter);
+app.use("/api", uploadsRouter);
 
 mongoose
   .connect(mongoDBURL)
