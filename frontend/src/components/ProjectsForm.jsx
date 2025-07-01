@@ -57,7 +57,7 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
         { withCredentials: true }
       );
 
-      onSave(response.data.details)
+      onSave(response.data.details);
       console.log("Saved:", response.data);
     } catch (error) {
       console.error("Error saving:", error.message);
@@ -74,7 +74,7 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
         { withCredentials: true }
       );
 
-      onDelete(response.data.details._id)
+      onDelete(response.data.details._id);
       console.log("Deleted:", response.data);
     } catch (error) {
       console.error("Error deleting:", error.message);
@@ -86,6 +86,25 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
       ...prev,
       tags: tags, // Keep tags as objects with id and text
     }));
+  };
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formDataUpload = new FormData();
+    formDataUpload.append("file", file);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5555/api/upload",
+        formDataUpload,
+        { withCredentials: true }
+      );
+      setFormData((prev) => ({ ...prev, imageUrl: res.data.url }));
+    } catch (error) {
+      console.error("Image upload failed:", error);
+    }
   };
 
   if (!activeDocument) return <div className="p-4">No documents</div>;
@@ -141,20 +160,7 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
         type="file"
         id="imageUpload"
         accept="image/*"
-        onChange={async (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-
-          const formDataUpload = new FormData();
-          formDataUpload.append('file', file);
-
-          try {
-            const res = await axios.post('http://localhost:5555/api/upload', formDataUpload);
-            setFormData((prev) => ({ ...prev, imageUrl: res.data.url }));
-          } catch (error) {
-            console.error("Image upload failed:", error);
-          }
-        }}
+        onChange={handleUpload}
       />
 
       {formData.imageUrl && (
@@ -164,7 +170,6 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
           className="mb-5 w-48 rounded shadow"
         />
       )}
-
 
       <label htmlFor="liveUrl">Live Url</label>
       <input

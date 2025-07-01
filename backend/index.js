@@ -4,7 +4,7 @@ import { PORT, mongoDBURL } from "./configuration/config.js";
 import userRouter from "./routes/user.route.js";
 import personalDetailsRouter from "./routes/personalDetails.route.js";
 import projectsRouter from "./routes/projects.route.js";
-import skillsRouter from "./routes/skills.routes.js";
+import skillsRouter from "./routes/skills.route.js";
 import experienceRouter from "./routes/experiences.route.js";
 import collectionsRouter from "./routes/collections.route.js";
 import cookieParser from "cookie-parser";
