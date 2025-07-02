@@ -7,6 +7,7 @@ const emptyFormDataTemplate = {
   name: "",
   description: "",
   imageUrl: "",
+  imagePublicId: "",
   liveUrl: "",
   githubUrl: "",
   tags: [],
@@ -14,6 +15,7 @@ const emptyFormDataTemplate = {
 
 const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
   const [formData, setFormData] = useState(emptyFormDataTemplate);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     if (!activeDocument) return;
@@ -36,6 +38,8 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    let uploadedFile = null;
+
     const url =
       formData._id === "new"
         ? "http://localhost:5555/api/projects"
@@ -44,12 +48,17 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
     const method = formData._id === "new" ? "post" : "put";
 
     try {
+      if (selectedFile) {
+        uploadedFile = await uploadFile(selectedFile);
+      }
+
       const response = await axios[method](
         url,
         {
           name: formData.name,
           description: formData.description,
-          imageUrl: formData.imageUrl,
+          imageUrl: uploadedFile?.imageUrl || formData.imageUrl,
+          imagePublicId: uploadedFile?.imagePublicId || formData.imagePublicId,
           liveUrl: formData.liveUrl,
           githubUrl: formData.githubUrl,
           tags: formData.tags,
@@ -88,8 +97,20 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
     }));
   };
 
-  const handleUpload = async (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
+    setSelectedFile(file);
+
+    const tempUrl = URL.createObjectURL(file);
+    setFormData((prev) => ({
+      ...prev,
+      imageUrl: tempUrl,
+    }));
+  };
+
+  const uploadFile = async (file) => {
     if (!file) return;
 
     const formDataUpload = new FormData();
@@ -101,9 +122,14 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
         formDataUpload,
         { withCredentials: true }
       );
-      setFormData((prev) => ({ ...prev, imageUrl: res.data.url }));
+
+      return {
+        imageUrl: res.data.url,
+        imagePublicId: res.data.public_id,
+      };
     } catch (error) {
       console.error("Image upload failed:", error);
+      throw new Error("Image upload failed");
     }
   };
 
@@ -160,7 +186,7 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
         type="file"
         id="imageUpload"
         accept="image/*"
-        onChange={handleUpload}
+        onChange={handleFileChange}
       />
 
       {formData.imageUrl && (
