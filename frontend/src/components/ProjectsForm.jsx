@@ -1,30 +1,38 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import TagInput from "./ReactTags";
+import { emptyProjectFormTemplate } from "../constant/formTemplates.js";
+import uploadFile from "../utils/uploadFile.js";
+import useImageUploader from "../hooks/useImageUploader .jsx";
 
-const emptyFormDataTemplate = {
-  _id: "new",
-  name: "",
-  description: "",
-  imageUrl: "",
-  imagePublicId: "",
-  liveUrl: "",
-  githubUrl: "",
-  tags: [],
-};
+// const emptyProjectFormTemplate = {
+//   _id: "new",
+//   name: "",
+//   description: "",
+//   imageUrl: "",
+//   imagePublicId: "",
+//   liveUrl: "",
+//   githubUrl: "",
+//   tags: [],
+// };
 
 const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
-  const [formData, setFormData] = useState(emptyFormDataTemplate);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [formData, setFormData] = useState(emptyProjectFormTemplate);
+  // const [selectedFile, setSelectedFile] = useState(null);
+
+  const { selectedFile, handleFileChange } = useImageUploader(
+    formData,
+    setFormData
+  );
 
   useEffect(() => {
     if (!activeDocument) return;
 
     if (activeDocument._id === "new") {
-      setFormData(emptyFormDataTemplate);
+      setFormData(emptyProjectFormTemplate);
     } else {
       setFormData({
-        ...emptyFormDataTemplate,
+        ...emptyProjectFormTemplate,
         ...activeDocument,
       });
     }
@@ -97,41 +105,41 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
 
-    setSelectedFile(file);
+  //   setSelectedFile(file);
 
-    const tempUrl = URL.createObjectURL(file);
-    setFormData((prev) => ({
-      ...prev,
-      imageUrl: tempUrl,
-    }));
-  };
+  //   const tempUrl = URL.createObjectURL(file);
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     imageUrl: tempUrl,
+  //   }));
+  // };
 
-  const uploadFile = async (file) => {
-    if (!file) return;
+  // const uploadFile = async (file) => {
+  //   if (!file) return;
 
-    const formDataUpload = new FormData();
-    formDataUpload.append("file", file);
+  //   const formDataUpload = new FormData();
+  //   formDataUpload.append("file", file);
 
-    try {
-      const res = await axios.post(
-        "http://localhost:5555/api/upload",
-        formDataUpload,
-        { withCredentials: true }
-      );
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:5555/api/upload",
+  //       formDataUpload,
+  //       { withCredentials: true }
+  //     );
 
-      return {
-        imageUrl: res.data.url,
-        imagePublicId: res.data.public_id,
-      };
-    } catch (error) {
-      console.error("Image upload failed:", error);
-      throw new Error("Image upload failed");
-    }
-  };
+  //     return {
+  //       imageUrl: res.data.url,
+  //       imagePublicId: res.data.public_id,
+  //     };
+  //   } catch (error) {
+  //     console.error("Image upload failed:", error);
+  //     throw new Error("Image upload failed");
+  //   }
+  // };
 
   if (!activeDocument) return <div className="p-4">No documents</div>;
 

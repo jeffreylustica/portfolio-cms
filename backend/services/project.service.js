@@ -1,6 +1,8 @@
 import Project from "../model/projects.model.js";
-import updateCloudinaryImage from "./cloudinary/updateCloudinaryImage.js";
-import deleteCloudinaryImage from "./cloudinary/deleteCloudinaryImage.js";
+import {
+  updateCloudinaryMedia,
+  deleteCloudinaryMedia,
+} from "./cloudinary/cloudinary.service.js";
 
 const createProjectService = async (data) => {
   try {
@@ -20,7 +22,7 @@ const updateProjectService = async (id, data) => {
       throw new Error("Project not found");
     }
 
-    await updateCloudinaryImage(project.imagePublicId, data.imagePublicId);
+    await updateCloudinaryMedia(project.imagePublicId, data.imagePublicId);
 
     const updatedProject = await Project.findByIdAndUpdate(id, data, {
       new: true,
@@ -42,7 +44,7 @@ const deleteProjectService = async (id) => {
       throw new Error("Project not found");
     }
 
-    await deleteCloudinaryImage(project.imagePublicId);
+    await deleteCloudinaryMedia(project.imagePublicId);
 
     const deletedProject = await Project.findByIdAndDelete(id);
     if (!deletedProject) {
