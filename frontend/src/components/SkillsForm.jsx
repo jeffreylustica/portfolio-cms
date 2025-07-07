@@ -1,36 +1,35 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-const emptyFormDataTemplate = {
-  _id: "new",
-  name: "",
-  imageUrl: "",
-};
+import { emptySkillFormTemplate } from "../constant/formTemplates.js";
+import useFormData from "../hooks/useFormData.jsx";
+import useMediaUploader from "../hooks/useMediaUploader.jsx";
 
 const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
-  const [formData, setFormData] = useState(emptyFormDataTemplate);
+  const { formData, setFormData, handleChange } = useFormData(
+    emptySkillFormTemplate
+  );
+
+  const { selectedFile, handleFileChange, uploadMedia } =
+    useMediaUploader(setFormData);
 
   useEffect(() => {
     if (!activeDocument) return;
 
     if (activeDocument._id === "new") {
-      setFormData(emptyFormDataTemplate);
+      setFormData(emptySkillFormTemplate);
     } else {
       setFormData({
-        ...emptyFormDataTemplate,
+        ...emptySkillFormTemplate,
         ...activeDocument,
       });
     }
   }, [activeDocument]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    let uploadedFile = null;
+
     const url =
       formData._id === "new"
         ? "http://localhost:5555/api/skills"
@@ -39,16 +38,21 @@ const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
     const method = formData._id === "new" ? "post" : "put";
 
     try {
+      if (selectedFile) {
+        uploadedFile = await uploadMedia(selectedFile);
+      }
+
       const response = await axios[method](
         url,
         {
           name: formData.name,
-          imageUrl: formData.imageUrl,
+          imageUrl: uploadedFile?.imageUrl || formData.imageUrl,
+          imagePublicId: uploadedFile?.imagePublicId || formData.imagePublicId,
         },
         { withCredentials: true }
       );
 
-      onSave(response.data.details)
+      onSave(response.data.details);
       console.log("Saved:", response.data);
     } catch (error) {
       console.error("Error saving:", error.message);
@@ -65,7 +69,7 @@ const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
         { withCredentials: true }
       );
 
-      onDelete(response.data.details._id)
+      onDelete(response.data.details._id);
       console.log("Deleted:", response.data);
     } catch (error) {
       console.error("Error deleting:", error.message);
@@ -106,9 +110,26 @@ const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
         name="imageUrl"
         id="imageUrl"
         value={formData.imageUrl}
-        onChange={handleChange}
         required
+        readOnly
       />
+
+      <label htmlFor="imageUpload">Upload New Image</label>
+      <input
+        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
+        type="file"
+        id="imageUpload"
+        accept="image/*"
+        onChange={handleFileChange}
+      />
+
+      {formData.imageUrl && (
+        <img
+          src={formData.imageUrl}
+          alt="Uploaded"
+          className="mb-5 w-48 rounded shadow"
+        />
+      )}
 
       <button
         type="submit"

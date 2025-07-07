@@ -9,4 +9,11 @@ const emptyProjectFormTemplate = {
   tags: [],
 };
 
-export { emptyProjectFormTemplate };
+const emptySkillFormTemplate = {
+  _id: "new",
+  name: "",
+  imageUrl: "",
+  imagePublicId: "",
+};
+
+export { emptyProjectFormTemplate, emptySkillFormTemplate };

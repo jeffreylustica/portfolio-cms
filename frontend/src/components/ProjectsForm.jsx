@@ -1,29 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import TagInput from "./ReactTags";
 import { emptyProjectFormTemplate } from "../constant/formTemplates.js";
-import uploadFile from "../utils/uploadFile.js";
-import useImageUploader from "../hooks/useImageUploader .jsx";
-
-// const emptyProjectFormTemplate = {
-//   _id: "new",
-//   name: "",
-//   description: "",
-//   imageUrl: "",
-//   imagePublicId: "",
-//   liveUrl: "",
-//   githubUrl: "",
-//   tags: [],
-// };
+import useMediaUploader from "../hooks/useMediaUploader.jsx";
+import useFormData from "../hooks/useFormData.jsx";
 
 const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
-  const [formData, setFormData] = useState(emptyProjectFormTemplate);
-  // const [selectedFile, setSelectedFile] = useState(null);
-
-  const { selectedFile, handleFileChange } = useImageUploader(
-    formData,
-    setFormData
+  const { formData, setFormData, handleChange, handleTagChange } = useFormData(
+    emptyProjectFormTemplate
   );
+
+  const { selectedFile, handleFileChange, uploadMedia } =
+    useMediaUploader(setFormData);
 
   useEffect(() => {
     if (!activeDocument) return;
@@ -37,11 +25,6 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
       });
     }
   }, [activeDocument]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +40,7 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
 
     try {
       if (selectedFile) {
-        uploadedFile = await uploadFile(selectedFile);
+        uploadedFile = await uploadMedia(selectedFile);
       }
 
       const response = await axios[method](
@@ -97,49 +80,6 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
       console.error("Error deleting:", error.message);
     }
   };
-
-  const handleTagChange = (tags) => {
-    setFormData((prev) => ({
-      ...prev,
-      tags: tags, // Keep tags as objects with id and text
-    }));
-  };
-
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (!file) return;
-
-  //   setSelectedFile(file);
-
-  //   const tempUrl = URL.createObjectURL(file);
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     imageUrl: tempUrl,
-  //   }));
-  // };
-
-  // const uploadFile = async (file) => {
-  //   if (!file) return;
-
-  //   const formDataUpload = new FormData();
-  //   formDataUpload.append("file", file);
-
-  //   try {
-  //     const res = await axios.post(
-  //       "http://localhost:5555/api/upload",
-  //       formDataUpload,
-  //       { withCredentials: true }
-  //     );
-
-  //     return {
-  //       imageUrl: res.data.url,
-  //       imagePublicId: res.data.public_id,
-  //     };
-  //   } catch (error) {
-  //     console.error("Image upload failed:", error);
-  //     throw new Error("Image upload failed");
-  //   }
-  // };
 
   if (!activeDocument) return <div className="p-4">No documents</div>;
 

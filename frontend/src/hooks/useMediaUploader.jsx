@@ -1,6 +1,7 @@
 import { useState } from "react";
+import uploadFile from "../utils/uploadFile.js";
 
-const useImageUploader = (formData, setFormData) => {
+const useMediaUploader = (setFormData) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (e) => {
@@ -16,7 +17,12 @@ const useImageUploader = (formData, setFormData) => {
     }));
   };
 
-  return { selectedFile, handleFileChange };
+  const uploadMedia = async () => {
+    if (!selectedFile) return null;
+    return await uploadFile(selectedFile);
+  };
+
+  return { selectedFile, handleFileChange, uploadMedia };
 };
 
-export default useImageUploader;
+export default useMediaUploader;
