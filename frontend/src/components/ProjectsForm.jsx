@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import axios from "axios";
 import TagInput from "./ReactTags";
-import { emptyProjectFormTemplate } from "../constant/formTemplates.js";
+import { emptyProjectFormTemplate } from "../constants/formTemplates.js";
 import useMediaUploader from "../hooks/useMediaUploader.jsx";
 import useFormData from "../hooks/useFormData.jsx";
 
@@ -10,7 +10,7 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
     emptyProjectFormTemplate
   );
 
-  const { selectedFile, handleFileChange, uploadMedia } =
+  const { selectedFiles, handleFileChange, uploadMedia } =
     useMediaUploader(setFormData);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    let uploadedFile = null;
+    let uploadedFiles = {};
 
     const url =
       formData._id === "new"
@@ -39,8 +39,8 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
     const method = formData._id === "new" ? "post" : "put";
 
     try {
-      if (selectedFile) {
-        uploadedFile = await uploadMedia(selectedFile);
+      if (selectedFiles) {
+        uploadedFiles = await uploadMedia(selectedFiles);
       }
 
       const response = await axios[method](
@@ -48,8 +48,9 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
         {
           name: formData.name,
           description: formData.description,
-          imageUrl: uploadedFile?.imageUrl || formData.imageUrl,
-          imagePublicId: uploadedFile?.imagePublicId || formData.imagePublicId,
+          imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
+          imagePublicId:
+            uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
           liveUrl: formData.liveUrl,
           githubUrl: formData.githubUrl,
           tags: formData.tags,
@@ -134,7 +135,7 @@ const ProjectsForm = ({ activeDocument, onSave, onDelete }) => {
         type="file"
         id="imageUpload"
         accept="image/*"
-        onChange={handleFileChange}
+        onChange={handleFileChange("imageUrl")}
       />
 
       {formData.imageUrl && (

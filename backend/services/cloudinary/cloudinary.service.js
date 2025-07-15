@@ -1,24 +1,39 @@
 import { v2 as cloudinary } from "cloudinary";
 
-const updateCloudinaryMedia = async (existingPublicId, newPublicId) => {
-  const isNewImageUploaded = newPublicId && newPublicId !== existingPublicId;
+const updateCloudinaryMedia = async (
+  existingPublicIds = {},
+  newPublicIds = {}
+) => {
+  const fields = Object.keys(newPublicIds);
 
-  if (isNewImageUploaded) {
-    try {
-      await cloudinary.uploader.destroy(existingPublicId);
-    } catch (err) {
-      console.error("Cloudinary deletion failed:", err.message);
+  for (const field of fields) {
+    const oldId = existingPublicIds[field];
+    const newId = newPublicIds[field];
+
+    const isNewImageUploaded = newId && newId !== oldId;
+
+    if (isNewImageUploaded && oldId) {
+      try {
+        await cloudinary.uploader.destroy(oldId);
+      } catch (err) {
+        console.error(
+          `Failed to delete ${field} from Cloudinary:`,
+          err.message
+        );
+      }
     }
   }
 };
 
-const deleteCloudinaryMedia = async (publicId) => {
-  if (!publicId) return;
+const deleteCloudinaryMedia = async (publicIds = {}) => {
+  const ids = Object.values(publicIds).filter(Boolean); // Filter out null/undefined
 
-  try {
-    await cloudinary.uploader.destroy(publicId);
-  } catch (err) {
-    console.error("Cloudinary deletion failed:", err.message);
+  for (const publicId of ids) {
+    try {
+      await cloudinary.uploader.destroy(publicId);
+    } catch (err) {
+      console.error("Cloudinary deletion failed:", err.message);
+    }
   }
 };
 

@@ -9,12 +9,7 @@ import { upload } from "../utils/multer.js";
 
 const projectsRouter = express.Router();
 
-projectsRouter.post(
-  "/",
-  authenticateToken,
-  upload.single("file"),
-  createProject
-);
+projectsRouter.post("/", authenticateToken, createProject);
 projectsRouter.put("/:id", authenticateToken, updateProject);
 projectsRouter.delete("/:id", authenticateToken, deleteProject);
 

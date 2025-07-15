@@ -10,6 +10,9 @@ const skillSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    imagePublicId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

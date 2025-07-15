@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { emptySkillFormTemplate } from "../constant/formTemplates.js";
+import { emptySkillFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
 import useMediaUploader from "../hooks/useMediaUploader.jsx";
 
@@ -9,7 +9,7 @@ const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
     emptySkillFormTemplate
   );
 
-  const { selectedFile, handleFileChange, uploadMedia } =
+  const { selectedFiles, handleFileChange, uploadMedia } =
     useMediaUploader(setFormData);
 
   useEffect(() => {
@@ -27,8 +27,7 @@ const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    let uploadedFile = null;
+    let uploadedFiles = null;
 
     const url =
       formData._id === "new"
@@ -38,16 +37,17 @@ const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
     const method = formData._id === "new" ? "post" : "put";
 
     try {
-      if (selectedFile) {
-        uploadedFile = await uploadMedia(selectedFile);
+      if (selectedFiles) {
+        uploadedFiles = await uploadMedia(selectedFiles);
       }
 
       const response = await axios[method](
         url,
         {
           name: formData.name,
-          imageUrl: uploadedFile?.imageUrl || formData.imageUrl,
-          imagePublicId: uploadedFile?.imagePublicId || formData.imagePublicId,
+          imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
+          imagePublicId:
+            uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
         },
         { withCredentials: true }
       );
@@ -120,7 +120,7 @@ const SkillsForm = ({ activeDocument, onSave, onDelete }) => {
         type="file"
         id="imageUpload"
         accept="image/*"
-        onChange={handleFileChange}
+        onChange={handleFileChange("imageUrl")}
       />
 
       {formData.imageUrl && (

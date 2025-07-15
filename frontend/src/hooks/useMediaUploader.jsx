@@ -2,27 +2,39 @@ import { useState } from "react";
 import uploadFile from "../utils/uploadFile.js";
 
 const useMediaUploader = (setFormData) => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState({});
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (fieldName) => (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    setSelectedFile(file);
-    const tempUrl = URL.createObjectURL(file);
+    setSelectedFiles((prev) => ({ ...prev, [fieldName]: file }));
 
+    const tempUrl = URL.createObjectURL(file);
     setFormData((prev) => ({
       ...prev,
-      imageUrl: tempUrl,
+      [fieldName]: tempUrl,
     }));
   };
 
   const uploadMedia = async () => {
-    if (!selectedFile) return null;
-    return await uploadFile(selectedFile);
+    const uploads = {};
+
+    for (const [field, file] of Object.entries(selectedFiles)) {
+      if (file) {
+        const uploaded = await uploadFile(file);
+        uploads[field] = uploaded;
+      }
+    }
+
+    return uploads;
   };
 
-  return { selectedFile, handleFileChange, uploadMedia };
+  return {
+    selectedFiles,
+    handleFileChange,
+    uploadMedia,
+  };
 };
 
 export default useMediaUploader;

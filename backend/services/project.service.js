@@ -22,7 +22,10 @@ const updateProjectService = async (id, data) => {
       throw new Error("Project not found");
     }
 
-    await updateCloudinaryMedia(project.imagePublicId, data.imagePublicId);
+    await updateCloudinaryMedia(
+      { imagePublicId: project.imagePublicId },
+      { imagePublicId: data.imagePublicId }
+    );
 
     const updatedProject = await Project.findByIdAndUpdate(id, data, {
       new: true,
@@ -44,7 +47,7 @@ const deleteProjectService = async (id) => {
       throw new Error("Project not found");
     }
 
-    await deleteCloudinaryMedia(project.imagePublicId);
+    await deleteCloudinaryMedia({ imagePublicId: project.imagePublicId });
 
     const deletedProject = await Project.findByIdAndDelete(id);
     if (!deletedProject) {

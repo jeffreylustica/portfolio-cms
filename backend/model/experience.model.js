@@ -13,9 +13,15 @@ const ExperienceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  iconLogoUrl: {
+  logoPublicId: {
+    type: String,
+  },
+  iconUrl: {
     type: String,
     required: true,
+  },
+  iconPublicId: {
+    type: String,
   },
   startDate: {
     type: Date,
