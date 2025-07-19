@@ -1,22 +1,24 @@
 import mongoose from "mongoose";
 
-const SkillSchema = new mongoose.Schema(
+const FileSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    imageUrl: {
+    fileUrl: {
       type: String,
       required: true,
     },
-    imagePublicId: {
+    filePublicId: {
       type: String,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-const Skill = mongoose.model("Skill", SkillSchema);
+const File = mongoose.model("File", FileSchema);
 
-export default Skill;
+export default File;

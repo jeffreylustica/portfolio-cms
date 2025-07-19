@@ -28,8 +28,16 @@ const emptyExpFormTemplate = {
   endDate: "",
 };
 
+const emptyFileFormTemplate = {
+  _id: "new",
+  name: "",
+  fileUrl: "",
+  filePublicId: "",
+};
+
 export {
   emptyProjectFormTemplate,
   emptySkillFormTemplate,
   emptyExpFormTemplate,
+  emptyFileFormTemplate,
 };

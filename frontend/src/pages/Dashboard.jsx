@@ -6,6 +6,7 @@ import PersonalDetailsForm from "../components/PersonalDetailsForm";
 import ProjectsForm from "../components/ProjectsForm";
 import SkillsForm from "../components/skillsForm";
 import ExperienceForm from "../components/ExperienceForm";
+import FilesForm from "../components/FilesForm";
 
 const Dashboard = () => {
   // const token = localStorage.getItem("token");
@@ -91,7 +92,7 @@ const Dashboard = () => {
       activeDocument,
       onSave: handleSave,
       onDelete: handleDelete,
-    }
+    };
 
     switch (activeCollection) {
       case "personaldetails":
@@ -102,6 +103,8 @@ const Dashboard = () => {
         return <SkillsForm {...sharedProps} />;
       case "experiences":
         return <ExperienceForm {...sharedProps} />;
+      case "files":
+        return <FilesForm {...sharedProps} />;
       default:
         return <div>No form available for this collection.</div>;
     }
@@ -124,32 +127,34 @@ const Dashboard = () => {
   };
 
   const handleSave = (updatedDoc) => {
-    setDocuments(prevDocs => {
-      const existing = prevDocs.find(doc => doc._id === updatedDoc._id)
+    setDocuments((prevDocs) => {
+      const existing = prevDocs.find((doc) => doc._id === updatedDoc._id);
       if (existing) {
-        return prevDocs.map(doc => doc._id === updatedDoc._id ? updatedDoc : doc)
+        return prevDocs.map((doc) =>
+          doc._id === updatedDoc._id ? updatedDoc : doc
+        );
       } else {
-        return [...prevDocs, updatedDoc]
+        return [...prevDocs, updatedDoc];
       }
-    })
+    });
 
     setActiveDocument(updatedDoc);
-  }
+  };
 
-  console.log(documents)
+  console.log(documents);
 
   const handleDelete = (deletedId) => {
-    setDocuments(prevDocs => {
-      const updatedDocs = prevDocs.filter(doc => doc._id !== deletedId)
-      if (updatedDocs.length > 0 ) {
-        setActiveDocument(updatedDocs[updatedDocs.length - 1])
+    setDocuments((prevDocs) => {
+      const updatedDocs = prevDocs.filter((doc) => doc._id !== deletedId);
+      if (updatedDocs.length > 0) {
+        setActiveDocument(updatedDocs[updatedDocs.length - 1]);
       } else {
-        setActiveDocument({_id: "new"})
+        setActiveDocument({ _id: "new" });
       }
 
-      return updatedDocs
-    })
-  }
+      return updatedDocs;
+    });
+  };
 
   // const ActiveComponent = collectionComponents[activeCollection];
 

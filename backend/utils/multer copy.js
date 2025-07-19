@@ -7,7 +7,6 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "portfolio",
     allowed_formats: ["jpg", "png", "jpeg", "webp", "pdf"],
-    resource_type: "auto", // Let Cloudinary auto-detect image/pdf/raw
   },
 });
 
