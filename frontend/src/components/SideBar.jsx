@@ -6,6 +6,7 @@ import {
   DocumentIcon,
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import Spinner from "./Spinner";
 
 const SideBar = ({
   isSidebarOpen,
@@ -15,10 +16,11 @@ const SideBar = ({
   documents,
   changeActiveDocument,
   changeActiveCollection,
+  isDocumentsLoading,
 }) => {
   const collectionMapping = {
     personaldetails: {
-      displayName: "Personal Details",
+      displayName: "Profile",
       icon: <UserIcon className="md:hidden w-7 h-7" />,
     },
     projects: {
@@ -50,7 +52,7 @@ const SideBar = ({
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full w-full md:w-0 bg-black/50  transition-transform duration-300 ${
+      className={`fixed top-0 left-0 z-20 h-full w-full md:w-0 bg-black/50  transition-transform duration-300 ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       }  md:translate-x-0`}
       onClick={toggleSidebar}
@@ -80,11 +82,6 @@ const SideBar = ({
                   );
                 }
               })}
-              {/* <li className="py-2 px-1"><UserIcon className="md:hidden w-7 h-7"/> <span className="hidden md:block whitespace-nowrap">Personal Details</span></li>
-              <li className="py-2 px-1"><FolderIcon className="md:hidden w-7 h-7"/> <span className="hidden md:block">Projects</span></li>
-              <li className="py-2 px-1"><SparklesIcon className="md:hidden w-7 h-7"/> <span className="hidden md:block">Skills</span></li>
-              <li className="py-2 px-1">< BriefcaseIcon className="md:hidden w-7 h-7"/> <span className="hidden md:block">Works</span></li>
-              <li className="py-2 px-1"><DocumentIcon className="md:hidden w-7 h-7"/> <span className="hidden md:block">Files</span></li> */}
             </ul>
             <div className="mt-auto">
               <ul>
@@ -95,7 +92,8 @@ const SideBar = ({
             </div>
           </div>
           {/* sub menu */}
-          <div className="p-2 bg-white h-full w-full">
+          <div className="p-2 bg-white h-full w-full relative">
+            {isDocumentsLoading && <Spinner />}
             <ul>
               {/* <li className="py-2 px-1">Submenu 1</li>
               <li className="py-2 px-1">Submenu 2</li>

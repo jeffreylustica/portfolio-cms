@@ -2,8 +2,15 @@ import { useEffect } from "react";
 import axios from "axios";
 import { emptyDetailsFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
+import Spinner from "./Spinner.jsx";
 
-const PersonalDetailsForm = ({ activeDocument, onSave, onDelete }) => {
+const PersonalDetailsForm = ({
+  activeDocument,
+  onSave,
+  onDelete,
+  isFormLoading,
+  setIsFormLoading,
+}) => {
   const { formData, setFormData, handleChange } = useFormData(
     emptyDetailsFormTemplate
   );
@@ -23,6 +30,7 @@ const PersonalDetailsForm = ({ activeDocument, onSave, onDelete }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsFormLoading(true);
     const url =
       formData._id === "new"
         ? "http://localhost:5555/api/personal-details"
@@ -41,6 +49,7 @@ const PersonalDetailsForm = ({ activeDocument, onSave, onDelete }) => {
       );
 
       onSave(response.data.details);
+      setIsFormLoading(false);
 
       console.log("Saved:", response.data);
     } catch (error) {
@@ -67,7 +76,8 @@ const PersonalDetailsForm = ({ activeDocument, onSave, onDelete }) => {
   if (!activeDocument) return <div className="p-4">Loading project...</div>;
 
   return (
-    <form className="flex flex-col p-4" onSubmit={handleSubmit}>
+    <form className="flex flex-col p-4 relative" onSubmit={handleSubmit}>
+      {isFormLoading && <Spinner />}
       <h1 className="text-2xl">Personal Details</h1>
 
       <div className="flex justify-between mb-5">

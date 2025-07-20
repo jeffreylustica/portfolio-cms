@@ -7,6 +7,7 @@ import ProjectsForm from "../components/ProjectsForm";
 import SkillsForm from "../components/skillsForm";
 import ExperienceForm from "../components/ExperienceForm";
 import FilesForm from "../components/FilesForm";
+import Spinner from "../components/Spinner";
 
 const Dashboard = () => {
   // const token = localStorage.getItem("token");
@@ -16,6 +17,8 @@ const Dashboard = () => {
   const [activeCollection, setActiveCollection] = useState(null);
   const [documents, setDocuments] = useState([]);
   const [activeDocument, setActiveDocument] = useState(null);
+  const [isDocumentsLoading, setIsDocumentsLoading] = useState(true);
+  const [isFormLoading, setIsFormLoading] = useState(true);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -52,6 +55,7 @@ const Dashboard = () => {
   };
 
   const getDocumentsForCollection = async (collectionName) => {
+    setIsDocumentsLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:5555/api/${collectionName}/documents`,
@@ -63,6 +67,8 @@ const Dashboard = () => {
       const documentsForCollection = response.data.documents;
       setDocuments(documentsForCollection);
       setActiveDocument(documentsForCollection[0]);
+      setIsDocumentsLoading(false);
+      setIsFormLoading(false);
     } catch (error) {
       console.log("Failed to load documents", error);
     }
@@ -92,6 +98,8 @@ const Dashboard = () => {
       activeDocument,
       onSave: handleSave,
       onDelete: handleDelete,
+      isFormLoading,
+      setIsFormLoading,
     };
 
     switch (activeCollection) {
@@ -139,6 +147,7 @@ const Dashboard = () => {
     });
 
     setActiveDocument(updatedDoc);
+    setIsDocumentsLoading(false);
   };
 
   console.log(documents);
@@ -168,8 +177,10 @@ const Dashboard = () => {
         documents={documents}
         changeActiveDocument={changeActiveDocument}
         changeActiveCollection={changeActiveCollection}
+        isDocumentsLoading={isDocumentsLoading}
       />
-      <div className="min-md:ml-[300px]">
+      <div className="min-md:ml-[300px] relative">
+        {isDocumentsLoading && <Spinner />}
         <Bars3Icon
           className="size-8 md:hidden ml-auto"
           onClick={toggleSidebar}
