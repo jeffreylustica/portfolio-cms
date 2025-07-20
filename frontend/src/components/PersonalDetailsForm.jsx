@@ -1,32 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
-
-const emptyFormDataTemplate = {
-  _id: "new",
-  name: "",
-  value: "",
-};
+import { emptyDetailsFormTemplate } from "../constants/formTemplates.js";
+import useFormData from "../hooks/useFormData.jsx";
 
 const PersonalDetailsForm = ({ activeDocument, onSave, onDelete }) => {
-  const [formData, setFormData] = useState(emptyFormDataTemplate);
+  const { formData, setFormData, handleChange } = useFormData(
+    emptyDetailsFormTemplate
+  );
 
   useEffect(() => {
     if (!activeDocument) return;
 
     if (activeDocument._id === "new") {
-      setFormData(emptyFormDataTemplate);
+      setFormData(emptyDetailsFormTemplate);
     } else {
       setFormData({
-        ...emptyFormDataTemplate,
-        ...activeDocument
+        ...emptyDetailsFormTemplate,
+        ...activeDocument,
       });
     }
   }, [activeDocument]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +40,7 @@ const PersonalDetailsForm = ({ activeDocument, onSave, onDelete }) => {
         { withCredentials: true }
       );
 
-      onSave(response.data.details)
+      onSave(response.data.details);
 
       console.log("Saved:", response.data);
     } catch (error) {
@@ -64,7 +57,7 @@ const PersonalDetailsForm = ({ activeDocument, onSave, onDelete }) => {
         `http://localhost:5555/api/personal-details/${formData._id}`,
         { withCredentials: true }
       );
-      onDelete(response.data.details._id)
+      onDelete(response.data.details._id);
       console.log("Deleted:", response.data);
     } catch (error) {
       console.error("Error deleting:", error.message);

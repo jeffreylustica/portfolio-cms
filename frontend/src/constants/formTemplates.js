@@ -1,3 +1,9 @@
+const emptyDetailsFormTemplate = {
+  _id: "new",
+  name: "",
+  value: "",
+};
+
 const emptyProjectFormTemplate = {
   _id: "new",
   name: "",
@@ -36,6 +42,7 @@ const emptyFileFormTemplate = {
 };
 
 export {
+  emptyDetailsFormTemplate,
   emptyProjectFormTemplate,
   emptySkillFormTemplate,
   emptyExpFormTemplate,

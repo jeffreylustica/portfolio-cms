@@ -10,9 +10,9 @@ const updateCloudinaryMedia = async (
     const oldId = existingPublicIds[field];
     const newId = newPublicIds[field];
 
-    const isNewImageUploaded = newId && newId !== oldId;
+    const isNewFileUploaded = newId && newId !== oldId;
 
-    if (isNewImageUploaded && oldId) {
+    if (isNewFileUploaded && oldId) {
       try {
         await cloudinary.uploader.destroy(oldId);
       } catch (err) {
