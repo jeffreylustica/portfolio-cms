@@ -4,7 +4,7 @@ import {
   SparklesIcon,
   BriefcaseIcon,
   DocumentIcon,
-  ArrowRightStartOnRectangleIcon,
+  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 import Spinner from "./Spinner";
 
@@ -14,6 +14,8 @@ const SideBar = ({
   stopPropagation,
   collections,
   documents,
+  activeCollection,
+  activeDocument,
   changeActiveDocument,
   changeActiveCollection,
   isDocumentsLoading,
@@ -21,23 +23,23 @@ const SideBar = ({
   const collectionMapping = {
     personaldetails: {
       displayName: "Profile",
-      icon: <UserIcon className="md:hidden w-7 h-7" />,
+      icon: <UserIcon className="w-6 h-6" />,
     },
     projects: {
       displayName: "Projects",
-      icon: <FolderIcon className="md:hidden w-7 h-7" />,
+      icon: <FolderIcon className="w-6 h-6" />,
     },
     skills: {
       displayName: "Skills",
-      icon: <SparklesIcon className="md:hidden w-7 h-7" />,
+      icon: <SparklesIcon className="w-6 h-6" />,
     },
     experiences: {
       displayName: "Experiences",
-      icon: <BriefcaseIcon className="md:hidden w-7 h-7" />,
+      icon: <BriefcaseIcon className="w-6 h-6" />,
     },
     files: {
       displayName: "Files",
-      icon: <DocumentIcon className="md:hidden w-7 h-7" />,
+      icon: <DocumentIcon className="w-6 h-6" />,
     },
   };
 
@@ -55,29 +57,35 @@ const SideBar = ({
       className={`fixed top-0 left-0 z-20 h-full w-full md:w-0 bg-black/50  transition-transform duration-300 ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       }  md:translate-x-0`}
-      onClick={toggleSidebar}
     >
-      <div className="w-[300px] h-full" onClick={stopPropagation}>
-        <hr />
+      <div className="w-full min-md:min-w-[320px] h-full" onClick={stopPropagation}>
         <div className="flex h-full">
           {/* main menu */}
-          <div className="p-2 bg-blue-500 text-white h-full w-auto flex flex-col">
-            <ul>
+          <div className="p-2 px-4 h-full w-auto flex flex-col text-center bg-white">
+            <h1 className="text-3xl font-bold text-blue-900">CMS</h1>
+            <ul className="mt-4">
               {collections.map((collectionName, index) => {
                 if (collectionName !== "users") {
                   const { displayName, icon } = collectionMapping[
                     collectionName.toLowerCase()
                   ] || { displayName: collectionName, icon: null };
+                  const isActive = activeCollection === collectionName;
+                  const activeClass = isActive ? "active-nav" : "nav";
+                  
                   return (
                     <li
                       key={index}
-                      className="py-2 px-1 cursor-pointer"
+                      className="cursor-pointer flex justify-center items-center flex-col py-2"
                       onClick={() => handleCollectionClick(collectionName)}
                     >
-                      {icon && icon}{" "}
-                      <span className="hidden md:block whitespace-nowrap">
+                      {icon && (
+                        <div className={`w-10 h-10 flex justify-center items-center rounded-xl mb-2 ${activeClass}`}>
+                          {icon}
+                        </div>
+                      )}
+                      <div className={`whitespace-nowrap text-[.625rem] font-semibold ${isActive ? 'text-blue-500' :'text-neutral-800'}`}>
                         {displayName}
-                      </span>
+                      </div>
                     </li>
                   );
                 }
@@ -85,24 +93,32 @@ const SideBar = ({
             </ul>
             <div className="mt-auto">
               <ul>
-                <li className="py-2 px-1">
-                  <ArrowRightStartOnRectangleIcon className="w-7 h-7" />
+                <li className="cursor-pointer flex justify-center items-center flex-col py-2">
+                  <div className="w-10 h-10 flex justify-center items-center bg-neutral-200 rounded-full">
+                    <UserIcon className="w-6 h-6" />
+                  </div>
+                    <div className="whitespace-nowrap text-neutral-800 text-[.625rem] font-semibold">Admin</div>
                 </li>
               </ul>
             </div>
           </div>
           {/* sub menu */}
-          <div className="p-2 bg-white h-full w-full relative">
+          <div className="p-2 px-4 h-full w-full relative bg-blue-50">
             {isDocumentsLoading && <Spinner />}
+            <div className="flex justify-end p-2">
+              <ArrowLeftIcon className="w-6 h-6 text-neutral-400" onClick={toggleSidebar} />
+            </div>
+            <div className="my-6 text-sm">
+              Items Overview
+            </div>
             <ul>
-              {/* <li className="py-2 px-1">Submenu 1</li>
-              <li className="py-2 px-1">Submenu 2</li>
-              <li className="py-2 px-1">Submenu 3</li> */}
               {documents.map((doc) => {
+                const isActive = doc._id === activeDocument._id;
+                const activeClass = isActive ? "active-sub-menu" : "sub-menu";
                 return (
                   <li
                     key={doc._id}
-                    className="py-2 px-1 cursor-pointer"
+                    className={`p-2 px-4 cursor-pointer border-1 mb-2 text-sm rounded-md ${activeClass}`}
                     onClick={() => handleItemClick(doc._id)}
                   >
                     {doc.name}
@@ -110,10 +126,10 @@ const SideBar = ({
                 );
               })}
               <li
-                className="py-2 px-1 cursor-pointer"
+                className={`p-2 cursor-pointer border-1 mb-2 text-sm rounded-md text-center ${activeDocument?._id === "new" ? "active-sub-menu" : "sub-menu"}`}
                 onClick={() => handleItemClick("new")}
               >
-                + New Item
+                + 
               </li>
             </ul>
           </div>

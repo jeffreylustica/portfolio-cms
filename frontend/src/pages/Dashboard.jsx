@@ -150,7 +150,7 @@ const Dashboard = () => {
     setIsDocumentsLoading(false);
   };
 
-  console.log(documents);
+  console.log(activeDocument);
 
   const handleDelete = (deletedId) => {
     setDocuments((prevDocs) => {
@@ -165,6 +165,8 @@ const Dashboard = () => {
     });
   };
 
+  console.log(activeCollection)
+
   // const ActiveComponent = collectionComponents[activeCollection];
 
   return (
@@ -175,11 +177,13 @@ const Dashboard = () => {
         stopPropagation={stopPropagation}
         collections={collections}
         documents={documents}
+        activeCollection={activeCollection}
+        activeDocument={activeDocument}
         changeActiveDocument={changeActiveDocument}
         changeActiveCollection={changeActiveCollection}
         isDocumentsLoading={isDocumentsLoading}
       />
-      <div className="min-md:ml-[300px] relative">
+      <div className="min-md:ml-[320px] relative">
         {isDocumentsLoading && <Spinner />}
         <Bars3Icon
           className="size-8 md:hidden ml-auto"
