@@ -114,7 +114,7 @@ const Dashboard = () => {
       case "files":
         return <FilesForm {...sharedProps} />;
       default:
-        return <div>No form available for this collection.</div>;
+        return <div></div>;
     }
   };
 
@@ -165,7 +165,7 @@ const Dashboard = () => {
     });
   };
 
-  console.log(activeCollection)
+  console.log(activeCollection);
 
   // const ActiveComponent = collectionComponents[activeCollection];
 
@@ -183,13 +183,20 @@ const Dashboard = () => {
         changeActiveCollection={changeActiveCollection}
         isDocumentsLoading={isDocumentsLoading}
       />
-      <div className="min-md:ml-[320px] relative">
-        {isDocumentsLoading && <Spinner />}
-        <Bars3Icon
-          className="size-8 md:hidden ml-auto"
-          onClick={toggleSidebar}
-        />
-        <div>{renderFormComponent()}</div>
+      <div className="md:ml-[320px] relative">
+        {isDocumentsLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            <div className="p-4 md:hidden absolute right-0">
+              <Bars3Icon
+                className="w-8 h-8 text-neutral-400"
+                onClick={toggleSidebar}
+              />
+            </div>
+            <div>{renderFormComponent()}</div>
+          </>
+        )}
       </div>
     </div>
   );

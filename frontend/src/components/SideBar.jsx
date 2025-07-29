@@ -58,7 +58,7 @@ const SideBar = ({
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       }  md:translate-x-0`}
     >
-      <div className="w-full min-md:min-w-[320px] h-full" onClick={stopPropagation}>
+      <div className="w-full md:min-w-[320px] h-full" onClick={stopPropagation}>
         <div className="flex h-full">
           {/* main menu */}
           <div className="p-2 px-4 h-full w-auto flex flex-col text-center bg-white">
@@ -71,7 +71,7 @@ const SideBar = ({
                   ] || { displayName: collectionName, icon: null };
                   const isActive = activeCollection === collectionName;
                   const activeClass = isActive ? "active-nav" : "nav";
-                  
+
                   return (
                     <li
                       key={index}
@@ -79,11 +79,17 @@ const SideBar = ({
                       onClick={() => handleCollectionClick(collectionName)}
                     >
                       {icon && (
-                        <div className={`w-10 h-10 flex justify-center items-center rounded-xl mb-2 ${activeClass}`}>
+                        <div
+                          className={`w-10 h-10 flex justify-center items-center rounded-xl mb-2 hover:shadow-md hover:shadow-blue-300 transition-shadow ${activeClass}`}
+                        >
                           {icon}
                         </div>
                       )}
-                      <div className={`whitespace-nowrap text-[.625rem] font-semibold ${isActive ? 'text-blue-500' :'text-neutral-800'}`}>
+                      <div
+                        className={`whitespace-nowrap text-[.625rem] font-semibold ${
+                          isActive ? "text-blue-500" : "text-neutral-800"
+                        }`}
+                      >
                         {displayName}
                       </div>
                     </li>
@@ -95,9 +101,11 @@ const SideBar = ({
               <ul>
                 <li className="cursor-pointer flex justify-center items-center flex-col py-2">
                   <div className="w-10 h-10 flex justify-center items-center bg-neutral-200 rounded-full">
-                    <UserIcon className="w-6 h-6" />
+                    <UserIcon className="w-8 h-8" />
                   </div>
-                    <div className="whitespace-nowrap text-neutral-800 text-[.625rem] font-semibold">Admin</div>
+                  <div className="whitespace-nowrap text-neutral-800 text-[.625rem] font-semibold">
+                    Admin
+                  </div>
                 </li>
               </ul>
             </div>
@@ -105,12 +113,13 @@ const SideBar = ({
           {/* sub menu */}
           <div className="p-2 px-4 h-full w-full relative bg-blue-50">
             {isDocumentsLoading && <Spinner />}
-            <div className="flex justify-end p-2">
-              <ArrowLeftIcon className="w-6 h-6 text-neutral-400" onClick={toggleSidebar} />
+            <div className="flex justify-end p-2 md:hidden">
+              <ArrowLeftIcon
+                className="w-6 h-6 text-neutral-400"
+                onClick={toggleSidebar}
+              />
             </div>
-            <div className="my-6 text-sm">
-              Items Overview
-            </div>
+            <div className="my-6 text-sm">Items Overview</div>
             <ul>
               {documents.map((doc) => {
                 const isActive = doc._id === activeDocument._id;
@@ -118,7 +127,7 @@ const SideBar = ({
                 return (
                   <li
                     key={doc._id}
-                    className={`p-2 px-4 cursor-pointer border-1 mb-2 text-sm rounded-md ${activeClass}`}
+                    className={`p-2 px-4 cursor-pointer border-1 mb-2 text-sm rounded-md hover:shadow-md hover:shadow-blue-200 transition-shadow ${activeClass}`}
                     onClick={() => handleItemClick(doc._id)}
                   >
                     {doc.name}
@@ -126,10 +135,12 @@ const SideBar = ({
                 );
               })}
               <li
-                className={`p-2 cursor-pointer border-1 mb-2 text-sm rounded-md text-center ${activeDocument?._id === "new" ? "active-sub-menu" : "sub-menu"}`}
+                className={`p-2 cursor-pointer border-1 mb-2 text-sm rounded-md text-center hover:shadow-md hover:shadow-blue-200 transition-shadow ${
+                  activeDocument?._id === "new" ? "active-sub-menu" : "sub-menu"
+                }`}
                 onClick={() => handleItemClick("new")}
               >
-                + 
+                +
               </li>
             </ul>
           </div>

@@ -1,8 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { emptyDetailsFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
 import Spinner from "./Spinner.jsx";
+import {
+  PencilSquareIcon,
+  TrashIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
 
 const PersonalDetailsForm = ({
   activeDocument,
@@ -14,13 +19,16 @@ const PersonalDetailsForm = ({
   const { formData, setFormData, handleChange } = useFormData(
     emptyDetailsFormTemplate
   );
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     if (!activeDocument) return;
 
     if (activeDocument._id === "new") {
       setFormData(emptyDetailsFormTemplate);
+      setEditMode(true);
     } else {
+      setEditMode(false);
       setFormData({
         ...emptyDetailsFormTemplate,
         ...activeDocument,
@@ -59,6 +67,7 @@ const PersonalDetailsForm = ({
 
   const handleDelete = async (e) => {
     e.preventDefault();
+    setIsFormLoading(true);
     if (formData._id === "new") return; // Nothing to delete
 
     try {
@@ -67,58 +76,99 @@ const PersonalDetailsForm = ({
         { withCredentials: true }
       );
       onDelete(response.data.details._id);
+      setIsFormLoading(false);
       console.log("Deleted:", response.data);
     } catch (error) {
       console.error("Error deleting:", error.message);
     }
   };
 
-  if (!activeDocument) return <div className="p-4">Loading project...</div>;
+  const toggleEdit = () => {
+    setEditMode((prev) => !prev);
+  };
+
+  if (!activeDocument) return <div className="p-4">No documents</div>;
 
   return (
-    <form className="flex flex-col p-4 relative" onSubmit={handleSubmit}>
-      {isFormLoading && <Spinner />}
-      <h1 className="text-2xl">Personal Details</h1>
-
-      <div className="flex justify-between mb-5">
-        <button
-          type="button"
-          onClick={handleDelete}
-          className="ml-auto text-red-500 hover:text-red-600 font-bold cursor-pointer"
-        >
-          DELETE ITEM
-        </button>
+    <div className="md:px-4 pb-4">
+      <div className="p-4 pt-10 bg-blue-900 md:rounded-bl-2xl">
+        <h1 className="text-4xl text-white">Profile</h1>
       </div>
+      <div className="md:mt-4 md:rounded-xl p-4 md:px-16  shadow-xl shadow-blue-100 bg-white">
+        {isFormLoading && <Spinner />}
+        <form
+          className="px-1 md:py-4 flex flex-col relative"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex justify-center gap-10 mb-16 text-neutral-500">
+            {activeDocument._id !== "new" && (
+              <div
+                className={`flex justify-center items-center flex-col p-2 w-16 h-16 rounded-md cursor-pointer hover:text-blue-700 ${
+                  editMode && "bg-neutral-100 text-blue-700"
+                }`}
+                onClick={toggleEdit}
+              >
+                <PencilSquareIcon className="w-12 h-12" />
+                <span className="text-xs mt-2">Edit</span>
+              </div>
+            )}
 
-      <label htmlFor="name">Name</label>
-      <input
-        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-        type="text"
-        name="name"
-        id="name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
+            <button
+              className={`flex justify-center items-center flex-col p-2 w-16 h-16 rounded-sm cursor-pointer ${
+                editMode && "text-neutral-800 hover:text-blue-700"
+              }`}
+              type="submit"
+              disabled={!editMode}
+            >
+              <CheckIcon className="w-12 h-12" />
+              <span className="text-xs mt-2">Save</span>
+            </button>
 
-      <label htmlFor="description">Value</label>
-      <input
-        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-        type="text"
-        name="value"
-        id="value"
-        value={formData.value}
-        onChange={handleChange}
-        required
-      />
+            {/* <button
+              type="submit"
+              className="bg-blue-400 mt-10 px-10 py-3 rounded-md text-white cursor-pointer"
+            >
+              Save
+            </button> */}
 
-      <button
-        type="submit"
-        className="bg-blue-400 mr-auto px-10 py-4 font-bold text-white cursor-pointer"
-      >
-        SAVE
-      </button>
-    </form>
+            {activeDocument._id !== "new" && (
+              <div className="flex justify-center items-center flex-col p-2 w-16 h-16 rounded-sm cursor-pointer hover:text-red-500">
+                <TrashIcon className="w-12 h-12" onClick={handleDelete} />
+                <span className="text-xs mt-2">Delete</span>
+              </div>
+            )}
+          </div>
+
+          <div className="grid grid-cols-[100px_1fr] items-center mb-4 text-[.9rem]">
+            <label htmlFor="name">Name</label>
+            <input
+              className="max-w-sm border border-neutral-200 rounded-sm p-2 py-3 focus:shadow-lg focus:shadow-blue focus:outline-1 focus: outline-blue-300"
+              type="text"
+              name="name"
+              id="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              disabled={!editMode}
+            />
+          </div>
+
+          <div className="grid grid-cols-[100px_1fr] items-center mb-4 text-[.9rem]">
+            <label htmlFor="description">Value</label>
+            <input
+              className="max-w-sm border border-neutral-200 rounded-sm p-2 py-3 focus:shadow-lg focus:shadow-blue focus:outline-1 focus: outline-blue-300"
+              type="text"
+              name="value"
+              id="value"
+              value={formData.value}
+              onChange={handleChange}
+              required
+              disabled={!editMode}
+            />
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 
