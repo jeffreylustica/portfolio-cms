@@ -72,26 +72,39 @@ const PersonalDetailsForm = ({
       setIsFormLoading(false);
 
       console.log("Saved:", response.data);
+      toast.success("Item saved!");
     } catch (error) {
       console.error("Error saving:", error.message);
+      toast.error("Something went wrong!");
     }
   };
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    setIsFormLoading(true);
-    if (formData._id === "new") return; // Nothing to delete
+    const result = await Swal.fire({
+      title: "Delete this item?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+    });
 
-    try {
-      const response = await axios.delete(
-        `http://localhost:5555/api/personal-details/${formData._id}`,
-        { withCredentials: true }
-      );
-      onDelete(response.data.details._id);
-      setIsFormLoading(false);
-      console.log("Deleted:", response.data);
-    } catch (error) {
-      console.error("Error deleting:", error.message);
+    if (result.isConfirmed) {
+      setIsFormLoading(true);
+      // if (formData._id === "new") return; // Nothing to delete
+      try {
+        const response = await axios.delete(
+          `http://localhost:5555/api/personal-details/${formData._id}`,
+          { withCredentials: true }
+        );
+        onDelete(response.data.details._id);
+        setIsFormLoading(false);
+        toast.success("Item deleted!");
+        console.log("Deleted:", response.data);
+      } catch (error) {
+        console.error("Error deleting:", error.message);
+        toast.error("Something went wrong!");
+      }
     }
   };
 

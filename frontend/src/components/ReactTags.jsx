@@ -33,7 +33,8 @@ const TagInput = ({ id, tags = [], handleTagChange }) => {
       classNames={{
         tags: "mt-2",
         tagInput: "mt-2",
-        tagInputField: "bg-gray-100 min-w-[260px] mb-5 outline-0 p-2",
+        tagInputField:
+          "max-w-sm w-full border border-neutral-200 rounded-sm p-2 py-3 focus:shadow-lg focus:shadow-blue focus:outline-1 focus:outline-blue-300",
         tag: "bg-blue-200 px-2 py-1 mb-5 mr-2 rounded-lg",
         remove:
           " p-1 ml-1 text-white hover:text-red-600 cursor-pointer [&>svg]:fill-current",

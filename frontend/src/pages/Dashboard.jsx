@@ -184,7 +184,7 @@ const Dashboard = () => {
           <Spinner />
         ) : (
           <>
-            <div className="p-4 md:hidden absolute right-0">
+            <div className="p-4 md:hidden absolute right-0 z-2">
               <Bars3Icon
                 className="w-8 h-8 text-neutral-400"
                 onClick={toggleSidebar}

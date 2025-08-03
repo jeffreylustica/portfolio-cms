@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const uploadFile = async (file) => {
+const uploadMediaFile = async (file) => {
   if (!file) return;
 
   const formDataUpload = new FormData();
@@ -23,4 +23,4 @@ const uploadFile = async (file) => {
   }
 };
 
-export default uploadFile;
+export default uploadMediaFile;
