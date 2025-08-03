@@ -8,8 +8,6 @@ import {
   TrashIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
-import { Toaster, toast } from "react-hot-toast";
-import Swal from "sweetalert2";
 
 const PersonalDetailsForm = ({
   activeDocument,
@@ -25,7 +23,9 @@ const PersonalDetailsForm = ({
   const firstInputEl = useRef(null);
 
   useEffect(() => {
-    if (activeDocument?._id === "new") {
+    if (!activeDocument) return;
+
+    if (activeDocument._id === "new") {
       setFormData(emptyDetailsFormTemplate);
       setEditMode(true);
       setTimeout(() => {
@@ -36,7 +36,7 @@ const PersonalDetailsForm = ({
     } else {
       setEditMode(false);
       setFormData({
-        // ...emptyDetailsFormTemplate,
+        ...emptyDetailsFormTemplate,
         ...activeDocument,
       });
     }
@@ -72,39 +72,26 @@ const PersonalDetailsForm = ({
       setIsFormLoading(false);
 
       console.log("Saved:", response.data);
-      toast.success("Item saved!");
     } catch (error) {
       console.error("Error saving:", error.message);
-      toast.error("Something went wrong!");
     }
   };
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    const result = await Swal.fire({
-      title: "Delete this item?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-    });
+    setIsFormLoading(true);
+    if (formData._id === "new") return; // Nothing to delete
 
-    if (result.isConfirmed) {
-      setIsFormLoading(true);
-      // if (formData._id === "new") return; // Nothing to delete
-      try {
-        const response = await axios.delete(
-          `http://localhost:5555/api/personal-details/${formData._id}`,
-          { withCredentials: true }
-        );
-        onDelete(response.data.details._id);
-        setIsFormLoading(false);
-        toast.success("Item deleted!");
-        console.log("Deleted:", response.data);
-      } catch (error) {
-        console.error("Error deleting:", error.message);
-        toast.error("Something went wrong!");
-      }
+    try {
+      const response = await axios.delete(
+        `http://localhost:5555/api/personal-details/${formData._id}`,
+        { withCredentials: true }
+      );
+      onDelete(response.data.details._id);
+      setIsFormLoading(false);
+      console.log("Deleted:", response.data);
+    } catch (error) {
+      console.error("Error deleting:", error.message);
     }
   };
 
@@ -112,17 +99,12 @@ const PersonalDetailsForm = ({
     setEditMode((prev) => !prev);
   };
 
-  if (!activeDocument)
-    return (
-      <div className="p-4 min-h-dvh flex justify-center items-center text-2xl text-neutral-400">
-        No documents
-      </div>
-    );
+  console.log(editMode);
+
+  if (!activeDocument) return <div className="p-4">No documents</div>;
 
   return (
     <div className="md:px-4 pb-4">
-      <Toaster />
-
       <div className="p-4 pt-10 bg-blue-900 md:rounded-bl-2xl">
         <h1 className="text-4xl text-white">Profile</h1>
       </div>

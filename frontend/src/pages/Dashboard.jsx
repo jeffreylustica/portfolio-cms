@@ -150,8 +150,6 @@ const Dashboard = () => {
     setIsDocumentsLoading(false);
   };
 
-  console.log(activeDocument);
-
   const handleDelete = (deletedId) => {
     setDocuments((prevDocs) => {
       const updatedDocs = prevDocs.filter((doc) => doc._id !== deletedId);
@@ -164,8 +162,6 @@ const Dashboard = () => {
       return updatedDocs;
     });
   };
-
-  console.log(activeCollection);
 
   // const ActiveComponent = collectionComponents[activeCollection];
 
