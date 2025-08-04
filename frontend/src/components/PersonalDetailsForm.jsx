@@ -32,16 +32,16 @@ const PersonalDetailsForm = ({
     // uploadMedia, // only if needed
     // selectedFiles, // only if needed
     // buildPayload: (formData, uploadedFiles) => ({
-    buildPayload: (formData) => ({
-      name: formData.name,
-      value: formData.value,
-      // imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
-      // imagePublicId:
-      //   uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
-      // liveUrl: formData.liveUrl,
-      // githubUrl: formData.githubUrl,
-      // tags: formData.tags,
-    }),
+    // buildPayload: (formData) => ({
+    //   name: formData.name,
+    //   value: formData.value,
+    // imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
+    // imagePublicId:
+    //   uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
+    // liveUrl: formData.liveUrl,
+    // githubUrl: formData.githubUrl,
+    // tags: formData.tags,
+    // }),
   });
 
   const handleDelete = useFormDelete({
@@ -50,6 +50,8 @@ const PersonalDetailsForm = ({
     setIsFormLoading,
     endpoint: "http://localhost:5555/api/personal-details",
   });
+
+  console.log(formData);
 
   if (!activeDocument)
     return (

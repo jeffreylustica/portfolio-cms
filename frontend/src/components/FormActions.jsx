@@ -12,7 +12,7 @@ const FormActions = ({
   //   isSubmitting,
 }) => {
   return (
-    <div className="flex justify-center gap-10 mb-10 text-neutral-500 sticky top-0 py-4 bg-white">
+    <div className="flex justify-center gap-10 mb-10 text-neutral-500 sticky top-0 py-4 bg-white shadow-sm">
       {!isNew && (
         <div
           className={`flex justify-center items-center flex-col p-2 w-16 h-16 rounded-md cursor-pointer hover:text-blue-700 ${

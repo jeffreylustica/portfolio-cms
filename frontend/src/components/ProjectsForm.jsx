@@ -40,16 +40,16 @@ const ProjectsForm = ({
     endpoint: "http://localhost:5555/api/projects",
     // uploadMedia, // only if needed
     selectedFiles, // only if needed
-    buildPayload: (formData, uploadedFiles) => ({
-      name: formData.name,
-      description: formData.description,
-      imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
-      imagePublicId:
-        uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
-      liveUrl: formData.liveUrl,
-      githubUrl: formData.githubUrl,
-      tags: formData.tags,
-    }),
+    // buildPayload: (formData, uploadedFiles) => ({
+    //   name: formData.name,
+    //   description: formData.description,
+    //   imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
+    //   imagePublicId:
+    //     uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
+    //   liveUrl: formData.liveUrl,
+    //   githubUrl: formData.githubUrl,
+    //   tags: formData.tags,
+    // }),
   });
 
   const handleDelete = useFormDelete({
@@ -58,6 +58,8 @@ const ProjectsForm = ({
     setIsFormLoading,
     endpoint: "http://localhost:5555/api/projects",
   });
+
+  console.log(formData);
 
   // useEffect(() => {
   //   if (!activeDocument) return;
@@ -210,7 +212,6 @@ const ProjectsForm = ({
             name="imageUpload"
             id="imageUpload"
             onChange={handleFileChange("imageUrl")}
-            required
             disabled={!editMode}
             accept="image/*"
           />

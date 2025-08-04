@@ -20,7 +20,8 @@ const useFormControls = ({
       setTimeout(() => firstInputEl.current?.focus(), 0);
     } else {
       setIsNew(false);
-      setFormData({ ...emptyFormTemplate, ...activeDocument });
+      // setFormData({ ...emptyFormTemplate, ...activeDocument });
+      setFormData({ ...activeDocument });
       setEditMode(false);
     }
   }, [activeDocument]);

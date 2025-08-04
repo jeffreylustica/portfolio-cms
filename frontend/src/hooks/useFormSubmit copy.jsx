@@ -20,24 +20,18 @@ const useFormSubmit = ({
     const method = isNew ? "post" : "put";
 
     try {
-      // 1. Remove _id from form data
-      const { _id, ...formDataWithoutId } = formData;
+      let uploadedData = {};
 
-      // 2. Start with base payload
-      let payload = { ...formDataWithoutId };
+      // optional file upload
+      // if (uploadMedia && selectedFiles) {
+      if (selectedFiles) {
+        uploadedData = await uploadSelectedMedia(selectedFiles);
+      }
 
-      // 3. Upload media if files are provided
-      const uploadedData = selectedFiles
-        ? await uploadSelectedMedia(selectedFiles)
-        : {};
+      console.log(uploadedData);
 
-      // 4. Merge uploaded media into the payload
-      Object.entries(uploadedData).forEach(([key, fileData]) => {
-        payload[key] = fileData?.imageUrl ?? formData[key];
-
-        const publicIdKey = key.replace(/Url$/, "PublicId");
-        payload[publicIdKey] = fileData?.imagePublicId ?? formData[publicIdKey];
-      });
+      // let the form build its own payload
+      const payload = buildPayload(formData, uploadedData);
 
       const response = await axios[method](url, payload, {
         withCredentials: true,
