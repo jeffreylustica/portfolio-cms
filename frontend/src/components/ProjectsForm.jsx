@@ -1,9 +1,10 @@
+import { useState, useEffect } from "react";
 import { emptyProjectFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
 import Spinner from "./Spinner.jsx";
 import { Toaster } from "react-hot-toast";
 import FormActions from "./FormActions.jsx";
-import useFormControls from "../hooks/useFormControls.jsx";
+import useEditMode from "../hooks/useEditMode.jsx";
 import useFormSubmit from "../hooks/useFormSubmit.jsx";
 import useFormDelete from "../hooks/useFormDelete.jsx";
 import TagInput from "./ReactTags";
@@ -26,12 +27,24 @@ const ProjectsForm = ({
     selectedFiles,
     handleFileChange,
   } = useFormData(emptyProjectFormTemplate);
+  const { editMode, setEditMode, firstInputEl } = useEditMode();
+  const [isNew, setIsNew] = useState(false);
 
-  const { isNew, editMode, setEditMode, firstInputEl } = useFormControls({
-    activeDocument,
-    emptyFormTemplate: emptyProjectFormTemplate,
-    setFormData,
-  });
+  useEffect(() => {
+    if (!activeDocument) return;
+
+    if (activeDocument._id === "new") {
+      setIsNew(true);
+      setFormData(emptyProjectFormTemplate);
+      setEditMode(true);
+      setTimeout(() => firstInputEl.current?.focus(), 0);
+    } else {
+      setIsNew(false);
+      // setFormData({ ...emptyFormTemplate, ...activeDocument });
+      setFormData({ ...activeDocument });
+      setEditMode(false);
+    }
+  }, [activeDocument]);
 
   const handleSubmit = useFormSubmit({
     formData,
@@ -58,8 +71,6 @@ const ProjectsForm = ({
     setIsFormLoading,
     endpoint: "http://localhost:5555/api/projects",
   });
-
-  console.log(formData);
 
   // useEffect(() => {
   //   if (!activeDocument) return;
@@ -195,6 +206,7 @@ const ProjectsForm = ({
             name="imageUrl"
             id="imageUrl"
             value={formData.imageUrl}
+            required
             readOnly
           />
 

@@ -1,9 +1,10 @@
+import { useState, useEffect } from "react";
 import { emptyDetailsFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
 import Spinner from "./Spinner.jsx";
 import { Toaster } from "react-hot-toast";
 import FormActions from "./FormActions.jsx";
-import useFormControls from "../hooks/useFormControls.jsx";
+import useEditMode from "../hooks/useEditMode.jsx";
 import useFormSubmit from "../hooks/useFormSubmit.jsx";
 import useFormDelete from "../hooks/useFormDelete.jsx";
 import FormInput from "./FormInput.jsx";
@@ -18,11 +19,24 @@ const PersonalDetailsForm = ({
   const { formData, setFormData, handleChange } = useFormData(
     emptyDetailsFormTemplate
   );
-  const { isNew, editMode, setEditMode, firstInputEl } = useFormControls({
-    activeDocument,
-    emptyFormTemplate: emptyDetailsFormTemplate,
-    setFormData,
-  });
+  const { editMode, setEditMode, firstInputEl } = useEditMode();
+  const [isNew, setIsNew] = useState(false);
+
+  useEffect(() => {
+    if (!activeDocument) return;
+
+    if (activeDocument._id === "new") {
+      setIsNew(true);
+      setFormData(emptyDetailsFormTemplate);
+      setEditMode(true);
+      setTimeout(() => firstInputEl.current?.focus(), 0);
+    } else {
+      setIsNew(false);
+      // setFormData({ ...emptyFormTemplate, ...activeDocument });
+      setFormData({ ...activeDocument });
+      setEditMode(false);
+    }
+  }, [activeDocument]);
 
   const handleSubmit = useFormSubmit({
     formData,
@@ -50,8 +64,6 @@ const PersonalDetailsForm = ({
     setIsFormLoading,
     endpoint: "http://localhost:5555/api/personal-details",
   });
-
-  console.log(formData);
 
   if (!activeDocument)
     return (

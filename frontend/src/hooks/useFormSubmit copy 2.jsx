@@ -2,14 +2,14 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import uploadSelectedMedia from "../services/uploadSelectedMedia";
 
-const toISO = (date) => (date ? new Date(date).toISOString() : null);
-
 const useFormSubmit = ({
   formData,
   onSave,
   setIsFormLoading,
   endpoint,
+  // uploadMedia = null,
   selectedFiles = null,
+  buildPayload,
 }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,14 +37,6 @@ const useFormSubmit = ({
 
         const publicIdKey = key.replace(/Url$/, "PublicId");
         payload[publicIdKey] = fileData?.imagePublicId ?? formData[publicIdKey];
-      });
-
-      // 5. Conditionally convert date fields to ISO format
-      const dateFields = ["startDate", "endDate"];
-      dateFields.forEach((field) => {
-        if (formData[field]) {
-          payload[field] = toISO(formData[field]);
-        }
       });
 
       const response = await axios[method](url, payload, {
