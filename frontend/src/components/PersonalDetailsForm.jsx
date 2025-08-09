@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { emptyDetailsFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
-import Spinner from "./Spinner.jsx";
+import Spinner from "./ui/Spinner.jsx";
 import { Toaster } from "react-hot-toast";
-import FormActions from "./FormActions.jsx";
+import FormActions from "./formElements/FormActions.jsx";
 import useEditMode from "../hooks/useEditMode.jsx";
 import useFormSubmit from "../hooks/useFormSubmit.jsx";
 import useFormDelete from "../hooks/useFormDelete.jsx";
-import FormInput from "./FormInput.jsx";
+import FormInput from "./formElements/FormInput.jsx";
 
 const PersonalDetailsForm = ({
   activeDocument,

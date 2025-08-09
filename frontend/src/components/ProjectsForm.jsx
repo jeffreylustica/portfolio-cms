@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { emptyProjectFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
-import Spinner from "./Spinner.jsx";
+import Spinner from "./ui/Spinner.jsx";
 import { Toaster } from "react-hot-toast";
-import FormActions from "./FormActions.jsx";
+import FormActions from "./formElements/FormActions.jsx";
 import useEditMode from "../hooks/useEditMode.jsx";
 import useFormSubmit from "../hooks/useFormSubmit.jsx";
 import useFormDelete from "../hooks/useFormDelete.jsx";
-import TagInput from "./ReactTags";
-import FormInput from "./FormInput.jsx";
-import FormTextarea from "./FormTextArea.jsx";
-import FormFieldWrapper from "./FormFieldWrapper.jsx";
+import TagInput from "./formElements/ReactTags";
+import FormInput from "./formElements/FormInput.jsx";
+import FormTextarea from "./formElements/FormTextArea.jsx";
+import FormFieldWrapper from "./formElements/FormFieldWrapper.jsx";
 
 const ProjectsForm = ({
   activeDocument,
@@ -208,6 +208,7 @@ const ProjectsForm = ({
             value={formData.imageUrl}
             required
             readOnly
+            hidden
           />
 
           {/* <label htmlFor="imageUpload">Upload Image</label>
@@ -234,7 +235,7 @@ const ProjectsForm = ({
               <img
                 src={formData.imageUrl}
                 alt="Uploaded"
-                className="max-w-sm w-full max-h-[200px] object-contain"
+                className="max-w-sm w-full max-h-[200px] object-contain border border-neutral-200"
               />
             </div>
           )}

@@ -1,9 +1,9 @@
 import GenericForm from "./GenericForm.jsx";
 import { emptyProjectFormTemplate } from "../constants/formTemplates.js";
-import FormInput from "./FormInput.jsx";
-// import FormTextarea from "./FormTextArea.jsx";
-// import FormFieldWrapper from "./FormFieldWrapper.jsx";
-// import TagInput from "./ReactTags";
+import FormInput from "./formElements/FormInput.jsx";
+// import FormTextarea from "./formElements/FormTextArea.jsx";
+// import FormFieldWrapper from "./formElements/FormFieldWrapper.jsx";
+// import TagInput from "./formElements/ReactTags";
 
 const ProjectsForm = ({
   activeDocument,

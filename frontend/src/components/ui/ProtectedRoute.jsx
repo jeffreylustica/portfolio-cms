@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { authActions } from "../store";
+import { authActions } from "../../store";
 
 const ProtectedRoute = ({ children }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn);

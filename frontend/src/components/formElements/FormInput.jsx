@@ -11,12 +11,13 @@ const FormInput = ({
   id,
   inputRef,
   accept, // for file input
+  hidden,
   ...rest
 }) => {
   const inputId = id || name;
 
   return (
-    <FormFieldWrapper label={label} id={inputId}>
+    <FormFieldWrapper label={label} id={inputId} hidden={hidden}>
       <input
         className="max-w-sm w-full border border-neutral-200 rounded-sm p-2 py-3 focus:shadow-lg focus:shadow-blue focus:outline-1 focus:outline-blue-300"
         type={type}

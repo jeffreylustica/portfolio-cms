@@ -9,7 +9,9 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import Dashboard from "./pages/Dashboard";
 import RootLayout from "./layout/RootLayout";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ui/ProtectedRoute";
+import NotFound from "./components/ui/NotFound";
+import Error from "./components/ui/Error";
 // import { useEffect, useState } from "react";
 // import axios from "axios";
 // import { useDispatch } from "react-redux";
@@ -55,9 +57,10 @@ function App() {
         <Route path="login" element={<LogIn />} />
         <Route path="dashboard" element={
           <ProtectedRoute>
-            <Dashboard />
+            <Dashboard errorElement={<Error />} />
           </ProtectedRoute>
         } />
+        <Route path="*" element={<NotFound />}/>
       </Route>
     )
   );

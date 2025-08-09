@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { emptyExpFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
-import Spinner from "./Spinner.jsx";
+import Spinner from "./ui/Spinner.jsx";
 import { Toaster } from "react-hot-toast";
-import FormActions from "./FormActions.jsx";
+import FormActions from "./formElements/FormActions.jsx";
 import useEditMode from "../hooks/useEditMode.jsx";
 import useFormSubmit from "../hooks/useFormSubmit.jsx";
 import useFormDelete from "../hooks/useFormDelete.jsx";
-import FormInput from "./FormInput.jsx";
-import FormTextarea from "./FormTextArea.jsx";
+import FormInput from "./formElements/FormInput.jsx";
+import FormTextarea from "./formElements/FormTextArea.jsx";
 
 const ExperienceForm = ({
   activeDocument,
@@ -206,6 +206,7 @@ const ExperienceForm = ({
             value={formData.logoUrl}
             required
             readOnly
+            hidden
           />
 
           {/* <label htmlFor="logoUrl">Logo Url</label>
@@ -244,7 +245,7 @@ const ExperienceForm = ({
               <img
                 src={formData.logoUrl}
                 alt="Uploaded"
-                className="max-w-sm w-full max-h-[200px] object-contain"
+                className="max-w-sm w-full max-h-[200px] object-contain border border-neutral-200"
               />
             </div>
           )}
@@ -265,6 +266,7 @@ const ExperienceForm = ({
             value={formData.iconUrl}
             required
             readOnly
+            hidden
           />
 
           {/* <label htmlFor="iconUrl">Icon Url</label>
@@ -303,7 +305,7 @@ const ExperienceForm = ({
               <img
                 src={formData.iconUrl}
                 alt="Uploaded"
-                className="max-w-sm w-full max-h-[200px] object-contain"
+                className="max-w-sm w-full max-h-[200px] object-contain border border-neutral-200"
               />
             </div>
           )}

@@ -7,7 +7,7 @@ import ProjectsForm from "../components/ProjectsForm";
 import SkillsForm from "../components/skillsForm";
 import ExperienceForm from "../components/ExperienceForm";
 import FilesForm from "../components/FilesForm";
-import Spinner from "../components/Spinner";
+import Spinner from "../components/ui/Spinner";
 
 const Dashboard = () => {
   // const token = localStorage.getItem("token");

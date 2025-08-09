@@ -5,8 +5,9 @@ import {
   BriefcaseIcon,
   DocumentIcon,
   ArrowLeftIcon,
+  ArrowLeftEndOnRectangleIcon
 } from "@heroicons/react/24/outline";
-import Spinner from "./Spinner";
+import Spinner from "./ui/Spinner";
 
 const SideBar = ({
   isSidebarOpen,
@@ -101,17 +102,17 @@ const SideBar = ({
               <ul>
                 <li className="cursor-pointer flex justify-center items-center flex-col py-2">
                   <div className="w-10 h-10 flex justify-center items-center bg-neutral-200 rounded-full">
-                    <UserIcon className="w-8 h-8" />
+                    <ArrowLeftEndOnRectangleIcon className="w-6 h-6" />
                   </div>
                   <div className="whitespace-nowrap text-neutral-800 text-[.625rem] font-semibold">
-                    Admin
+                      Logout
                   </div>
                 </li>
               </ul>
             </div>
           </div>
           {/* sub menu */}
-          <div className="p-2 px-4 h-full w-full relative bg-blue-50">
+          <div className="p-2 px-4 h-full w-full max-w-[260px] md:max-w-[220px] relative bg-blue-50">
             {isDocumentsLoading && <Spinner />}
             <div className="flex justify-end p-2 md:hidden">
               <ArrowLeftIcon
@@ -127,7 +128,7 @@ const SideBar = ({
                 return (
                   <li
                     key={doc._id}
-                    className={`p-2 px-4 cursor-pointer border-1 mb-2 text-sm rounded-md hover:shadow-md hover:shadow-blue-200 transition-shadow ${activeClass}`}
+                    className={`p-2 px-4 cursor-pointer border-1 mb-2 text-sm rounded-md hover:shadow-md hover:shadow-blue-200 transition-shadow truncate ${activeClass}`}
                     onClick={() => handleItemClick(doc._id)}
                   >
                     {doc.name}
