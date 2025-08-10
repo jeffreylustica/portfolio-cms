@@ -5,6 +5,7 @@ import {
   getUser,
   checkUserExists,
   checkUserLoggedIn,
+  logout,
 } from "../controllers/user.controller.js";
 import { authenticateToken } from "../utils/authMiddleware.js";
 
@@ -15,6 +16,7 @@ userRouter.post("/login", login);
 userRouter.get("/user", authenticateToken, getUser);
 userRouter.get("/user-exists", checkUserExists);
 userRouter.get("/user-loggedin", authenticateToken, checkUserLoggedIn);
+userRouter.post("/logout", authenticateToken, logout);
 
 
 export default userRouter;

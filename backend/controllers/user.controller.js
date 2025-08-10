@@ -82,4 +82,15 @@ const checkUserLoggedIn = async (req, res, next) => {
   }
 }
 
-export { signup, login, getUser, checkUserExists, checkUserLoggedIn };
+const logout = async (req, res, next) => {
+  try {
+    res.clearCookie("token") ;
+    req.cookies["token"] = "";
+    res.status(200).json({message: "Logout successfull"})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:error})
+  }
+}
+
+export { signup, login, getUser, checkUserExists, checkUserLoggedIn, logout };

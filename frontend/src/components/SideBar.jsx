@@ -8,6 +8,10 @@ import {
   ArrowLeftEndOnRectangleIcon
 } from "@heroicons/react/24/outline";
 import Spinner from "./ui/Spinner";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { authActions } from "../store";
 
 const SideBar = ({
   isSidebarOpen,
@@ -21,6 +25,10 @@ const SideBar = ({
   changeActiveCollection,
   isDocumentsLoading,
 }) => {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const collectionMapping = {
     personaldetails: {
       displayName: "Profile",
@@ -52,6 +60,20 @@ const SideBar = ({
   const handleCollectionClick = (name) => {
     changeActiveCollection(name);
   };
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post("http://localhost:5555/api/logout", null, {withCredentials: true})
+      if (res.status === 200) {
+        dispatch(authActions.logout());
+        navigate("/");
+        return
+      }
+      return new Error("Unable to logout. Please try again")
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   return (
     <div
@@ -100,8 +122,8 @@ const SideBar = ({
             </ul>
             <div className="mt-auto">
               <ul>
-                <li className="cursor-pointer flex justify-center items-center flex-col py-2">
-                  <div className="w-10 h-10 flex justify-center items-center bg-neutral-200 rounded-full">
+                <li className="cursor-pointer flex justify-center items-center flex-col py-2" onClick={handleLogout}>
+                  <div className="w-10 h-10 flex justify-center items-center bg-neutral-100 hover:bg-neutral-200 rounded-full">
                     <ArrowLeftEndOnRectangleIcon className="w-6 h-6" />
                   </div>
                   <div className="whitespace-nowrap text-neutral-800 text-[.625rem] font-semibold">
