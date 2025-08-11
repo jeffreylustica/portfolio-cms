@@ -12,7 +12,7 @@ const useFormDelete = ({ formData, onDelete, setIsFormLoading, endpoint }) => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
-      confirmButtonColor: '#2b7fff',
+      confirmButtonColor: "#2b7fff",
     });
 
     if (!result.isConfirmed) return;

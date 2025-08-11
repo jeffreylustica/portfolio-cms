@@ -8,6 +8,8 @@ import SkillsForm from "../components/skillsForm";
 import ExperienceForm from "../components/ExperienceForm";
 import FilesForm from "../components/FilesForm";
 import Spinner from "../components/ui/Spinner";
+import ErrorFallback from "../components/ui/ErrorFallback";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Dashboard = () => {
   // const token = localStorage.getItem("token");
@@ -167,18 +169,20 @@ const Dashboard = () => {
 
   return (
     <div>
-      <SideBar
-        isSidebarOpen={isSidebarOpen}
-        toggleSidebar={toggleSidebar}
-        stopPropagation={stopPropagation}
-        collections={collections}
-        documents={documents}
-        activeCollection={activeCollection}
-        activeDocument={activeDocument}
-        changeActiveDocument={changeActiveDocument}
-        changeActiveCollection={changeActiveCollection}
-        isDocumentsLoading={isDocumentsLoading}
-      />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <SideBar
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+          stopPropagation={stopPropagation}
+          collections={collections}
+          documents={documents}
+          activeCollection={activeCollection}
+          activeDocument={activeDocument}
+          changeActiveDocument={changeActiveDocument}
+          changeActiveCollection={changeActiveCollection}
+          isDocumentsLoading={isDocumentsLoading}
+        />
+      </ErrorBoundary>
       <div className="md:ml-[320px] relative">
         {isDocumentsLoading ? (
           <Spinner />
@@ -190,7 +194,11 @@ const Dashboard = () => {
                 onClick={toggleSidebar}
               />
             </div>
-            <div>{renderFormComponent()}</div>
+            <div>
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                {renderFormComponent()}
+              </ErrorBoundary>
+            </div>
           </>
         )}
       </div>

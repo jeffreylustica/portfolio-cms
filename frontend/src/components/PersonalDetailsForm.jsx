@@ -65,6 +65,8 @@ const PersonalDetailsForm = ({
     endpoint: "http://localhost:5555/api/personal-details",
   });
 
+  // throw new Error("intentional error");
+
   if (!activeDocument)
     return (
       <div className="p-4 min-h-dvh flex justify-center items-center text-2xl text-neutral-400">
