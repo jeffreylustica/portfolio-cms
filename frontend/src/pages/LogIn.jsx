@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+import toast, { Toaster } from "react-hot-toast";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -31,14 +32,14 @@ const LogIn = () => {
         },
         { withCredentials: true }
       );
-
-      // console.log(response.data);
-      // localStorage.setItem("token", response.data.token);
       dispatch(authActions.login());
       navigate("/dashboard");
     } catch (error) {
-      console.log(error.message);
-      alert("incorrect username/password");
+      if (error.response && error.response.status === 401) {
+        toast.error("Incorrect username or password. Please try again.");
+      } else {
+        toast.error("Something went wrong. Please try again later.");
+      }
     } finally {
       setFormData({
         username: "",
@@ -49,14 +50,19 @@ const LogIn = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-[400px] p-2 -translate-y-1/2
-      -full">
+      <Toaster />
+      <div
+        className="w-[400px] p-2 -translate-y-1/2
+      -full"
+      >
         <form
           action=""
           onSubmit={handleSubmit}
           className="flex flex-col rounded-xl p-4 md:px-10  shadow-xl shadow-blue-100 bg-white text-center w-full"
         >
-          <h1 className="text-2xl font-bold mb-4 text-gray-800 text-center">CMS</h1>
+          <h1 className="text-2xl font-bold mb-4 text-gray-800 text-center">
+            LogIn
+          </h1>
 
           <label htmlFor="username" className="sr-only"></label>
           <input

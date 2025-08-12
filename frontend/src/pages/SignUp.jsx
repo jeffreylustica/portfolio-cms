@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import toast, { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -17,10 +18,12 @@ const SignUp = () => {
           "http://localhost:5555/api/user-exists"
         );
         if (response.data.exists) {
-          history("/login");
+          navigate("/login");
         }
       } catch (error) {
-        console.log(error);
+        toast.error(
+          "There was an issue checking if the user exists. Please try again."
+        );
       }
     };
 
@@ -42,10 +45,9 @@ const SignUp = () => {
         password: formData.password,
       });
 
-      console.log(response);
-      history("/login");
+      navigate("/login");
     } catch (error) {
-      console.log(error.message);
+      toast.error("Sign-up failed! Please try again.");
     } finally {
       setFormData({
         username: "",
@@ -56,14 +58,19 @@ const SignUp = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-[400px] p-2 -translate-y-1/2
-      -full">
+      <Toaster />
+      <div
+        className="w-[400px] p-2 -translate-y-1/2
+      -full"
+      >
         <form
           action=""
           onSubmit={handleSubmit}
           className="flex flex-col rounded-xl p-4 md:px-10  shadow-xl shadow-blue-100 bg-white text-center w-full"
         >
-          <h1 className="text-2xl font-bold mb-4 text-gray-800 text-center">Sign Up</h1>
+          <h1 className="text-2xl font-bold mb-4 text-gray-800 text-center">
+            Sign Up
+          </h1>
 
           <label htmlFor="username" className="sr-only"></label>
           <input

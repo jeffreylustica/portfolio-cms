@@ -3,9 +3,10 @@ import { Navigate } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { authActions } from "../../store";
+import Spinner from "./Spinner";
 
 const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
   const [isChecking, setIsChecking] = useState(true);
 
@@ -22,6 +23,7 @@ const ProtectedRoute = ({ children }) => {
           dispatch(authActions.logout());
         }
       } catch (error) {
+        console.log(error.message);
         dispatch(authActions.logout());
       } finally {
         setIsChecking(false);
@@ -32,7 +34,7 @@ const ProtectedRoute = ({ children }) => {
   }, [dispatch]);
 
   if (isChecking) {
-    return <div>Checking authentication...</div>; // Optional: better UX
+    return <Spinner />; // Optional: better UX
   }
 
   return isLoggedIn ? children : <Navigate to="/login" />;

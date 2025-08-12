@@ -21,7 +21,7 @@ function App() {
           path="dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard errorElement={<Error />} />
+              <Dashboard />
             </ProtectedRoute>
           }
         />
