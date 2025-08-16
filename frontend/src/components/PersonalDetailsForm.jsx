@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { emptyDetailsFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
 import Spinner from "./ui/Spinner.jsx";
-import { Toaster } from "react-hot-toast";
 import FormActions from "./formElements/FormActions.jsx";
 import useEditMode from "../hooks/useEditMode.jsx";
 import useFormSubmit from "../hooks/useFormSubmit.jsx";
@@ -32,7 +31,6 @@ const PersonalDetailsForm = ({
       setTimeout(() => firstInputEl.current?.focus(), 0);
     } else {
       setIsNew(false);
-      // setFormData({ ...emptyFormTemplate, ...activeDocument });
       setFormData({ ...activeDocument });
       setEditMode(false);
     }
@@ -43,19 +41,6 @@ const PersonalDetailsForm = ({
     setIsFormLoading,
     onSave,
     endpoint: "http://localhost:5555/api/personal-details",
-    // uploadMedia, // only if needed
-    // selectedFiles, // only if needed
-    // buildPayload: (formData, uploadedFiles) => ({
-    // buildPayload: (formData) => ({
-    //   name: formData.name,
-    //   value: formData.value,
-    // imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
-    // imagePublicId:
-    //   uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
-    // liveUrl: formData.liveUrl,
-    // githubUrl: formData.githubUrl,
-    // tags: formData.tags,
-    // }),
   });
 
   const handleDelete = useFormDelete({
@@ -64,8 +49,6 @@ const PersonalDetailsForm = ({
     setIsFormLoading,
     endpoint: "http://localhost:5555/api/personal-details",
   });
-
-  // throw new Error("intentional error");
 
   if (!activeDocument)
     return (
@@ -76,8 +59,6 @@ const PersonalDetailsForm = ({
 
   return (
     <div className="md:px-4 pb-4">
-      <Toaster />
-
       <div className="p-4 pt-10 bg-blue-900 md:rounded-bl-2xl">
         <h1 className="text-4xl text-white">Profile</h1>
       </div>
@@ -115,34 +96,6 @@ const PersonalDetailsForm = ({
             required
             disabled={!editMode}
           />
-
-          {/* <div className="grid grid-cols-[100px_1fr] items-center mb-4 text-[.9rem]">
-            <label htmlFor="name">Name</label>
-            <input
-              className="max-w-sm border border-neutral-200 rounded-sm p-2 py-3 focus:shadow-lg focus:shadow-blue focus:outline-1 focus: outline-blue-300"
-              type="text"
-              name="name"
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              disabled={!editMode}
-              ref={firstInputEl}
-            />
-          </div> */}
-          {/* <div className="grid grid-cols-[100px_1fr] items-center mb-4 text-[.9rem]">
-            <label htmlFor="description">Value</label>
-            <input
-              className="max-w-sm border border-neutral-200 rounded-sm p-2 py-3 focus:shadow-lg focus:shadow-blue focus:outline-1 focus: outline-blue-300"
-              type="text"
-              name="value"
-              id="value"
-              value={formData.value}
-              onChange={handleChange}
-              required
-              disabled={!editMode}
-            />
-          </div> */}
         </form>
       </div>
     </div>

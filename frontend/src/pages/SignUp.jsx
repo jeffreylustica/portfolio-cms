@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
+import Spinner from "../components/ui/Spinner.jsx";
 
 const SignUp = () => {
+  const [checkingUser, setCheckingUser] = useState(true);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -21,9 +23,13 @@ const SignUp = () => {
           navigate("/login");
         }
       } catch (error) {
-        toast.error(
-          "There was an issue checking if the user exists. Please try again."
-        );
+        if (import.meta.env.MODE === "development") {
+          console.error(error);
+        }
+
+        toast.error("Something went wrong. Please try again later.");
+      } finally {
+        setCheckingUser(false);
       }
     };
 
@@ -47,6 +53,10 @@ const SignUp = () => {
 
       navigate("/login");
     } catch (error) {
+      if (import.meta.env.MODE === "development") {
+        console.error(error);
+      }
+
       toast.error("Sign-up failed! Please try again.");
     } finally {
       setFormData({
@@ -55,6 +65,8 @@ const SignUp = () => {
       });
     }
   };
+
+  if (checkingUser) return <Spinner />;
 
   return (
     <div className="flex justify-center items-center min-h-screen">

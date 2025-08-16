@@ -33,23 +33,23 @@ const login = async (req, res, next) => {
   }
 };
 
-const refreshToken = async (req, res, next) => {
-  try {
-    const { token } = req.body;
-    const newToken = await authenticateUser(username, password);
+// const refreshToken = async (req, res, next) => {
+//   try {
+//     const { token } = req.body;
+//     const newToken = await authenticateUser(username, password);
 
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   sameSite: "Lax",
-    //   maxAge: 30 * 1000,
-    // });
+//     res.cookie("token", token, {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production",
+//       sameSite: "Lax",
+//       maxAge: 30 * 1000,
+//     });
 
-    res.status(201).json({ token });
-  } catch (error) {
-    res.status(401).json({ message: "Invalid credentials" });
-  }
-};
+//     res.status(201).json({ token });
+//   } catch (error) {
+//     res.status(401).json({ message: "Invalid credentials" });
+//   }
+// };
 
 const getUser = async (req, res, next) => {
   try {
@@ -73,24 +73,24 @@ const checkUserLoggedIn = async (req, res, next) => {
   try {
     const user = req.user;
     if (!user) {
-      return res.status(401).json({isLoggedIn: false})
+      return res.status(401).json({ isLoggedIn: false });
     }
 
-    res.status(200).json({isLoggedIn: true})
+    res.status(200).json({ isLoggedIn: true });
   } catch (error) {
     res.status(500).json({ message: error });
   }
-}
+};
 
 const logout = async (req, res, next) => {
   try {
-    res.clearCookie("token") ;
+    res.clearCookie("token");
     req.cookies["token"] = "";
-    res.status(200).json({message: "Logout successfull"})
+    res.status(200).json({ message: "Logout successfull" });
   } catch (error) {
-    console.log(error)
-    res.status(500).json({message:error})
+    console.log(error);
+    res.status(500).json({ message: error });
   }
-}
+};
 
 export { signup, login, getUser, checkUserExists, checkUserLoggedIn, logout };

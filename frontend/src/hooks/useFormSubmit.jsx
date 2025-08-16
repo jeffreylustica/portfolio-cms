@@ -20,18 +20,12 @@ const useFormSubmit = ({
     const method = isNew ? "post" : "put";
 
     try {
-      // 1. Remove _id from form data
       const { _id, ...formDataWithoutId } = formData;
-
-      // 2. Start with base payload
       let payload = { ...formDataWithoutId };
-
-      // 3. Upload media if files are provided
       const uploadedData = selectedFiles
         ? await uploadSelectedMedia(selectedFiles)
         : {};
 
-      // 4. Merge uploaded media into the payload
       Object.entries(uploadedData).forEach(([key, fileData]) => {
         payload[key] = fileData?.imageUrl ?? formData[key];
 
@@ -39,7 +33,6 @@ const useFormSubmit = ({
         payload[publicIdKey] = fileData?.imagePublicId ?? formData[publicIdKey];
       });
 
-      // 5. Conditionally convert date fields to ISO format
       const dateFields = ["startDate", "endDate"];
       dateFields.forEach((field) => {
         if (formData[field]) {
@@ -54,7 +47,10 @@ const useFormSubmit = ({
       onSave(response.data.details);
       toast.success("Item saved!");
     } catch (err) {
-      console.error("Submit error:", err.message);
+      if (import.meta.env.MODE === "development") {
+        console.error("Submit error:", err.message);
+      }
+
       toast.error("Something went wrong!");
     } finally {
       setIsFormLoading(false);

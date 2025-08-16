@@ -26,7 +26,10 @@ const useFormDelete = ({ formData, onDelete, setIsFormLoading, endpoint }) => {
       onDelete(res.data.details._id);
       toast.success("Item deleted!");
     } catch (error) {
-      console.error("Error deleting:", error.message);
+      if (import.meta.env.MODE === "development") {
+        console.error("Error deleting:", error.message);
+      }
+
       toast.error("Something went wrong!");
     } finally {
       setIsFormLoading(false);

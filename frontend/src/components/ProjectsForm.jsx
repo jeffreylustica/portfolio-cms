@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { emptyProjectFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
 import Spinner from "./ui/Spinner.jsx";
-import { Toaster } from "react-hot-toast";
 import FormActions from "./formElements/FormActions.jsx";
 import useEditMode from "../hooks/useEditMode.jsx";
 import useFormSubmit from "../hooks/useFormSubmit.jsx";
@@ -40,7 +39,6 @@ const ProjectsForm = ({
       setTimeout(() => firstInputEl.current?.focus(), 0);
     } else {
       setIsNew(false);
-      // setFormData({ ...emptyFormTemplate, ...activeDocument });
       setFormData({ ...activeDocument });
       setEditMode(false);
     }
@@ -51,18 +49,7 @@ const ProjectsForm = ({
     setIsFormLoading,
     onSave,
     endpoint: "http://localhost:5555/api/projects",
-    // uploadMedia, // only if needed
-    selectedFiles, // only if needed
-    // buildPayload: (formData, uploadedFiles) => ({
-    //   name: formData.name,
-    //   description: formData.description,
-    //   imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
-    //   imagePublicId:
-    //     uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
-    //   liveUrl: formData.liveUrl,
-    //   githubUrl: formData.githubUrl,
-    //   tags: formData.tags,
-    // }),
+    selectedFiles,
   });
 
   const handleDelete = useFormDelete({
@@ -71,75 +58,6 @@ const ProjectsForm = ({
     setIsFormLoading,
     endpoint: "http://localhost:5555/api/projects",
   });
-
-  // useEffect(() => {
-  //   if (!activeDocument) return;
-
-  //   if (activeDocument._id === "new") {
-  //     setFormData(emptyProjectFormTemplate);
-  //   } else {
-  //     setFormData({
-  //       ...emptyProjectFormTemplate,
-  //       ...activeDocument,
-  //     });
-  //   }
-  // }, [activeDocument]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log(formData);
-  //   let uploadedFiles = {};
-
-  //   const url =
-  //     formData._id === "new"
-  //       ? "http://localhost:5555/api/projects"
-  //       : `http://localhost:5555/api/projects/${formData._id}`;
-
-  //   const method = formData._id === "new" ? "post" : "put";
-
-  //   try {
-  //     if (selectedFiles) {
-  //       uploadedFiles = await uploadMedia(selectedFiles);
-  //     }
-
-  //     const response = await axios[method](
-  //       url,
-  //       {
-  //         name: formData.name,
-  //         description: formData.description,
-  //         imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
-  //         imagePublicId:
-  //           uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
-  //         liveUrl: formData.liveUrl,
-  //         githubUrl: formData.githubUrl,
-  //         tags: formData.tags,
-  //       },
-  //       { withCredentials: true }
-  //     );
-
-  //     onSave(response.data.details);
-  //     console.log("Saved:", response.data);
-  //   } catch (error) {
-  //     console.error("Error saving:", error.message);
-  //   }
-  // };
-
-  // const handleDelete = async (e) => {
-  //   e.preventDefault();
-  //   if (formData._id === "new") return; // Nothing to delete
-
-  //   try {
-  //     const response = await axios.delete(
-  //       `http://localhost:5555/api/projects/${formData._id}`,
-  //       { withCredentials: true }
-  //     );
-
-  //     onDelete(response.data.details._id);
-  //     console.log("Deleted:", response.data);
-  //   } catch (error) {
-  //     console.error("Error deleting:", error.message);
-  //   }
-  // };
 
   if (!activeDocument)
     return (
@@ -150,8 +68,6 @@ const ProjectsForm = ({
 
   return (
     <div className="md:px-4 pb-4">
-      <Toaster />
-
       <div className="p-4 pt-10 bg-blue-900 md:rounded-bl-2xl">
         <h1 className="text-4xl text-white">Project</h1>
       </div>
@@ -191,15 +107,6 @@ const ProjectsForm = ({
             disabled={!editMode}
           />
 
-          {/* <label htmlFor="imageUrl">Image URL</label>
-            <input
-            className="bg-gray-100 max-w-sm mb-2 outline-0 p-2"
-            type="text"
-            name="imageUrl"
-            id="imageUrl"
-            value={formData.imageUrl}
-            readOnly
-            /> */}
           <FormInput
             label="Image URL"
             type="text"
@@ -211,14 +118,6 @@ const ProjectsForm = ({
             hidden
           />
 
-          {/* <label htmlFor="imageUpload">Upload Image</label>
-          <input
-          className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-          type="file"
-          id="imageUpload"
-          accept="image/*"
-          onChange={handleFileChange("imageUrl")}
-          /> */}
           <FormInput
             label="Upload Image"
             type="file"
@@ -240,17 +139,6 @@ const ProjectsForm = ({
             </div>
           )}
 
-          {/* <FormInput
-            label="Description"
-            type="text"
-            name="description"
-            id="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            disabled={!editMode}
-          /> */}
-
           <FormInput
             label="Live Url"
             type="text"
@@ -271,49 +159,6 @@ const ProjectsForm = ({
             disabled={!editMode}
           />
 
-          {/* <label htmlFor="githubUrl">Github Url</label>
-      <input
-        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-        type="text"
-        name="githubUrl"
-        id="githubUrl"
-        value={formData.githubUrl}
-        onChange={handleChange}
-        required
-      /> */}
-
-          {/* <label htmlFor="liveUrl">Live Url</label>
-      <input
-        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-        type="text"
-        name="liveUrl"
-        id="liveUrl"
-        value={formData.liveUrl}
-        onChange={handleChange}
-        required
-      /> */}
-
-          {/* <label htmlFor="name">Name</label>
-      <input
-        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-        type="text"
-        name="name"
-        id="name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="description">Description</label>
-      <textarea
-        className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-        name="description"
-        id="description"
-        value={formData.description}
-        onChange={handleChange}
-        required
-      /> */}
-
           <FormFieldWrapper label="Tags" id="tags">
             <TagInput
               label="Tags"
@@ -322,13 +167,6 @@ const ProjectsForm = ({
               handleTagChange={handleTagChange}
             />
           </FormFieldWrapper>
-
-          {/* <label htmlFor="tags">Tags</label>
-      <TagInput
-        id="tags"
-        tags={formData.tags || []}
-        handleTagChange={handleTagChange}
-      /> */}
         </form>
       </div>
     </div>

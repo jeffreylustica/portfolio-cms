@@ -1,12 +1,5 @@
 import { WithContext as ReactTags, SEPARATORS } from "react-tag-input";
 
-// const KeyCodes = {
-//   comma: 188,
-//   enter: [10, 13],
-// };
-
-// const delimiters = [KeyCodes.comma, KeyCodes.enter];
-
 const TagInput = ({ id, tags = [], handleTagChange }) => {
   const handleDelete = (i) => {
     handleTagChange(tags.filter((_, index) => index !== i));

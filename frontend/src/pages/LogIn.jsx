@@ -35,6 +35,10 @@ const LogIn = () => {
       dispatch(authActions.login());
       navigate("/dashboard");
     } catch (error) {
+      if (import.meta.env.MODE === "development") {
+        console.error(error);
+      }
+
       if (error.response && error.response.status === 401) {
         toast.error("Incorrect username or password. Please try again.");
       } else {

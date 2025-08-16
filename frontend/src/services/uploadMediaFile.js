@@ -18,8 +18,11 @@ const uploadMediaFile = async (file) => {
       imagePublicId: res.data.public_id,
     };
   } catch (error) {
-    console.error("Image upload failed:", error);
-    throw new Error("Image upload failed");
+    if (import.meta.env.MODE === "development") {
+      console.error("Image upload failed:", error);
+    }
+
+    throw new Error("Image upload failed. Please try again.");
   }
 };
 

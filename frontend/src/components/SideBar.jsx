@@ -12,6 +12,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { authActions } from "../store";
+import toast from "react-hot-toast";
 
 const SideBar = ({
   isSidebarOpen,
@@ -65,14 +66,18 @@ const SideBar = ({
       const res = await axios.post("http://localhost:5555/api/logout", null, {
         withCredentials: true,
       });
+
       if (res.status === 200) {
         dispatch(authActions.logout());
         navigate("/");
         return;
       }
-      return new Error("Unable to logout. Please try again");
     } catch (error) {
-      console.log(error.message);
+      if (import.meta.env.MODE === "development") {
+        console.error(error);
+      }
+
+      toast.error("Unable to logout. Please try again");
     }
   };
 

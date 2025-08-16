@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 
-// controls edit mode and initial values only
 const useEditMode = () => {
   const [editMode, setEditMode] = useState(false);
   const firstInputEl = useRef(null);

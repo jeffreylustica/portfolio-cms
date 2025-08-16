@@ -10,10 +10,17 @@ import FilesForm from "../components/FilesForm";
 import Spinner from "../components/ui/Spinner";
 import ErrorFallback from "../components/ui/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
+import toast, { Toaster } from "react-hot-toast";
+
+const formComponents = {
+  personaldetails: PersonalDetailsForm,
+  projects: ProjectsForm,
+  skills: SkillsForm,
+  experiences: ExperienceForm,
+  files: FilesForm,
+};
 
 const Dashboard = () => {
-  // const token = localStorage.getItem("token");
-  const [user, setUser] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [collections, setCollections] = useState([]);
   const [activeCollection, setActiveCollection] = useState(null);
@@ -23,13 +30,6 @@ const Dashboard = () => {
   const [isFormLoading, setIsFormLoading] = useState(true);
 
   useEffect(() => {
-    const getUserData = async () => {
-      const response = await axios.get("http://localhost:5555/api/user", {
-        withCredentials: true,
-      });
-    };
-
-    getUserData();
     getCollections();
   }, []);
 
@@ -49,10 +49,13 @@ const Dashboard = () => {
       );
       if (firstCollection) {
         setActiveCollection(firstCollection);
-        getDocumentsForCollection(firstCollection);
+        await getDocumentsForCollection(firstCollection);
       }
     } catch (error) {
-      console.log("Failed to load collections", error);
+      if (import.meta.env.MODE === "development") {
+        console.error("Failed to load collections", error);
+      }
+      toast.error("Failed to load data. Please try again.");
     }
   };
 
@@ -72,53 +75,16 @@ const Dashboard = () => {
       setIsDocumentsLoading(false);
       setIsFormLoading(false);
     } catch (error) {
-      console.log("Failed to load documents", error);
+      if (import.meta.env.MODE === "development") {
+        console.error("Failed to load documents", error);
+      }
+      toast.error("Failed to load data. Please try again.");
     }
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  const stopPropagation = (e) => {
-    e.stopPropagation();
-  };
-
-  // const RenderPersonalDetails = () => (
-  //   <PersonalDetailsForm activeDocument={activeDocument} />
-  // );
-
-  // const RenderProjects = () => <ProjectsForm activeDocument={activeDocument} />;
-
-  // const collectionComponents = {
-  //   personaldetails: RenderPersonalDetails,
-  //   projects: RenderProjects,
-  // };
-
-  const renderFormComponent = () => {
-    const sharedProps = {
-      activeDocument,
-      onSave: handleSave,
-      onDelete: handleDelete,
-      isFormLoading,
-      setIsFormLoading,
-    };
-
-    switch (activeCollection) {
-      case "personaldetails":
-        return <PersonalDetailsForm {...sharedProps} />;
-      case "projects":
-        return <ProjectsForm {...sharedProps} />;
-      case "skills":
-        return <SkillsForm {...sharedProps} />;
-      case "experiences":
-        return <ExperienceForm {...sharedProps} />;
-      case "files":
-        return <FilesForm {...sharedProps} />;
-      default:
-        return <div></div>;
-    }
-  };
+  const stopPropagation = (e) => e.stopPropagation();
 
   const changeActiveDocument = (id) => {
     if (id === "new") {
@@ -131,9 +97,9 @@ const Dashboard = () => {
     }
   };
 
-  const changeActiveCollection = (name) => {
+  const changeActiveCollection = async (name) => {
     setActiveCollection(name);
-    getDocumentsForCollection(name);
+    await getDocumentsForCollection(name);
   };
 
   const handleSave = (updatedDoc) => {
@@ -165,10 +131,13 @@ const Dashboard = () => {
     });
   };
 
-  // const ActiveComponent = collectionComponents[activeCollection];
+  const FormComponent = activeCollection
+    ? formComponents[activeCollection]
+    : null;
 
   return (
     <div>
+      <Toaster />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <SideBar
           isSidebarOpen={isSidebarOpen}
@@ -196,7 +165,15 @@ const Dashboard = () => {
             </div>
             <div>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                {renderFormComponent()}
+                {FormComponent && activeDocument && (
+                  <FormComponent
+                    activeDocument={activeDocument}
+                    onSave={handleSave}
+                    onDelete={handleDelete}
+                    isFormLoading={isFormLoading}
+                    setIsFormLoading={setIsFormLoading}
+                  />
+                )}
               </ErrorBoundary>
             </div>
           </>

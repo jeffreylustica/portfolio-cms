@@ -23,7 +23,9 @@ const ProtectedRoute = ({ children }) => {
           dispatch(authActions.logout());
         }
       } catch (error) {
-        console.log(error.message);
+        if (import.meta.env.MODE === "development") {
+          console.error(error.message);
+        }
         dispatch(authActions.logout());
       } finally {
         setIsChecking(false);
@@ -34,7 +36,7 @@ const ProtectedRoute = ({ children }) => {
   }, [dispatch]);
 
   if (isChecking) {
-    return <Spinner />; // Optional: better UX
+    return <Spinner />;
   }
 
   return isLoggedIn ? children : <Navigate to="/login" />;

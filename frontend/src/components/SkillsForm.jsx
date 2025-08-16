@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { emptySkillFormTemplate } from "../constants/formTemplates.js";
 import useFormData from "../hooks/useFormData.jsx";
 import Spinner from "./ui/Spinner.jsx";
-import { Toaster } from "react-hot-toast";
 import FormActions from "./formElements/FormActions.jsx";
 import useEditMode from "../hooks/useEditMode.jsx";
 import useFormSubmit from "../hooks/useFormSubmit.jsx";
@@ -47,7 +46,7 @@ const SkillsForm = ({
     setIsFormLoading,
     onSave,
     endpoint: "http://localhost:5555/api/skills",
-    selectedFiles, // only if needed
+    selectedFiles,
   });
 
   const handleDelete = useFormDelete({
@@ -56,70 +55,6 @@ const SkillsForm = ({
     setIsFormLoading,
     endpoint: "http://localhost:5555/api/skills",
   });
-
-  // useEffect(() => {
-  //   if (!activeDocument) return;
-
-  //   if (activeDocument._id === "new") {
-  //     setFormData(emptySkillFormTemplate);
-  //   } else {
-  //     setFormData({
-  //       ...emptySkillFormTemplate,
-  //       ...activeDocument,
-  //     });
-  //   }
-  // }, [activeDocument]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   let uploadedFiles = null;
-
-  //   const url =
-  //     formData._id === "new"
-  //       ? "http://localhost:5555/api/skills"
-  //       : `http://localhost:5555/api/skills/${formData._id}`;
-
-  //   const method = formData._id === "new" ? "post" : "put";
-
-  //   try {
-  //     if (selectedFiles) {
-  //       uploadedFiles = await uploadMedia(selectedFiles);
-  //     }
-
-  //     const response = await axios[method](
-  //       url,
-  //       {
-  //         name: formData.name,
-  //         imageUrl: uploadedFiles.imageUrl?.imageUrl || formData.imageUrl,
-  //         imagePublicId:
-  //           uploadedFiles.imageUrl?.imagePublicId || formData.imagePublicId,
-  //       },
-  //       { withCredentials: true }
-  //     );
-
-  //     onSave(response.data.details);
-  //     console.log("Saved:", response.data);
-  //   } catch (error) {
-  //     console.error("Error saving:", error.message);
-  //   }
-  // };
-
-  // const handleDelete = async (e) => {
-  //   e.preventDefault();
-  //   if (formData._id === "new") return; // Nothing to delete
-
-  //   try {
-  //     const response = await axios.delete(
-  //       `http://localhost:5555/api/skills/${formData._id}`,
-  //       { withCredentials: true }
-  //     );
-
-  //     onDelete(response.data.details._id);
-  //     console.log("Deleted:", response.data);
-  //   } catch (error) {
-  //     console.error("Error deleting:", error.message);
-  //   }
-  // };
 
   if (!activeDocument)
     return (
@@ -130,8 +65,6 @@ const SkillsForm = ({
 
   return (
     <div className="md:px-4 pb-4">
-      <Toaster />
-
       <div className="p-4 pt-10 bg-blue-900 md:rounded-bl-2xl">
         <h1 className="text-4xl text-white">Skill</h1>
       </div>
@@ -160,17 +93,6 @@ const SkillsForm = ({
             inputRef={firstInputEl}
           />
 
-          {/* <label htmlFor="name">Name</label>
-          <input
-            className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-            type="text"
-            name="name"
-            id="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          /> */}
-
           <FormInput
             label="Image Url"
             type="text"
@@ -183,17 +105,6 @@ const SkillsForm = ({
             hidden
           />
 
-          {/* <label htmlFor="imageUrl">Image Url</label>
-          <input
-            className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-            type="text"
-            name="imageUrl"
-            id="imageUrl"
-            value={formData.imageUrl}
-            required
-            readOnly
-          /> */}
-
           <FormInput
             label="Upload Image"
             type="file"
@@ -203,15 +114,6 @@ const SkillsForm = ({
             disabled={!editMode}
             accept="image/*"
           />
-
-          {/* <label htmlFor="imageUpload">Upload New Image</label>
-          <input
-            className="bg-gray-100 max-w-sm mb-5 outline-0 p-2"
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            onChange={handleFileChange("imageUrl")}
-          /> */}
 
           {formData.imageUrl && (
             <div className="grid grid-cols-[100px_1fr] items-center mb-4">
