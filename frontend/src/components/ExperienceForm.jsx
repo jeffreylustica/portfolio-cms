@@ -55,7 +55,7 @@ const ExperienceForm = ({
     formData,
     setIsFormLoading,
     onSave,
-    endpoint: "http://localhost:5555/api/experiences",
+    endpoint: "api/experiences",
     selectedFiles, // only if needed
   });
 
@@ -63,7 +63,7 @@ const ExperienceForm = ({
     formData,
     onDelete,
     setIsFormLoading,
-    endpoint: "http://localhost:5555/api/experiences",
+    endpoint: "api/experiences",
   });
 
   if (!activeDocument)

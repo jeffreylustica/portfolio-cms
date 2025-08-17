@@ -14,6 +14,8 @@ import { useNavigate } from "react-router";
 import { authActions } from "../store";
 import toast from "react-hot-toast";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const SideBar = ({
   isSidebarOpen,
   toggleSidebar,
@@ -63,7 +65,7 @@ const SideBar = ({
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post("http://localhost:5555/api/logout", null, {
+      const res = await axios.post(`${API_BASE_URL}/api/logout`, null, {
         withCredentials: true,
       });
 

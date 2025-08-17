@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import Spinner from "../components/ui/Spinner.jsx";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const SignUp = () => {
   const [checkingUser, setCheckingUser] = useState(true);
   const navigate = useNavigate();
@@ -16,9 +18,7 @@ const SignUp = () => {
   useEffect(() => {
     const checkUserExists = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5555/api/user-exists"
-        );
+        const response = await axios.get(`${API_BASE_URL}/api/user-exists`);
         if (response.data.exists) {
           navigate("/login");
         }
@@ -46,7 +46,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5555/api/signup", {
+      const response = await axios.post(`${API_BASE_URL}/api/signup`, {
         username: formData.username,
         password: formData.password,
       });

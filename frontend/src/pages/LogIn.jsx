@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../store";
 import toast, { Toaster } from "react-hot-toast";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const LogIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,7 +27,7 @@ const LogIn = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5555/api/login",
+        `${API_BASE_URL}/api/login`,
         {
           username: formData.username,
           password: formData.password,

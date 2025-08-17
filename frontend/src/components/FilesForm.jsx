@@ -45,7 +45,7 @@ const FilesForm = ({
     formData,
     setIsFormLoading,
     onSave,
-    endpoint: "http://localhost:5555/api/files",
+    endpoint: "api/files",
     selectedFiles,
   });
 
@@ -53,7 +53,7 @@ const FilesForm = ({
     formData,
     onDelete,
     setIsFormLoading,
-    endpoint: "http://localhost:5555/api/files",
+    endpoint: "api/files",
   });
 
   if (!activeDocument)

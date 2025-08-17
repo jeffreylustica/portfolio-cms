@@ -5,6 +5,8 @@ import axios from "axios";
 import { authActions } from "../../store";
 import Spinner from "./Spinner";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const ProtectedRoute = ({ children }) => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
@@ -13,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const verifyAuth = async () => {
       try {
-        const res = await axios.get("http://localhost:5555/api/user-loggedin", {
+        const res = await axios.get(`${API_BASE_URL}/api/user-loggedin`, {
           withCredentials: true,
         });
 

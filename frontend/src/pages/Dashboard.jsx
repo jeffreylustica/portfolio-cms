@@ -4,13 +4,15 @@ import axios from "axios";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import PersonalDetailsForm from "../components/PersonalDetailsForm";
 import ProjectsForm from "../components/ProjectsForm";
-import SkillsForm from "../components/skillsForm";
+import SkillsForm from "../components/SkillsForm";
 import ExperienceForm from "../components/ExperienceForm";
 import FilesForm from "../components/FilesForm";
 import Spinner from "../components/ui/Spinner";
 import ErrorFallback from "../components/ui/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import toast, { Toaster } from "react-hot-toast";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const formComponents = {
   personaldetails: PersonalDetailsForm,
@@ -35,12 +37,9 @@ const Dashboard = () => {
 
   const getCollections = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5555/api/collections",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${API_BASE_URL}/api/collections`, {
+        withCredentials: true,
+      });
       const dbCollections = response.data.collections;
       setCollections(dbCollections);
 
@@ -63,7 +62,7 @@ const Dashboard = () => {
     setIsDocumentsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5555/api/${collectionName}/documents`,
+        `${API_BASE_URL}/api/${collectionName}/documents`,
         {
           withCredentials: true,
         }

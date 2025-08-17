@@ -48,7 +48,7 @@ const ProjectsForm = ({
     formData,
     setIsFormLoading,
     onSave,
-    endpoint: "http://localhost:5555/api/projects",
+    endpoint: "api/projects",
     selectedFiles,
   });
 
@@ -56,7 +56,7 @@ const ProjectsForm = ({
     formData,
     onDelete,
     setIsFormLoading,
-    endpoint: "http://localhost:5555/api/projects",
+    endpoint: "api/projects",
   });
 
   if (!activeDocument)

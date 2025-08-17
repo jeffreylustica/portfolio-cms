@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import uploadSelectedMedia from "../services/uploadSelectedMedia";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const toISO = (date) => (date ? new Date(date).toISOString() : null);
 
 const useFormSubmit = ({
@@ -16,7 +17,9 @@ const useFormSubmit = ({
     setIsFormLoading(true);
 
     const isNew = formData._id === "new";
-    const url = isNew ? endpoint : `${endpoint}/${formData._id}`;
+    const url = isNew
+      ? endpoint
+      : `${API_BASE_URL}/${endpoint}/${formData._id}`;
     const method = isNew ? "post" : "put";
 
     try {

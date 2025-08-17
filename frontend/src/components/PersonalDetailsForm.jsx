@@ -40,14 +40,14 @@ const PersonalDetailsForm = ({
     formData,
     setIsFormLoading,
     onSave,
-    endpoint: "http://localhost:5555/api/personal-details",
+    endpoint: "api/personal-details",
   });
 
   const handleDelete = useFormDelete({
     formData,
     onDelete,
     setIsFormLoading,
-    endpoint: "http://localhost:5555/api/personal-details",
+    endpoint: "api/personal-details",
   });
 
   if (!activeDocument)

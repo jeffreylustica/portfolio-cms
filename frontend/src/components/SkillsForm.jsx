@@ -45,7 +45,7 @@ const SkillsForm = ({
     formData,
     setIsFormLoading,
     onSave,
-    endpoint: "http://localhost:5555/api/skills",
+    endpoint: "api/skills",
     selectedFiles,
   });
 
@@ -53,7 +53,7 @@ const SkillsForm = ({
     formData,
     onDelete,
     setIsFormLoading,
-    endpoint: "http://localhost:5555/api/skills",
+    endpoint: "api/skills",
   });
 
   if (!activeDocument)
