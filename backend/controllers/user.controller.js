@@ -20,10 +20,9 @@ const login = async (req, res, next) => {
     const token = await authenticateUser(username, password);
 
     res.cookie("token", token, {
-      httpOnly: true, //Prevent JavaScript access
-      // secure: process.env.NODE_ENV === "production", //Use HTTPS in production
-      secure: false,
-      sameSite: "Lax",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 60 * 60 * 1000,
     });
 
