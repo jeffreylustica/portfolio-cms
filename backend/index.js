@@ -14,7 +14,6 @@ import documentsRouter from "./routes/documents.route.js";
 import uploadsRouter from "./routes/upload.route.js";
 
 const app = express();
-// app.use(cors());
 app.use(
   cors({
     origin: "http://localhost:5173",
