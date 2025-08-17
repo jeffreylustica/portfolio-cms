@@ -16,10 +16,7 @@ import uploadsRouter from "./routes/upload.route.js";
 const app = express();
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://jeff-portfolio-cms.netlify.app/",
-    ],
+    origin: ["http://localhost:5173", "https://jeff-portfolio-cms.netlify.app"],
     credentials: true,
   })
 );
