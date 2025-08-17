@@ -18,7 +18,7 @@ const useFormSubmit = ({
 
     const isNew = formData._id === "new";
     const url = isNew
-      ? endpoint
+      ? `${API_BASE_URL}/${endpoint}`
       : `${API_BASE_URL}/${endpoint}/${formData._id}`;
     const method = isNew ? "post" : "put";
 
