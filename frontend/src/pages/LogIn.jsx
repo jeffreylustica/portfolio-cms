@@ -1,13 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { replace, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store";
 import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const LogIn = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -15,6 +17,12 @@ const LogIn = () => {
     username: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -55,7 +63,7 @@ const LogIn = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center h-screen">
       <Toaster />
       <div
         className="w-[400px] p-2 -translate-y-1/2

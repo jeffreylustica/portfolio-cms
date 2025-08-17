@@ -69,7 +69,7 @@ const SignUp = () => {
   if (checkingUser) return <Spinner />;
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center h-screen">
       <Toaster />
       <div
         className="w-[400px] p-2 -translate-y-1/2

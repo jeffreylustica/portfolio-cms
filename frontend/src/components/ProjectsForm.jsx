@@ -164,6 +164,7 @@ const ProjectsForm = ({
               label="Tags"
               id="tags"
               tags={formData.tags || []}
+              disabled={!editMode}
               handleTagChange={handleTagChange}
             />
           </FormFieldWrapper>
