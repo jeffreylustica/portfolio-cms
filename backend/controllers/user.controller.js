@@ -83,8 +83,12 @@ const checkUserLoggedIn = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    res.clearCookie("token");
-    req.cookies["token"] = "";
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/",
+    });
     res.status(200).json({ message: "Logout successfull" });
   } catch (error) {
     console.log(error);
