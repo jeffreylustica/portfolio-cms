@@ -69,8 +69,14 @@ const Dashboard = () => {
       );
 
       const documentsForCollection = response.data.documents;
+
       setDocuments(documentsForCollection);
-      setActiveDocument(documentsForCollection[0]);
+      if (documentsForCollection.length > 0) {
+        setActiveDocument(documentsForCollection[0]);
+      } else {
+        setActiveDocument(null);
+      }
+
       setIsDocumentsLoading(false);
       setIsFormLoading(false);
     } catch (error) {
@@ -164,7 +170,7 @@ const Dashboard = () => {
             </div>
             <div>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                {FormComponent && activeDocument && (
+                {FormComponent && (
                   <FormComponent
                     activeDocument={activeDocument}
                     onSave={handleSave}
