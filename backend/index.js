@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import documentsRouter from "./routes/documents.route.js";
 import uploadsRouter from "./routes/upload.route.js";
+import publicDocumentsRouter from "./routes/public/documents.route.js";
 
 const app = express();
 app.use(
@@ -32,6 +33,8 @@ app.use("/api/files", filesRouter);
 app.use("/api/collections", collectionsRouter);
 app.use("/api", documentsRouter);
 app.use("/api", uploadsRouter);
+
+app.use("/api/public", publicDocumentsRouter);
 
 mongoose
   .connect(mongoDBURL)

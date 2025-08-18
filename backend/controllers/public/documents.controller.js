@@ -1,12 +1,10 @@
 import mongoose from "mongoose";
 
-const fetchDocuments = async (req, res, next) => {
+const fetchPublicDocuments = async (req, res, next) => {
   const { collection } = req.params;
-
   if (!collection) {
-    return res.status(400).json({ error: "Collection name is required" });
+    return res.status(400).json({ message: "Collection name is required." });
   }
-
   try {
     const db = mongoose.connection.db;
     const documents = await db.collection(collection).find().toArray();
@@ -19,4 +17,4 @@ const fetchDocuments = async (req, res, next) => {
   }
 };
 
-export default fetchDocuments;
+export default fetchPublicDocuments;
