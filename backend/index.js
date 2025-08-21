@@ -17,7 +17,11 @@ import publicDocumentsRouter from "./routes/public/documents.route.js";
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://jeff-portfolio-cms.netlify.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://jeff-portfolio-cms.netlify.app",
+      "https://devjeff-portfolio.netlify.app",
+    ],
     credentials: true,
   })
 );
