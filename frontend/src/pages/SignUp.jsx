@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import Spinner from "../components/ui/Spinner.jsx";
+import InlineLoader from "../components/ui/InlineLoader";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -14,6 +15,7 @@ const SignUp = () => {
     username: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const checkUserExists = async () => {
@@ -45,8 +47,9 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/signup`, {
+      await axios.post(`${API_BASE_URL}/api/signup`, {
         username: formData.username,
         password: formData.password,
       });
@@ -63,6 +66,7 @@ const SignUp = () => {
         username: "",
         password: "",
       });
+      setIsLoading(false);
     }
   };
 
@@ -112,9 +116,14 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="text-lg bg-blue-500 text-white rounded-sm px-4 py-2 hover:bg-blue-600 cursor-pointer"
+            className={`text-lg bg-blue-500 text-white rounded-sm px-4 py-2 ${
+              isLoading
+                ? "cursor-not-allowed hover:bg-blue-500"
+                : "cursor-pointer hover:bg-blue-600"
+            }`}
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? <InlineLoader /> : "Sign Up"}
           </button>
         </form>
       </div>

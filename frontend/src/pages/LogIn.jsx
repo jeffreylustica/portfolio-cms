@@ -1,10 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
-import { replace, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
+import InlineLoader from "../components/ui/InlineLoader";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -17,6 +18,7 @@ const LogIn = () => {
     username: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -33,6 +35,7 @@ const LogIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await axios.post(
         `${API_BASE_URL}/api/login`,
@@ -59,6 +62,7 @@ const LogIn = () => {
         username: "",
         password: "",
       });
+      setIsLoading(false);
     }
   };
 
@@ -75,7 +79,7 @@ const LogIn = () => {
           className="flex flex-col rounded-xl p-4 md:px-10  shadow-xl shadow-blue-100 bg-white text-center w-full"
         >
           <h1 className="text-2xl font-bold mb-4 text-gray-800 text-center">
-            LogIn
+            Log In
           </h1>
 
           <label htmlFor="username" className="sr-only"></label>
@@ -103,9 +107,14 @@ const LogIn = () => {
 
           <button
             type="submit"
-            className="text-lg bg-blue-500 text-white rounded-sm px-4 py-2 hover:bg-blue-600 cursor-pointer"
+            className={`text-lg bg-blue-500 text-white rounded-sm px-4 py-2 ${
+              isLoading
+                ? "cursor-not-allowed hover:bg-blue-500"
+                : "cursor-pointer hover:bg-blue-600"
+            }`}
+            disabled={isLoading}
           >
-            Log In
+            {isLoading ? <InlineLoader /> : "Log In"}
           </button>
         </form>
       </div>
