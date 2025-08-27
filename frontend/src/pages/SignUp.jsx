@@ -55,6 +55,7 @@ const SignUp = () => {
       });
 
       navigate("/login");
+      toast.success("Sign Up Successful! Log in to continue.");
     } catch (error) {
       if (import.meta.env.MODE === "development") {
         console.error(error);

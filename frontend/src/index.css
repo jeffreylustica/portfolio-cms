@@ -36,4 +36,24 @@
   .active-sub-menu {
     @apply border-blue-200 font-bold shadow-md shadow-blue-200 bg-white text-blue-500;
   }
+
+  /* Custom Scrollbar Styles */
+  .hide-scroll-thumb::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .hide-scroll-thumb::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  .hide-scroll-thumb::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Firefox */
+  .hide-scroll-thumb {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
 }
