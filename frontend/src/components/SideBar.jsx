@@ -154,7 +154,7 @@ const SideBar = ({
               />
             </div>
             <div className="my-6 text-sm">Items Overview</div>
-            <ul className="max-h-[80vh] md:max-h-[86vh] overflow-y-auto hide-scroll-thumb">
+            <ul className="max-h-[80vh] md:max-h-[86vh] overflow-y-auto hide-scroll-thumb pb-4">
               {documents.map((doc) => {
                 const isActive = doc._id === activeDocument._id;
                 const activeClass = isActive ? "active-sub-menu" : "sub-menu";
