@@ -60,7 +60,9 @@ const PersonalDetailsForm = ({
   return (
     <div className="md:px-4 pb-4">
       <div className="p-4 pt-10 bg-blue-900 md:rounded-bl-2xl">
-        <h1 className="text-4xl text-white">Profile</h1>
+        <h1 className="text-4xl text-white text-center md:text-left">
+          Profile
+        </h1>
       </div>
       <div className="md:mt-4 md:rounded-xl p-4 md:px-16  shadow-xl shadow-blue-100 bg-white">
         {isFormLoading && <Spinner />}
