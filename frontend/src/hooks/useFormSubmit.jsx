@@ -1,8 +1,7 @@
-import axios from "axios";
 import { toast } from "react-hot-toast";
 import uploadSelectedMedia from "../services/uploadSelectedMedia";
+import api from "../utils/api";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const toISO = (date) => (date ? new Date(date).toISOString() : null);
 
 const useFormSubmit = ({
@@ -17,9 +16,7 @@ const useFormSubmit = ({
     setIsFormLoading(true);
 
     const isNew = formData._id === "new";
-    const url = isNew
-      ? `${API_BASE_URL}/${endpoint}`
-      : `${API_BASE_URL}/${endpoint}/${formData._id}`;
+    const url = isNew ? `/${endpoint}` : `/${endpoint}/${formData._id}`;
     const method = isNew ? "post" : "put";
 
     try {
@@ -43,9 +40,7 @@ const useFormSubmit = ({
         }
       });
 
-      const response = await axios[method](url, payload, {
-        withCredentials: true,
-      });
+      const response = await api[method](url, payload);
 
       onSave(response.data.details);
       toast.success("Item saved!");

@@ -1,13 +1,11 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import InlineLoader from "../components/ui/InlineLoader";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import api from "../utils/api";
 
 const LogIn = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -37,14 +35,16 @@ const LogIn = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/login`,
-        {
-          username: formData.username,
-          password: formData.password,
-        },
-        { withCredentials: true }
-      );
+      const response = await api.post(`/api/login`, {
+        username: formData.username,
+        password: formData.password,
+      });
+
+      setFormData({
+        username: "",
+        password: "",
+      });
+
       dispatch(authActions.login());
       navigate("/dashboard");
     } catch (error) {
@@ -58,10 +58,6 @@ const LogIn = () => {
         toast.error("Something went wrong. Please try again later.");
       }
     } finally {
-      setFormData({
-        username: "",
-        password: "",
-      });
       setIsLoading(false);
     }
   };
@@ -69,12 +65,8 @@ const LogIn = () => {
   return (
     <div className="flex justify-center items-center h-dvh">
       <Toaster />
-      <div
-        className="w-[400px] p-2 -translate-y-1/2
-      -full"
-      >
+      <div className="w-[400px] p-2 -translate-y-1/2">
         <form
-          action=""
           onSubmit={handleSubmit}
           className="flex flex-col rounded-xl p-4 md:px-10  shadow-xl shadow-blue-100 bg-white text-center w-full"
         >

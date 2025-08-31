@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import Spinner from "../components/ui/Spinner.jsx";
 import InlineLoader from "../components/ui/InlineLoader";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import api from "../utils/api.js";
 
 const SignUp = () => {
   const [checkingUser, setCheckingUser] = useState(true);
@@ -20,7 +18,7 @@ const SignUp = () => {
   useEffect(() => {
     const checkUserExists = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/user-exists`);
+        const response = await api.get(`/api/user-exists`);
         if (response.data.exists) {
           navigate("/login");
         }
@@ -49,9 +47,14 @@ const SignUp = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await axios.post(`${API_BASE_URL}/api/signup`, {
+      await api.post(`/api/signup`, {
         username: formData.username,
         password: formData.password,
+      });
+
+      setFormData({
+        username: "",
+        password: "",
       });
 
       navigate("/login");
@@ -63,10 +66,6 @@ const SignUp = () => {
 
       toast.error("Sign-up failed! Please try again.");
     } finally {
-      setFormData({
-        username: "",
-        password: "",
-      });
       setIsLoading(false);
     }
   };
@@ -76,12 +75,8 @@ const SignUp = () => {
   return (
     <div className="flex justify-center items-center h-dvh">
       <Toaster />
-      <div
-        className="w-[400px] p-2 -translate-y-1/2
-      -full"
-      >
+      <div className="w-[400px] p-2 -translate-y-1/2">
         <form
-          action=""
           onSubmit={handleSubmit}
           className="flex flex-col rounded-xl p-4 md:px-10  shadow-xl shadow-blue-100 bg-white text-center w-full"
         >

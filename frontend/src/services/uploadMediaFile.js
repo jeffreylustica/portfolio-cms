@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import api from "../utils/api";
 
 const uploadMediaFile = async (file) => {
   if (!file) return;
@@ -9,9 +7,7 @@ const uploadMediaFile = async (file) => {
   formDataUpload.append("file", file);
 
   try {
-    const res = await axios.post(`${API_BASE_URL}/api/upload`, formDataUpload, {
-      withCredentials: true,
-    });
+    const res = await api.post(`/api/upload`, formDataUpload);
 
     return {
       imageUrl: res.data.url,

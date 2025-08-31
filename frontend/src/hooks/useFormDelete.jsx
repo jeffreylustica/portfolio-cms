@@ -1,8 +1,6 @@
-import axios from "axios";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import api from "../utils/api";
 
 const useFormDelete = ({ formData, onDelete, setIsFormLoading, endpoint }) => {
   const handleDelete = async (e) => {
@@ -21,12 +19,7 @@ const useFormDelete = ({ formData, onDelete, setIsFormLoading, endpoint }) => {
 
     setIsFormLoading(true);
     try {
-      const res = await axios.delete(
-        `${API_BASE_URL}/${endpoint}/${formData._id}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await api.delete(`/${endpoint}/${formData._id}`);
 
       onDelete(res.data.details._id);
       toast.success("Item deleted!");

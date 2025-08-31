@@ -8,13 +8,11 @@ import {
   ArrowLeftEndOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import Spinner from "./ui/Spinner";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { authActions } from "../store";
 import toast from "react-hot-toast";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import api from "../utils/api";
 
 const SideBar = ({
   isSidebarOpen,
@@ -65,9 +63,7 @@ const SideBar = ({
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/logout`, null, {
-        withCredentials: true,
-      });
+      const res = await api.post(`/api/logout`, null);
 
       if (res.status === 200) {
         dispatch(authActions.logout());
