@@ -15,6 +15,8 @@ import uploadsRouter from "./routes/upload.route.js";
 import publicDocumentsRouter from "./routes/public/documents.route.js";
 
 const app = express();
+
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: [
