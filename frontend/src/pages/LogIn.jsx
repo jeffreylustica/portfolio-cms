@@ -35,10 +35,14 @@ const LogIn = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await api.post(`/api/login`, {
-        username: formData.username,
-        password: formData.password,
-      });
+      const response = await api.post(
+        `/api/login`,
+        {
+          username: formData.username,
+          password: formData.password,
+        },
+        { withCredentials: true }
+      );
 
       setFormData({
         username: "",

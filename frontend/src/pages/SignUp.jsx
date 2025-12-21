@@ -47,10 +47,14 @@ const SignUp = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await api.post(`/api/signup`, {
-        username: formData.username,
-        password: formData.password,
-      });
+      await api.post(
+        `/api/signup`,
+        {
+          username: formData.username,
+          password: formData.password,
+        },
+        { withCredentials: true }
+      );
 
       setFormData({
         username: "",
