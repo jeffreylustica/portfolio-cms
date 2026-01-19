@@ -1,7 +1,6 @@
 import registerUser from "../services/register.service.js";
 import { authenticateUser } from "../services/auth.service.js";
 import findUser from "../services/user.service.js";
-import User from "../model/user.model.js";
 
 const signup = async (req, res, next) => {
   try {

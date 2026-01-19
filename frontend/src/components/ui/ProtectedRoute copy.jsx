@@ -11,25 +11,27 @@ const ProtectedRoute = ({ children }) => {
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-  const verifyAuth = async () => {
-    try {
-      await api.get("/api/user-loggedin");
-      dispatch(authActions.login());
-    } catch (error) {
-      if (error.response?.status === 401) {
-        // normal: user not logged in
-        dispatch(authActions.logout());
-      } else {
-        console.error("Auth check failed:", error);
-        dispatch(authActions.logout());
-      }
-    } finally {
-      setIsChecking(false);
-    }
-  };
+    const verifyAuth = async () => {
+      try {
+        const res = await api.get(`/api/user-loggedin`);
 
-  verifyAuth();
-}, [dispatch]);
+        if (res.data.isLoggedIn) {
+          dispatch(authActions.login());
+        } else {
+          dispatch(authActions.logout());
+        }
+      } catch (error) {
+        if (import.meta.env.MODE === "development") {
+          console.error(error.message);
+        }
+        dispatch(authActions.logout());
+      } finally {
+        setIsChecking(false);
+      }
+    };
+
+    verifyAuth();
+  }, [dispatch]);
 
   if (isChecking) {
     return <Spinner />;
