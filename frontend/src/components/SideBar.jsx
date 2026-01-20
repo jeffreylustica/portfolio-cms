@@ -25,6 +25,7 @@ const SideBar = ({
   changeActiveDocument,
   changeActiveCollection,
   isDocumentsLoading,
+  isDemo,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -126,17 +127,19 @@ const SideBar = ({
             </ul>
             <div className="mt-auto">
               <ul>
-                <li
-                  className="cursor-pointer flex justify-center items-center flex-col py-2"
-                  onClick={handleLogout}
-                >
-                  <div className="w-10 h-10 flex justify-center items-center bg-neutral-100 hover:bg-neutral-200 rounded-full">
-                    <ArrowLeftEndOnRectangleIcon className="w-6 h-6" />
-                  </div>
-                  <div className="whitespace-nowrap text-neutral-800 text-[.625rem] font-semibold">
-                    Logout
-                  </div>
-                </li>
+                {!isDemo && (
+                  <li
+                    className="cursor-pointer flex justify-center items-center flex-col py-2"
+                    onClick={handleLogout}
+                  >
+                    <div className="w-10 h-10 flex justify-center items-center bg-neutral-100 hover:bg-neutral-200 rounded-full">
+                      <ArrowLeftEndOnRectangleIcon className="w-6 h-6" />
+                    </div>
+                    <div className="whitespace-nowrap text-neutral-800 text-[.625rem] font-semibold">
+                      Logout
+                    </div>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

@@ -14,6 +14,7 @@ const FilesForm = ({
   onDelete,
   isFormLoading,
   setIsFormLoading,
+  isDemo,
 }) => {
   const {
     formData,
@@ -47,6 +48,7 @@ const FilesForm = ({
     onSave,
     endpoint: "api/files",
     selectedFiles,
+    isDemo,
   });
 
   const handleDelete = useFormDelete({
@@ -54,6 +56,7 @@ const FilesForm = ({
     onDelete,
     setIsFormLoading,
     endpoint: "api/files",
+    isDemo,
   });
 
   if (!activeDocument)

@@ -9,7 +9,6 @@ const FormActions = ({
   editMode,
   setEditMode,
   handleDelete,
-  //   isSubmitting,
 }) => {
   return (
     <div className="flex justify-center gap-10 mb-10 text-neutral-500 sticky top-0 py-4 bg-white shadow-sm">

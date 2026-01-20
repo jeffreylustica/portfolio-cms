@@ -25,6 +25,10 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="demo"
+          element={<Dashboard isDemo={true}/>}
+        />
         <Route path="*" element={<NotFound />} />
       </Route>
     )

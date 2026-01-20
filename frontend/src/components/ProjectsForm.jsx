@@ -17,6 +17,7 @@ const ProjectsForm = ({
   onDelete,
   isFormLoading,
   setIsFormLoading,
+  isDemo,
 }) => {
   const {
     formData,
@@ -50,6 +51,7 @@ const ProjectsForm = ({
     onSave,
     endpoint: "api/projects",
     selectedFiles,
+    isDemo,
   });
 
   const handleDelete = useFormDelete({
@@ -57,6 +59,7 @@ const ProjectsForm = ({
     onDelete,
     setIsFormLoading,
     endpoint: "api/projects",
+    isDemo,
   });
 
   if (!activeDocument)

@@ -10,9 +10,16 @@ const useFormSubmit = ({
   setIsFormLoading,
   endpoint,
   selectedFiles = null,
+  isDemo,
 }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isDemo) {
+      toast.error("Demo mode — action is disabled");
+      return;
+    }
+
     setIsFormLoading(true);
 
     const isNew = formData._id === "new";

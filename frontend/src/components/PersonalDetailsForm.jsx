@@ -14,6 +14,7 @@ const PersonalDetailsForm = ({
   onDelete,
   isFormLoading,
   setIsFormLoading,
+  isDemo,
 }) => {
   const { formData, setFormData, handleChange } = useFormData(
     emptyDetailsFormTemplate
@@ -41,6 +42,7 @@ const PersonalDetailsForm = ({
     setIsFormLoading,
     onSave,
     endpoint: "api/personal-details",
+    isDemo,
   });
 
   const handleDelete = useFormDelete({
@@ -48,6 +50,7 @@ const PersonalDetailsForm = ({
     onDelete,
     setIsFormLoading,
     endpoint: "api/personal-details",
+    isDemo,
   });
 
   if (!activeDocument)

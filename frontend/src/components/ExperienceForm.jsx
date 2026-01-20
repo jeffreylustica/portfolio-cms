@@ -15,6 +15,7 @@ const ExperienceForm = ({
   onDelete,
   isFormLoading,
   setIsFormLoading,
+  isDemo,
 }) => {
   const {
     formData,
@@ -57,6 +58,7 @@ const ExperienceForm = ({
     onSave,
     endpoint: "api/experiences",
     selectedFiles, // only if needed
+    isDemo,
   });
 
   const handleDelete = useFormDelete({
@@ -64,6 +66,7 @@ const ExperienceForm = ({
     onDelete,
     setIsFormLoading,
     endpoint: "api/experiences",
+    isDemo,
   });
 
   if (!activeDocument)

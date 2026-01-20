@@ -11,6 +11,7 @@ import ErrorFallback from "../components/ui/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import toast, { Toaster } from "react-hot-toast";
 import api from "../utils/api";
+import DemoBanner from "../components/ui/DemoBanner";
 
 const formComponents = {
   personaldetails: PersonalDetailsForm,
@@ -20,7 +21,7 @@ const formComponents = {
   files: FilesForm,
 };
 
-const Dashboard = () => {
+const Dashboard = ({isDemo = false}) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [collections, setCollections] = useState([]);
   const [activeCollection, setActiveCollection] = useState(null);
@@ -35,7 +36,8 @@ const Dashboard = () => {
 
   const getCollections = async () => {
     try {
-      const response = await api.get(`/api/collections`);
+      const url = isDemo ? `/api/public/collections` : `/api/collections`;
+      const response = await api.get(url);
       const dbCollections = response.data.collections;
       setCollections(dbCollections);
 
@@ -57,7 +59,10 @@ const Dashboard = () => {
   const getDocumentsForCollection = async (collectionName) => {
     setIsDocumentsLoading(true);
     try {
-      const response = await api.get(`/api/${collectionName}/documents`);
+      const url = isDemo
+      ? `/api/public/${collectionName}/documents`
+      : `/api/${collectionName}/documents`;
+      const response = await api.get(url);
 
       const documentsForCollection = response.data.documents;
 
@@ -134,6 +139,9 @@ const Dashboard = () => {
   return (
     <div>
       <Toaster />
+      {isDemo && (
+        <DemoBanner />
+      )}
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <SideBar
           isSidebarOpen={isSidebarOpen}
@@ -146,6 +154,7 @@ const Dashboard = () => {
           changeActiveDocument={changeActiveDocument}
           changeActiveCollection={changeActiveCollection}
           isDocumentsLoading={isDocumentsLoading}
+          isDemo={isDemo}
         />
       </ErrorBoundary>
       <div className="md:ml-[320px] relative">
@@ -168,6 +177,7 @@ const Dashboard = () => {
                     onDelete={handleDelete}
                     isFormLoading={isFormLoading}
                     setIsFormLoading={setIsFormLoading}
+                    isDemo={isDemo}
                   />
                 )}
               </ErrorBoundary>

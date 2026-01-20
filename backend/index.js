@@ -13,6 +13,7 @@ import cors from "cors";
 import documentsRouter from "./routes/documents.route.js";
 import uploadsRouter from "./routes/upload.route.js";
 import publicDocumentsRouter from "./routes/public/documents.route.js";
+import publicCollectionsRouter from "./routes/public/collections.route.js";
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use("/api/collections", collectionsRouter);
 app.use("/api", documentsRouter);
 app.use("/api", uploadsRouter);
 
+app.use("/api/public/collections", publicCollectionsRouter);
 app.use("/api/public", publicDocumentsRouter);
 
 mongoose

@@ -2,9 +2,14 @@ import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 import api from "../utils/api";
 
-const useFormDelete = ({ formData, onDelete, setIsFormLoading, endpoint }) => {
+const useFormDelete = ({ formData, onDelete, setIsFormLoading, endpoint, isDemo, }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
+
+    if (isDemo) {
+      toast.error("Demo mode — action is disabled");
+      return;
+    }
 
     const result = await Swal.fire({
       title: "Delete this item?",

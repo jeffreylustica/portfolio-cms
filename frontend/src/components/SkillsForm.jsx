@@ -14,6 +14,7 @@ const SkillsForm = ({
   onDelete,
   isFormLoading,
   setIsFormLoading,
+  isDemo,
 }) => {
   const {
     formData,
@@ -47,6 +48,7 @@ const SkillsForm = ({
     onSave,
     endpoint: "api/skills",
     selectedFiles,
+    isDemo,
   });
 
   const handleDelete = useFormDelete({
@@ -54,6 +56,7 @@ const SkillsForm = ({
     onDelete,
     setIsFormLoading,
     endpoint: "api/skills",
+    isDemo,
   });
 
   if (!activeDocument)
