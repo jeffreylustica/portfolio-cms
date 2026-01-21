@@ -28,4 +28,4 @@ This project is built using the following web technologies:
 * Upload and update images via Cloudinary integration
 * Changes are reflected instantly on the live portfolio
 
-Live Demo: https://jeff-portfolio-cms.netlify.app/
+Live Demo: https://jeff-portfolio-cms.netlify.app/demo
