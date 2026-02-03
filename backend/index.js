@@ -31,6 +31,10 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.use("/api", userRouter);
 app.use("/api/personal-details", personalDetailsRouter);
 app.use("/api/projects", projectsRouter);
